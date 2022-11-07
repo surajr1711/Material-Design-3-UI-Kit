@@ -1,5 +1,5 @@
 import { DefaultTheme } from "styled-components";
-// import { ColorTranslator } from "colortranslator";
+import { setAlphaOnHex } from "../utils/setAlphaOnHex";
 
 import { tonalPalette } from "./tonalPalette";
 import { typography } from "./typography";
@@ -13,7 +13,7 @@ declare module "styled-components" {
 		};
 		boxShadow: typeof boxShadow;
 		stateOpacity: typeof stateOpacity;
-		surfaceTintOpacity: typeof surfaceTintOpacity;
+		surfaceToneOpacity: typeof surfaceToneOpacity;
 		typography: typeof typography;
 		// spacing: typeof spacing,
 		// borderRadius: typeof borderRadius,
@@ -24,7 +24,8 @@ declare module "styled-components" {
 
 const { primary, secondary, tertiary, error, neutral, neutralVariant } = tonalPalette;
 
-const surfaceTintOpacity = {
+// NOTE: why not create surfacetones directly and store a color value with opacity? Because you have to create 5 tones for 4 colors namely primary, secondary, tertiray and error. this could be computed instead.
+const surfaceToneOpacity = {
 	elevation1: 0.05,
 	elevation2: 0.08,
 	elevation3: 0.11,
@@ -76,16 +77,38 @@ export const color = {
 	onSurface: neutral.neutral10,
 	onSurfaceVariant: neutralVariant.neutralVariant30,
 	outline: neutralVariant.neutralVariant50,
-	shadow: neutral.neutral0,
+	outlineVariant: neutralVariant.neutralVariant80,
 };
 
 const boxShadow = {
-	elevation1: `0px 1px 2px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15)`,
-	elevation2: `0px 1px 2px rgba(0, 0, 0, 0.3), 0px 2px 6px 2px rgba(0, 0, 0, 0.15)`,
-	elevation3: `0px 4px 8px 3px rgba(0, 0, 0, 0.15), 0px 1px 3px rgba(0, 0, 0, 0.3)`,
-	elevation4: `0px 6px 10px 4px rgba(0, 0, 0, 0.15), 0px 2px 3px rgba(0, 0, 0, 0.3)`,
-	elevation5: `0px 8px 12px 6px rgba(0, 0, 0, 0.15), 0px 4px 4px rgba(0, 0, 0, 0.3)`,
+	elevation1: `0px 1px 2px ${setAlphaOnHex(neutral.neutral0, 0.3)}, 0px 1px 3px 1px ${setAlphaOnHex(
+		neutral.neutral0,
+		0.15
+	)}`,
+	elevation2: `0px 1px 2px ${setAlphaOnHex(neutral.neutral0, 0.3)}, 0px 2px 6px 2px ${setAlphaOnHex(
+		neutral.neutral0,
+		0.15
+	)}`,
+	elevation3: `0px 4px 8px 3px ${setAlphaOnHex(neutral.neutral0, 0.15)}, 0px 1px 3px ${setAlphaOnHex(
+		neutral.neutral0,
+		0.3
+	)}`,
+	elevation4: `0px 6px 10px 4px ${setAlphaOnHex(neutral.neutral0, 0.15)}, 0px 2px 3px ${setAlphaOnHex(
+		neutral.neutral0,
+		0.3
+	)}`,
+	elevation5: `0px 8px 12px 6px ${setAlphaOnHex(neutral.neutral0, 0.15)}, 0px 4px 4px ${setAlphaOnHex(
+		neutral.neutral0,
+		0.3
+	)}`,
 };
+// const boxShadow = {
+// 	elevation1: `0px 1px 2px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15)`,
+// 	elevation2: `0px 1px 2px rgba(0, 0, 0, 0.3), 0px 2px 6px 2px rgba(0, 0, 0, 0.15)`,
+// 	elevation3: `0px 4px 8px 3px rgba(0, 0, 0, 0.15), 0px 1px 3px rgba(0, 0, 0, 0.3)`,
+// 	elevation4: `0px 6px 10px 4px rgba(0, 0, 0, 0.15), 0px 2px 3px rgba(0, 0, 0, 0.3)`,
+// 	elevation5: `0px 8px 12px 6px rgba(0, 0, 0, 0.15), 0px 4px 4px rgba(0, 0, 0, 0.3)`,
+// };
 
 export const lightTheme: DefaultTheme = {
 	name: "light",
@@ -95,7 +118,7 @@ export const lightTheme: DefaultTheme = {
 	},
 	typography,
 	stateOpacity,
-	surfaceTintOpacity,
+	surfaceToneOpacity,
 	boxShadow,
 };
 
@@ -129,6 +152,7 @@ export const darkTheme: DefaultTheme = {
 		onSurface: neutral.neutral90,
 		onSurfaceVariant: neutralVariant.neutralVariant80,
 		outline: neutralVariant.neutralVariant60,
+		outlineVariant: neutralVariant.neutralVariant30,
 	},
 	boxShadow: {
 		elevation1: `0px 1px 3px 1px rgba(0, 0, 0, 0.15), 0px 1px 2px rgba(0, 0, 0, 0.3)`,
@@ -139,11 +163,26 @@ export const darkTheme: DefaultTheme = {
 	},
 };
 
-export type BaseColors = "primary" | "secondary" | "tertiary" | "error";
-export type OnBaseColors = "onPrimary" | "onSecondary" | "onTertiary" | "onError";
-export type BaseContainerColors = "primaryContainer" | "secondaryContainer" | "tertiaryContainer" | "errorContainer";
-export type OnBaseContainerColors =
-	| "onPrimaryContainer"
-	| "onSecondaryContainer"
-	| "onTertiaryContainer"
-	| "onErrorContainer";
+// Base Colors
+export type AccentColorType = "primary" | "secondary" | "tertiary";
+export type SemanticColorType = "error"; // could add other semantics like warning, success, etc
+export type ColorType = AccentColorType | SemanticColorType;
+
+// On Base Colors
+export type OnAccentColorType = "onPrimary" | "onSecondary" | "onTertiary";
+export type OnSemanticColorType = "onError";
+export type OnColorType = OnAccentColorType | OnSemanticColorType;
+
+// Base Container Colors
+export type AccentContainerColorType = "primaryContainer" | "secondaryContainer" | "tertiaryContainer";
+export type SemanticContainerColorType = "errorContainer";
+export type ContainerColorType = AccentContainerColorType | SemanticContainerColorType;
+
+// On Base Container Colors
+export type OnAccentContainerColorType = "onPrimaryContainer" | "onSecondaryContainer" | "onTertiaryContainer";
+export type OnSemanticContainerColorType = "onErrorContainer";
+export type OnContainerColorType = OnAccentContainerColorType | OnSemanticContainerColorType;
+
+// Neutral Colors
+export type NeutralColorType = "background" | "surface" | "surfaceVariant" | "outline" | "outlineVariant";
+export type OnNeutralColorType = "onBackground" | "onSurface" | "onSurfaceVariant";

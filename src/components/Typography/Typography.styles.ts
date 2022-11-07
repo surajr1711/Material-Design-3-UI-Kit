@@ -1,22 +1,8 @@
 import styled, { css } from "styled-components";
+import { ColorType, OnContainerColorType, OnColorType, OnNeutralColorType } from "../../styles/theme";
 import { setAlphaOnHex } from "../../utils/setAlphaOnHex";
 
-export type ContentColorType =
-	| "onPrimary"
-	| "onPrimaryContainer"
-	| "onSecondary"
-	| "onSecondaryContainer"
-	| "onTertiary"
-	| "onTertiaryContainer"
-	| "onError"
-	| "onErrorContainer"
-	| "onBackground"
-	| "onSurface"
-	| "onSurfaceVariant"
-	| "primary"
-	| "secondary"
-	| "tertiary"
-	| "error";
+export type ContentColorType = ColorType | OnColorType | OnContainerColorType | OnNeutralColorType;
 
 export type TypographyType =
 	| "displayLarge"
@@ -52,10 +38,11 @@ export const StyledTypography = styled.p<StyledTypographyProps>(
 			: theme.color[color!]};
 	`
 );
-
+/*
 // defaultprops not required since they are always passed by Typography.tsx???
 StyledTypography.defaultProps = {
 	type: "bodyLarge",
 	color: "onBackground",
 	disabled: false,
 };
+*/

@@ -4,8 +4,15 @@ const GlobalStyle = createGlobalStyle(
 	({ theme }) => css`
 		@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap");
 
-		/* Variable font */
-		/* @import url("https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,400;8..144,500&display=swap"); */
+		/* material icons (regular and outlined) */
+		@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+		@import url("https://fonts.googleapis.com/css2?family=Material+Icons+Outlined");
+
+		/* material symbols (new variable version of material icons) */
+		/* @import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"); */
+
+		/* @import "material-icons/iconfont/filled.css";
+		@import "material-icons/iconfont/outlined.css"; */
 
 		/* Box sizing rules */
 		*,
