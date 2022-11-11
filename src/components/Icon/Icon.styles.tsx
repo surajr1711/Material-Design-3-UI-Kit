@@ -1,22 +1,24 @@
 import styled, { css } from "styled-components";
+import { setAlphaOnHex } from "../../utils/setAlphaOnHex";
 
 import { ContentColorType } from "../Typography";
 
 export interface StyledIconProps {
 	color?: ContentColorType;
 	variant?: "filled" | "outlined";
-	size?: 1.25 | 1.5 | 2.5 | 3;
+	sizeInRems?: number;
+	disabled?: boolean;
 }
 
 const iconCSS = css<StyledIconProps>(
-	({ theme, color, size }) => `
-	color: ${theme.color[color!]};
-	font-size: ${size}rem;
-`
+	({ theme, color, sizeInRems, disabled }) => `
+	color: ${disabled ? setAlphaOnHex(theme.color[color!], theme.stateOpacity.content.disabled) : theme.color[color!]};
+	font-size: ${sizeInRems}rem;
+	`
 );
 
 export const StyledIcon = styled.span.attrs<StyledIconProps>(({ variant }) => ({
-	className: variant === "outlined" ? "material-icons-outlined" : "material-icons",
+	className: variant === "filled" ? "material-icons" : "material-icons-outlined",
 }))<StyledIconProps>`
 	${iconCSS}
 `;

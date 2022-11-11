@@ -1,90 +1,105 @@
 // UNITS IN REM
-export const typography = {
+export const typescale = {
 	displayLarge: {
+		fontFamily: "Roboto",
 		fontSize: 3.563,
 		lineHeight: 4,
 		fontWeight: 400,
 		letterSpacing: -0.016,
 	},
 	displayMedium: {
+		fontFamily: "Roboto",
 		fontSize: 2.813,
 		fontWeight: 400,
 		lineHeight: 3.375,
 		letterSpacing: 0,
 	},
 	displaySmall: {
+		fontFamily: "Roboto",
 		fontSize: 2.25,
 		lineHeight: 2.75,
 		fontWeight: 400,
 		letterSpacing: 0,
 	},
 	headlineLarge: {
+		fontFamily: "Roboto",
 		fontSize: 2,
 		lineHeight: 2.5,
 		fontWeight: 400,
 		letterSpacing: 0,
 	},
 	headlineMedium: {
+		fontFamily: "Roboto",
 		fontSize: 1.75,
 		lineHeight: 2.25,
 		fontWeight: 400,
 		letterSpacing: 0,
 	},
 	headlineSmall: {
+		fontFamily: "Roboto",
 		fontSize: 1.5,
 		lineHeight: 2,
 		fontWeight: 400,
 		letterSpacing: 0,
 	},
 	titleLarge: {
+		fontFamily: "Roboto",
 		fontSize: 1.375,
 		lineHeight: 1.75,
 		fontWeight: 500,
 		letterSpacing: 0,
 	},
 	titleMedium: {
+		fontFamily: "Roboto",
 		fontSize: 1,
 		lineHeight: 1.5,
 		fontWeight: 500,
 		letterSpacing: 0.009,
 	},
 	titleSmall: {
+		fontFamily: "Roboto",
 		fontSize: 0.875,
 		lineHeight: 1.25,
 		fontWeight: 500,
 		letterSpacing: 0.006,
 	},
 	labelLarge: {
+		fontFamily: "Roboto",
 		fontSize: 0.875,
 		lineHeight: 1.25,
 		fontWeight: 500,
 		letterSpacing: 0.006,
 	},
 	labelMedium: {
+		fontFamily: "Roboto",
 		fontSize: 0.75,
 		lineHeight: 1,
 		fontWeight: 500,
 		letterSpacing: 0.031,
 	},
 	labelSmall: {
+		fontFamily: "Roboto",
 		fontSize: 0.688,
 		lineHeight: 1,
 		fontWeight: 500,
 		letterSpacing: 0.031,
 	},
 	bodyLarge: {
+		fontFamily: "Roboto",
 		fontSize: 1,
 		lineHeight: 1.5,
 		fontWeight: 400,
 		letterSpacing: 0.009,
 	},
 	bodyMedium: {
+		fontFamily: "Roboto",
 		fontSize: 0.875,
 		lineHeight: 1.25,
 		fontWeight: 400,
 		letterSpacing: 0.016,
 	},
 	bodySmall: {
+		fontFamily: "Roboto",
 		fontSize: 0.75,
 		lineHeight: 1,
 		fontWeight: 400,
@@ -94,7 +109,7 @@ export const typography = {
 
 /*
 // UNITS IN PX
-export const typography = {
+export const typescale = {
 	displayLarge: {
 		fontSize: 57,
 		lineHeight: 64,

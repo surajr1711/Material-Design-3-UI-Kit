@@ -4,7 +4,7 @@ import { setAlphaOnHex } from "../../utils/setAlphaOnHex";
 
 export type ContentColorType = ColorType | OnColorType | OnContainerColorType | OnNeutralColorType;
 
-export type TypographyType =
+export type TypescaleType =
 	| "displayLarge"
 	| "displayMedium"
 	| "displaySmall"
@@ -22,22 +22,23 @@ export type TypographyType =
 	| "bodySmall";
 
 export interface StyledTypographyProps {
-	type?: TypographyType;
+	typescale?: TypescaleType;
 	color?: ContentColorType;
 	disabled?: boolean;
 }
 
 export const StyledTypography = styled.p<StyledTypographyProps>(
-	({ type, color, disabled, theme }) => css`
-		font-size: ${theme.typography[type!].fontSize}rem;
-		font-weight: ${theme.typography[type!].fontWeight};
-		line-height: ${theme.typography[type!].lineHeight}rem;
-		letter-spacing: ${theme.typography[type!].letterSpacing}rem;
-		color: ${disabled
-			? setAlphaOnHex(theme.color.onSurface, theme.stateOpacity.content.disabled)
-			: theme.color[color!]};
+	({ theme, typescale, color, disabled }) => css`
+		font-family: ${theme.typescale[typescale!].fontFamily}, sans-serif;
+		font-size: ${theme.typescale[typescale!].fontSize}rem;
+		font-weight: ${theme.typescale[typescale!].fontWeight};
+		line-height: ${theme.typescale[typescale!].lineHeight}rem;
+		letter-spacing: ${theme.typescale[typescale!].letterSpacing}rem;
+		color: ${disabled ? setAlphaOnHex(theme.color[color!], theme.stateOpacity.content.disabled) : theme.color[color!]};
 	`
 );
+// color: ${theme.color[color!]};
+
 /*
 // defaultprops not required since they are always passed by Typography.tsx???
 StyledTypography.defaultProps = {

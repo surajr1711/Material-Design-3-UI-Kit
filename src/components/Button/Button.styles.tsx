@@ -12,24 +12,27 @@ export interface StyledButtonProps {
 	disabled?: boolean;
 }
 
-const buttonVariantCSS = css<StyledButtonProps>(({ theme, color, variant, disabled }) => {
-	const bgDisabledColor = setAlphaOnHex(theme.color.onSurface, theme.stateOpacity.container.disabled);
-
+const buttonVariantCSS = css<StyledButtonProps>(({ theme, color, variant }) => {
 	switch (variant) {
 		case "filled":
 			return `
-					background-color: ${disabled ? bgDisabledColor : theme.color[color!]};
+					background-color: ${theme.color[color!]};
 					&:hover {
-						box-shadow: ${disabled ? "none" : theme.boxShadow.elevation1};
+						box-shadow: ${theme.boxShadow.elevation1};
+					}
+					&:disabled {
+						box-shadow: none;
 					}
 				`;
 
 		case "outlined":
 			const outlineDisabledColor = setAlphaOnHex(theme.color.onSurface, theme.stateOpacity.outline.disabled);
 			return `
-					background-color: ${disabled ? bgDisabledColor : "transparent"};
-					border: 1px solid
-						${disabled ? outlineDisabledColor : theme.color.outline};
+					background-color: transparent;
+					border: 1px solid	${theme.color.outline};
+					&:disabled {
+						border: 1px solid ${outlineDisabledColor};
+					}
 				`;
 
 		case "text":
@@ -43,47 +46,52 @@ const buttonVariantCSS = css<StyledButtonProps>(({ theme, color, variant, disabl
 			const surfaceTone1 = setAlphaOnHex(theme.color[color!], theme.surfaceToneOpacity.elevation1);
 			const surfaceTone2 = setAlphaOnHex(theme.color[color!], theme.surfaceToneOpacity.elevation2);
 			return `
-					background-color: ${disabled ? bgDisabledColor : surfaceTone1};
-					box-shadow: ${disabled ? "none" : theme.boxShadow.elevation1};
+					background-color: ${surfaceTone1};
+					box-shadow: ${theme.boxShadow.elevation1};
 					&:hover {
-						background-color: ${disabled ? bgDisabledColor : surfaceTone2};
-						box-shadow: ${disabled ? "none" : theme.boxShadow.elevation2};
+						background-color: ${surfaceTone2};
+						box-shadow: ${theme.boxShadow.elevation2};
+					}
+					&:disabled {
+						box-shadow: none;
 					}
 				`;
 
 		default:
 			const tonalBgColor = `${color}Container` as ContainerColorType;
 			return `
-					background-color: ${disabled ? bgDisabledColor : theme.color[tonalBgColor]};
+					background-color: ${theme.color[tonalBgColor]};
 					&:hover {
-						box-shadow: ${disabled ? "none" : theme.boxShadow.elevation1};
+						box-shadow: ${theme.boxShadow.elevation1};
+					}
+					&:disabled {
+						box-shadow: none;
 					}
 				`;
 	}
 });
 
-export const StyledButton = styled.button<StyledButtonProps>(
-	({ theme, color, variant, disabled }) => css`
-		border: none;
-		background-color: transparent;
-		border-radius: 100rem;
-		overflow: hidden;
-		& * {
-			pointer-events: none;
-		}
-		& .contentLayer {
-			padding: 0.625rem 1.5rem;
-			display: flex;
-			align-items: center;
-			gap: 1rem;
-		}
-		// variant specific css.
-		${buttonVariantCSS}
-	`
-);
+const bgDisabledColor = css(({ theme }) => setAlphaOnHex(theme.color.onSurface, theme.stateOpacity.container.disabled));
 
-// StyledButton.defaultProps = {
-// 	color: "primary",
-// 	variant: "filled",
-// 	disabled: false,
-// };
+export const StyledButton = styled.button.attrs<StyledButtonProps>(({ disabled }) => ({
+	disabled: disabled || false,
+}))<StyledButtonProps>`
+	border: none;
+	background-color: transparent;
+	border-radius: 100rem;
+	overflow: hidden;
+	/* & * {
+		pointer-events: none;
+	} */
+	& .contentLayer {
+		padding: 0.625rem 1.5rem;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+	&:disabled {
+		background-color: ${bgDisabledColor};
+	}
+	// variant specific css.
+	${buttonVariantCSS}
+`;

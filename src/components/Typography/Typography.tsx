@@ -6,20 +6,20 @@ export type TagType = "p" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "span";
 
 interface TypographyProps extends StyledTypographyProps {
 	tag?: TagType;
-	children?: string; // for large text
-	label?: string;
+	children?: string | number; // for large text
+	label?: string | number;
 }
 
-const Typography: React.FC<TypographyProps> = ({ type, tag, color, children, label, disabled }) => {
+const Typography: React.FC<TypographyProps> = ({ typescale, tag, color, children, label, disabled }) => {
 	return (
-		<StyledTypography type={type} as={tag} color={color} disabled={disabled}>
+		<StyledTypography typescale={typescale} as={tag} color={color} disabled={disabled}>
 			{children || label}
 		</StyledTypography>
 	);
 };
 
 Typography.defaultProps = {
-	type: "bodyLarge",
+	typescale: "bodyLarge",
 	tag: "p",
 	children: "",
 	label: "",

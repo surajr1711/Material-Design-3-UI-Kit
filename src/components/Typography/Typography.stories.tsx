@@ -60,7 +60,7 @@ Default.args = {
 export const DisplayLarge = Template.bind({});
 DisplayLarge.args = {
 	label: "displayLarge as h1 onPrimaryContainer",
-	type: "displayLarge",
+	typescale: "displayLarge",
 	tag: "h1",
 	color: "onPrimaryContainer",
 };
@@ -71,7 +71,7 @@ DisplayLarge.parameters = {
 export const HeadlineLarge = Template.bind({});
 HeadlineLarge.args = {
 	children: "headlineLarge as h2 onSecondaryContainer",
-	type: "headlineLarge",
+	typescale: "headlineLarge",
 	tag: "h2",
 	color: "onSecondaryContainer",
 };
@@ -82,7 +82,7 @@ HeadlineLarge.parameters = {
 export const TitleLarge = Template.bind({});
 TitleLarge.args = {
 	children: "titleLarge as h3 onTertiaryContainer",
-	type: "titleLarge",
+	typescale: "titleLarge",
 	tag: "h3",
 	color: "onTertiaryContainer",
 };
@@ -93,7 +93,7 @@ TitleLarge.parameters = {
 export const LabelLarge = Template.bind({});
 LabelLarge.args = {
 	children: "labelLarge as h4 onErrorContainer",
-	type: "labelLarge",
+	typescale: "labelLarge",
 	tag: "h4",
 	color: "onErrorContainer",
 };
@@ -104,7 +104,7 @@ LabelLarge.parameters = {
 export const BodyLarge = Template.bind({});
 BodyLarge.args = {
 	children: "bodyLarge as span onSurface",
-	type: "bodyLarge",
+	typescale: "bodyLarge",
 	tag: "span",
 	color: "onSurface",
 };
@@ -115,7 +115,7 @@ BodyLarge.parameters = {
 export const DisplayMedium = Template.bind({});
 DisplayMedium.args = {
 	children: "displayMedium with onPrimary",
-	type: "displayMedium",
+	typescale: "displayMedium",
 	color: "onPrimary",
 };
 DisplayMedium.parameters = {
@@ -125,7 +125,7 @@ DisplayMedium.parameters = {
 export const HeadlineMedium = Template.bind({});
 HeadlineMedium.args = {
 	children: "headlineMedium with onSecondary",
-	type: "headlineMedium",
+	typescale: "headlineMedium",
 	color: "onSecondary",
 };
 HeadlineMedium.parameters = {
@@ -135,7 +135,7 @@ HeadlineMedium.parameters = {
 export const TitleMedium = Template.bind({});
 TitleMedium.args = {
 	children: "titleMedium with onTertiary",
-	type: "titleMedium",
+	typescale: "titleMedium",
 	color: "onTertiary",
 };
 TitleMedium.parameters = {
@@ -145,7 +145,7 @@ TitleMedium.parameters = {
 export const LabelSmall = Template.bind({});
 LabelSmall.args = {
 	children: "labelSmall with onError",
-	type: "labelSmall",
+	typescale: "labelSmall",
 	color: "onError",
 };
 LabelSmall.parameters = {
@@ -155,7 +155,7 @@ LabelSmall.parameters = {
 export const BodySmall = Template.bind({});
 BodySmall.args = {
 	children: "bodySmall with onSurfaceVariant",
-	type: "bodySmall",
+	typescale: "bodySmall",
 	color: "onSurfaceVariant",
 };
 BodySmall.parameters = {

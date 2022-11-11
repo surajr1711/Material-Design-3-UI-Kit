@@ -2,17 +2,97 @@ import { createGlobalStyle, css } from "styled-components";
 
 const GlobalStyle = createGlobalStyle(
 	({ theme }) => css`
-		@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap");
+		/* @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap"); */
 
 		/* material icons (regular and outlined) */
-		@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
-		@import url("https://fonts.googleapis.com/css2?family=Material+Icons+Outlined");
+		/* @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+		@import url("https://fonts.googleapis.com/css2?family=Material+Icons+Outlined"); */
 
-		/* material symbols (new variable version of material icons) */
+		/* WEB FONT. Material symbols (new variable version of material icons) */
 		/* @import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"); */
 
-		/* @import "material-icons/iconfont/filled.css";
-		@import "material-icons/iconfont/outlined.css"; */
+		// LOCALLY HOSTED. Roboto fonts.
+		@font-face {
+			font-family: "Roboto";
+			font-weight: 400;
+			font-style: normal;
+			font-display: swap;
+			src: local("Roboto"), url("./fonts/roboto-v30-latin-regular.woff2") format("woff2"),
+				// Chrome 26+, Opera 23+, Firefox 39+
+				url("./fonts/roboto-v30-latin-regular.woff") format("woff"); // Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+
+		}
+		@font-face {
+			font-family: "Roboto";
+			font-weight: 500;
+			font-style: normal;
+			font-display: swap;
+			src: local("Roboto"), url("./fonts/roboto-v30-latin-500.woff2") format("woff2"),
+				// Chrome 26+, Opera 23+, Firefox 39+
+				url("./fonts/roboto-v30-latin-500.woff") format("woff"); // Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+
+		}
+
+		// LOCALLY HOSTED. Material icons
+		@font-face {
+			font-family: "Material Icons";
+			src: local("Material Icons"), local("MaterialIcons-Regular"), url("./icons/MaterialIcons.woff2") format("woff2"),
+				url("./icons/MaterialIcons.woff") format("woff"), url("./icons/MaterialIcons.ttf") format("truetype");
+		}
+		@font-face {
+			font-family: "Material Icons Outlined";
+			src: local("Material Icons Outlined"), local("MaterialIconsOutlined-Regular"),
+				url("./icons/MaterialIconsOutlined.woff2") format("woff2"),
+				url("./icons/MaterialIconsOutlined.woff") format("woff"),
+				url("./icons/MaterialIconsOutlined.ttf") format("truetype");
+		}
+		.material-icons {
+			font-family: "Material Icons";
+		}
+		.material-icons-outlined {
+			font-family: "Material Icons Outlined";
+		}
+		.material-icons,
+		.material-icons-outlined {
+			font-weight: normal;
+			font-style: normal;
+			/* font-size: 24px;  // Preferred icon size */
+			display: inline-block;
+			font-display: block;
+			line-height: 1;
+			text-transform: none;
+			letter-spacing: normal;
+			word-wrap: normal;
+			white-space: nowrap;
+			direction: ltr;
+			-webkit-font-smoothing: antialiased; // Support for all WebKit browsers.
+			text-rendering: optimizeLegibility; // Support for Safari and Chrome.
+			-moz-osx-font-smoothing: grayscale; // Support for Firefox.
+			font-feature-settings: "liga"; // Support for IE.
+		}
+
+		/*
+		// // LOCALLY HOSTED. Material Symbols ie Variable version of icon fonts
+		@font-face {
+			font-family: "Material Symbols Outlined";
+			font-style: normal;
+			font-display: block; //stops flashing of unstyled text before icon glyph is found
+			src: url("./fonts/MaterialSymbolsOutlined.woff2") format("woff2");
+		}
+		.material-symbols-outlined {
+			font-family: "Material Symbols Outlined";
+			font-weight: normal;
+			font-style: normal;
+			font-display: block;
+			// // Preferred icon size. Disabled because .material-symbols-coutlined class gets loaded by styled components after size prop is passed so it overwrites the props. if you set font size here size does not change in icon component.
+			// font-size: 24px;
+			display: inline-block;
+			line-height: 1;
+			text-transform: none;
+			letter-spacing: normal;
+			word-wrap: normal;
+			white-space: nowrap;
+			direction: ltr;
+		}
+ */
 
 		/* Box sizing rules */
 		*,
@@ -174,9 +254,9 @@ const GlobalStyle = createGlobalStyle(
 
 		/* Set default font for all text */
 		/* Can also create @font-face  */
-		:where(p, h1, h2, h3, h4, h5, h6, span, li, figcaption, input, button, textarea, select) {
-			font-family: ${theme.fonts.family};
-			font-weight: 400;
+		:where(p, h1, h2, h3, h4, h5, h6, span, li, figcaption, button, input, textarea, select) {
+			font-family: ${theme.typescale.bodyLarge.fontFamily}, sans-serif;
+			font-weight: ${theme.typescale.bodyLarge.fontWeight};
 			max-width: 60ch;
 		}
 

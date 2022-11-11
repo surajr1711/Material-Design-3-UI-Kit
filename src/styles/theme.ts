@@ -2,19 +2,16 @@ import { DefaultTheme } from "styled-components";
 import { setAlphaOnHex } from "../utils/setAlphaOnHex";
 
 import { tonalPalette } from "./tonalPalette";
-import { typography } from "./typography";
+import { typescale } from "./typescale";
 
 declare module "styled-components" {
 	export interface DefaultTheme {
 		name: "light" | "dark";
 		color: typeof color;
-		fonts: {
-			family: string;
-		};
 		boxShadow: typeof boxShadow;
 		stateOpacity: typeof stateOpacity;
 		surfaceToneOpacity: typeof surfaceToneOpacity;
-		typography: typeof typography;
+		typescale: typeof typescale;
 		// spacing: typeof spacing,
 		// borderRadius: typeof borderRadius,
 		// transitions: typeof transitions,
@@ -36,7 +33,8 @@ const surfaceToneOpacity = {
 // statelayer color depends on button/component content color
 const stateOpacity = {
 	stateLayer: {
-		none: 0.0, // for enabled and disabled
+		enabled: 0.0,
+		disabled: 0.0,
 		hover: 0.08,
 		focus: 0.12,
 		pressed: 0.12,
@@ -102,21 +100,12 @@ const boxShadow = {
 		0.3
 	)}`,
 };
-// const boxShadow = {
-// 	elevation1: `0px 1px 2px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15)`,
-// 	elevation2: `0px 1px 2px rgba(0, 0, 0, 0.3), 0px 2px 6px 2px rgba(0, 0, 0, 0.15)`,
-// 	elevation3: `0px 4px 8px 3px rgba(0, 0, 0, 0.15), 0px 1px 3px rgba(0, 0, 0, 0.3)`,
-// 	elevation4: `0px 6px 10px 4px rgba(0, 0, 0, 0.15), 0px 2px 3px rgba(0, 0, 0, 0.3)`,
-// 	elevation5: `0px 8px 12px 6px rgba(0, 0, 0, 0.15), 0px 4px 4px rgba(0, 0, 0, 0.3)`,
-// };
 
 export const lightTheme: DefaultTheme = {
 	name: "light",
 	color,
-	fonts: {
-		family: "Roboto, sans-serif",
-	},
-	typography,
+	// font,
+	typescale,
 	stateOpacity,
 	surfaceToneOpacity,
 	boxShadow,

@@ -20,6 +20,7 @@ export const Outlined = Template.bind({});
 Outlined.args = {
 	label: "Outlined",
 	variant: "outlined",
+	color: "primary",
 };
 
 export const Text = Template.bind({});
@@ -38,6 +39,13 @@ export const Tonal = Template.bind({});
 Tonal.args = {
 	label: "Tonal Button",
 	variant: "tonal",
+};
+
+export const IconButton = Template.bind({});
+IconButton.args = {
+	label: "Add to cart",
+	icon: "add",
+	variant: "outlined",
 };
 
 // export const Secondary = Template.bind({});

@@ -14,7 +14,7 @@ const StateLayer: React.FC<StateLayerProps> = ({ state, color, children }) => {
 };
 
 StateLayer.defaultProps = {
-	state: "none",
+	state: "enabled",
 	color: "primary",
 	// variant: "filled",
 };
