@@ -3,7 +3,7 @@ import React from "react";
 import { StyledIcon, StyledIconProps } from "./Icon.styles";
 
 interface IconProps extends StyledIconProps {
-	label: string;
+	label?: string;
 }
 
 const Icon: React.FC<IconProps> = ({ label, color, variant, sizeInRems, disabled }) => {

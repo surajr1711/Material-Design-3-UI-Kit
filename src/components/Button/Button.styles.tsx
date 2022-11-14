@@ -46,8 +46,18 @@ const buttonVariantCSS = css<StyledButtonProps>(({ theme, color, variant }) => {
 			const surfaceTone1 = setAlphaOnHex(theme.color[color!], theme.surfaceToneOpacity.elevation1);
 			const surfaceTone2 = setAlphaOnHex(theme.color[color!], theme.surfaceToneOpacity.elevation2);
 			return `
-					background-color: ${surfaceTone1};
+					// background-color: ${surfaceTone1};
+					background-color: ${theme.color.surface};
 					box-shadow: ${theme.boxShadow.elevation1};
+					&:before {
+						content: "";
+						position: absolute;
+						top: 0;
+						bottom: 0;
+						left: 0;
+						right: 0;
+						background-color: ${setAlphaOnHex(theme.color[color!], theme.surfaceToneOpacity.elevation1)};
+					}
 					&:hover {
 						background-color: ${surfaceTone2};
 						box-shadow: ${theme.boxShadow.elevation2};
@@ -80,10 +90,11 @@ export const StyledButton = styled.button.attrs<StyledButtonProps>(({ disabled }
 	background-color: transparent;
 	border-radius: 100rem;
 	overflow: hidden;
+	position: relative; // allows for :before pseudo element in elevated button style.
 	/* & * {
 		pointer-events: none;
 	} */
-	& .contentLayer {
+	.contentLayer {
 		padding: 0.625rem 1.5rem;
 		display: flex;
 		align-items: center;

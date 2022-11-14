@@ -23,6 +23,7 @@ const { primary, secondary, tertiary, error, neutral, neutralVariant } = tonalPa
 
 // NOTE: why not create surfacetones directly and store a color value with opacity? Because you have to create 5 tones for 4 colors namely primary, secondary, tertiray and error. this could be computed instead.
 const surfaceToneOpacity = {
+	elevation0: 0,
 	elevation1: 0.05,
 	elevation2: 0.08,
 	elevation3: 0.11,
@@ -76,35 +77,22 @@ export const color = {
 	onSurfaceVariant: neutralVariant.neutralVariant30,
 	outline: neutralVariant.neutralVariant50,
 	outlineVariant: neutralVariant.neutralVariant80,
+	surfaceTint: primary.primary40,
+	shadow: neutral.neutral0,
+	scrim: neutral.neutral0,
 };
 
 const boxShadow = {
-	elevation1: `0px 1px 2px ${setAlphaOnHex(neutral.neutral0, 0.3)}, 0px 1px 3px 1px ${setAlphaOnHex(
-		neutral.neutral0,
-		0.15
-	)}`,
-	elevation2: `0px 1px 2px ${setAlphaOnHex(neutral.neutral0, 0.3)}, 0px 2px 6px 2px ${setAlphaOnHex(
-		neutral.neutral0,
-		0.15
-	)}`,
-	elevation3: `0px 4px 8px 3px ${setAlphaOnHex(neutral.neutral0, 0.15)}, 0px 1px 3px ${setAlphaOnHex(
-		neutral.neutral0,
-		0.3
-	)}`,
-	elevation4: `0px 6px 10px 4px ${setAlphaOnHex(neutral.neutral0, 0.15)}, 0px 2px 3px ${setAlphaOnHex(
-		neutral.neutral0,
-		0.3
-	)}`,
-	elevation5: `0px 8px 12px 6px ${setAlphaOnHex(neutral.neutral0, 0.15)}, 0px 4px 4px ${setAlphaOnHex(
-		neutral.neutral0,
-		0.3
-	)}`,
+	elevation1: `0px 1px 2px ${setAlphaOnHex(color.shadow, 0.3)}, 0px 1px 3px 1px ${setAlphaOnHex(color.shadow, 0.15)}`,
+	elevation2: `0px 1px 2px ${setAlphaOnHex(color.shadow, 0.3)}, 0px 2px 6px 2px ${setAlphaOnHex(color.shadow, 0.15)}`,
+	elevation3: `0px 4px 8px 3px ${setAlphaOnHex(color.shadow, 0.15)}, 0px 1px 3px ${setAlphaOnHex(color.shadow, 0.3)}`,
+	elevation4: `0px 6px 10px 4px ${setAlphaOnHex(color.shadow, 0.15)}, 0px 2px 3px ${setAlphaOnHex(color.shadow, 0.3)}`,
+	elevation5: `0px 8px 12px 6px ${setAlphaOnHex(color.shadow, 0.15)}, 0px 4px 4px ${setAlphaOnHex(color.shadow, 0.3)}`,
 };
 
 export const lightTheme: DefaultTheme = {
 	name: "light",
 	color,
-	// font,
 	typescale,
 	stateOpacity,
 	surfaceToneOpacity,
@@ -142,13 +130,20 @@ export const darkTheme: DefaultTheme = {
 		onSurfaceVariant: neutralVariant.neutralVariant80,
 		outline: neutralVariant.neutralVariant60,
 		outlineVariant: neutralVariant.neutralVariant30,
+		surfaceTint: primary.primary80,
 	},
 	boxShadow: {
-		elevation1: `0px 1px 3px 1px rgba(0, 0, 0, 0.15), 0px 1px 2px rgba(0, 0, 0, 0.3)`,
-		elevation2: `0px 2px 6px 2px rgba(0, 0, 0, 0.15), 0px 1px 2px rgba(0, 0, 0, 0.3)`,
-		elevation3: `0px 4px 8px 3px rgba(0, 0, 0, 0.15), 0px 1px 3px rgba(0, 0, 0, 0.3)`,
-		elevation4: `0px 6px 10px 4px rgba(0, 0, 0, 0.15), 0px 2px 3px rgba(0, 0, 0, 0.3)`,
-		elevation5: `0px 8px 12px 6px rgba(0, 0, 0, 0.15), 0px 4px 4px rgba(0, 0, 0, 0.3)`,
+		elevation1: `0px 1px 3px 1px ${setAlphaOnHex(color.shadow, 0.15)}, 0px 1px 2px ${setAlphaOnHex(color.shadow, 0.3)}`,
+		elevation2: `0px 2px 6px 2px ${setAlphaOnHex(color.shadow, 0.15)}, 0px 1px 2px ${setAlphaOnHex(color.shadow, 0.3)}`,
+		elevation3: `0px 4px 8px 3px ${setAlphaOnHex(color.shadow, 0.15)}, 0px 1px 3px ${setAlphaOnHex(color.shadow, 0.3)}`,
+		elevation4: `0px 6px 10px 4px ${setAlphaOnHex(color.shadow, 0.15)}, 0px 2px 3px ${setAlphaOnHex(
+			color.shadow,
+			0.3
+		)}`,
+		elevation5: `0px 8px 12px 6px ${setAlphaOnHex(color.shadow, 0.15)}, 0px 4px 4px ${setAlphaOnHex(
+			color.shadow,
+			0.3
+		)}`,
 	},
 };
 
