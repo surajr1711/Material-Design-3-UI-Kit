@@ -41,6 +41,9 @@ const stateOpacity = {
 		pressed: 0.12,
 		dragged: 0.16,
 	},
+	surfaceTint: {
+		disabled: 0.0,
+	},
 	container: {
 		disabled: 0.12,
 	},

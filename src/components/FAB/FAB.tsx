@@ -2,19 +2,28 @@ import React from "react";
 import { AccentColorType } from "../../styles/theme";
 
 import Icon from "../Icon";
-import { StyledFAB, StyledSmallFAB, StyledLargeFAB, FABContentColorType, FABBackgroundColorType } from "./FAB.styles";
+import Typography from "../Typography";
+import {
+	StyledFAB,
+	StyledSmallFAB,
+	StyledLargeFAB,
+	StyledExtendedFAB,
+	FABContentColorType,
+	FABBackgroundColorType,
+} from "./FAB.styles";
 
 export type FABColorType = AccentColorType | "surface";
-export type FABSizeType = "FAB" | "smallFAB" | "largeFAB";
+export type FABSizeType = "FAB" | "smallFAB" | "largeFAB" | "extendedFAB";
 
 interface FABProps {
 	icon?: string;
 	color?: FABColorType;
 	size?: FABSizeType;
 	tooltip?: string;
+	label?: string;
 }
 
-const FAB: React.FC<FABProps> = ({ icon, color, size, tooltip }) => {
+const FAB: React.FC<FABProps> = ({ icon, color, size, tooltip, label }) => {
 	let fabBackgroundColor: FABBackgroundColorType;
 	// Content color to be passed to Icon component and styledfab for :before statelayer
 	let fabContentColor: FABContentColorType;
@@ -57,6 +66,17 @@ const FAB: React.FC<FABProps> = ({ icon, color, size, tooltip }) => {
 		</StyledLargeFAB>
 	);
 
+	const ExtendedFAB = (
+		<StyledExtendedFAB backgroundColor={fabBackgroundColor} contentColor={fabContentColor} tooltip={tooltip}>
+			<div className="contentLayer">
+				<Icon label={icon} sizeInRems={1.5} color={fabContentColor} />
+				{label && label !== "" && (
+					<Typography label={label} tag="span" color={fabContentColor} typescale="labelLarge" />
+				)}
+			</div>
+		</StyledExtendedFAB>
+	);
+
 	type RenderSwitchType = (size: FABSizeType) => React.ReactNode;
 	const renderSwitch: RenderSwitchType = (size) => {
 		switch (size) {
@@ -64,6 +84,8 @@ const FAB: React.FC<FABProps> = ({ icon, color, size, tooltip }) => {
 				return SmallFAB;
 			case "largeFAB":
 				return LargeFAB;
+			case "extendedFAB":
+				return ExtendedFAB;
 			default:
 				return DefaultFAB;
 		}
@@ -77,6 +99,7 @@ FAB.defaultProps = {
 	color: "primary",
 	size: "FAB",
 	tooltip: "",
+	label: "Compose",
 };
 
 export default FAB;

@@ -24,9 +24,9 @@ export const StyledFAB = styled.button.attrs<StyledFABProps>(({ tooltip }) => ({
 		overflow: hidden;
 		position: relative;
 		box-shadow: ${theme.boxShadow.elevation3};
-		* {
+		/* * {
 			pointer-events: none;
-		}
+		} */
 
 		// surface tone/tint
 		&::before {
@@ -68,11 +68,10 @@ export const StyledFAB = styled.button.attrs<StyledFABProps>(({ tooltip }) => ({
 		}
 
 		.contentLayer {
-			position: absolute;
-			top: 0;
-			bottom: 0;
-			left: 0;
-			right: 0;
+			position: relative;
+			width: 100%;
+			height: 100%;
+			padding-inline: 1rem;
 			z-index: 3;
 			display: flex;
 			align-items: center;
@@ -92,6 +91,10 @@ export const StyledLargeFAB = styled(StyledFAB)`
 	height: 6rem;
 	width: 6rem;
 	border-radius: 1.75rem;
+`;
+
+export const StyledExtendedFAB = styled(StyledFAB)`
+	width: auto;
 `;
 
 StyledFAB.defaultProps = {
