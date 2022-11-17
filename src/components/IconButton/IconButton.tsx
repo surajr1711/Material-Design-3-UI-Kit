@@ -27,8 +27,8 @@ const IconButton: React.FC<IconButtonProps> = ({ toggleable, icon, disabled, typ
 	const iconVariant: IconVariantType = !toggleable || !toggledOn ? "outlined" : "filled";
 
 	// determine which StyledIconButton to render and which contentColor to be passed to icon
-	type StyledIconButtonComponentType = typeof StyledFilledIconButton;
-	let Component: StyledIconButtonComponentType;
+	// type StyledIconButtonComponentType = typeof StyledFilledIconButton;
+	let Component: typeof StyledFilledIconButton;
 	let contentColor: IconButtonContentColorType;
 	if (!type || type === "filled") {
 		Component = StyledFilledIconButton;
