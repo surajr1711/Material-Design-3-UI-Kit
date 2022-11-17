@@ -81,6 +81,9 @@ export const color = {
 	outline: neutralVariant.neutralVariant50,
 	outlineVariant: neutralVariant.neutralVariant80,
 	surfaceTint: primary.primary40,
+	inverseSurface: neutral.neutral20,
+	onInverseSurface: neutral.neutral95,
+	inversePrimary: primary.primary80,
 	shadow: neutral.neutral0,
 	scrim: neutral.neutral0,
 };
@@ -134,6 +137,9 @@ export const darkTheme: DefaultTheme = {
 		outline: neutralVariant.neutralVariant60,
 		outlineVariant: neutralVariant.neutralVariant30,
 		surfaceTint: primary.primary80,
+		inverseSurface: neutral.neutral90,
+		onInverseSurface: neutral.neutral20,
+		inversePrimary: primary.primary40,
 	},
 	boxShadow: {
 		elevation1: `0px 1px 3px 1px ${setAlphaOnHex(color.shadow, 0.15)}, 0px 1px 2px ${setAlphaOnHex(color.shadow, 0.3)}`,
@@ -171,5 +177,12 @@ export type OnSemanticContainerColorType = "onErrorContainer";
 export type OnContainerColorType = OnAccentContainerColorType | OnSemanticContainerColorType;
 
 // Neutral Colors
-export type NeutralColorType = "background" | "surface" | "surfaceVariant" | "outline" | "outlineVariant";
-export type OnNeutralColorType = "onBackground" | "onSurface" | "onSurfaceVariant";
+export type NeutralColorType =
+	| "background"
+	| "surface"
+	| "surfaceVariant"
+	| "outline"
+	| "outlineVariant"
+	| "inverseSurface"
+	| "inversePrimary";
+export type OnNeutralColorType = "onBackground" | "onSurface" | "onSurfaceVariant" | "onInverseSurface";

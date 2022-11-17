@@ -5,63 +5,13 @@ import { IconVariantType } from "../Icon/Icon.styles";
 import {
 	StyledFilledIconButton,
 	StyledTonalIconButton,
-	IconButtonBackgroundColorType,
+	StyledOutlinedIconButton,
+	StyledStandardIconButton,
 	IconButtonContentColorType,
 } from "./IconButton.styles";
 
-type IconButtonType = "filled" | "tonal";
+type IconButtonType = "filled" | "tonal" | "outlined" | "standard";
 // type IconButtonType = "filled" | "tonal" | "outlined" | "standard";
-
-type IconButtonStylesType = {
-	backgroundColor: IconButtonBackgroundColorType;
-	contentColor: IconButtonContentColorType;
-	iconVariant?: IconVariantType;
-};
-
-type IconButtonStylesObjType = {
-	[key in IconButtonType]: {
-		[key: string]: IconButtonStylesType;
-	};
-};
-
-const iconButtonStylesObj: IconButtonStylesObjType = {
-	filled: {
-		noToggle: {
-			backgroundColor: "primary",
-			contentColor: "onPrimary",
-			iconVariant: "outlined",
-		},
-		toggleSelected: {
-			backgroundColor: "primary",
-			contentColor: "onPrimary",
-			iconVariant: "filled",
-		},
-		toggleUnselected: {
-			backgroundColor: "surfaceVariant",
-			contentColor: "primary",
-			iconVariant: "outlined",
-		},
-	},
-	tonal: {
-		noToggle: {
-			backgroundColor: "secondaryContainer",
-			contentColor: "onSecondaryContainer",
-			iconVariant: "outlined",
-		},
-		toggleSelected: {
-			backgroundColor: "secondaryContainer",
-			contentColor: "onSecondaryContainer",
-			iconVariant: "filled",
-		},
-		toggleUnselected: {
-			backgroundColor: "surfaceVariant",
-			contentColor: "onSurfaceVariant",
-			iconVariant: "outlined",
-		},
-	},
-	// outlined: {},
-	// standard: {},
-};
 
 interface IconButtonProps {
 	toggleable: boolean;
@@ -73,13 +23,25 @@ interface IconButtonProps {
 const IconButton: React.FC<IconButtonProps> = ({ toggleable, icon, disabled, type }) => {
 	const [toggledOn, setToggledOn] = useState<boolean>(false);
 
+	// use the correct icon variant based on noToggle or toggle selected/unselected
 	const iconVariant: IconVariantType = !toggleable || !toggledOn ? "outlined" : "filled";
 
+	// determine which StyledIconButton to render and which contentColor to be passed to icon
+	type StyledIconButtonComponentType = typeof StyledFilledIconButton;
+	let Component: StyledIconButtonComponentType;
 	let contentColor: IconButtonContentColorType;
 	if (!type || type === "filled") {
+		Component = StyledFilledIconButton;
 		contentColor = !toggleable || toggledOn ? "onPrimary" : "primary";
-	} else {
+	} else if (type === "tonal") {
+		Component = StyledTonalIconButton;
 		contentColor = !toggleable || toggledOn ? "onSecondaryContainer" : "onSurfaceVariant";
+	} else if (type === "outlined") {
+		Component = StyledOutlinedIconButton;
+		contentColor = !toggleable || !toggledOn ? "onSurfaceVariant" : "onInverseSurface";
+	} else {
+		Component = StyledStandardIconButton;
+		contentColor = !toggleable || !toggledOn ? "onSurfaceVariant" : "primary";
 	}
 
 	// to change toggledon back to false when toggleable is set to false
@@ -92,32 +54,13 @@ const IconButton: React.FC<IconButtonProps> = ({ toggleable, icon, disabled, typ
 		toggleable && setToggledOn(!toggledOn);
 	};
 
-	const renderSwitch = (type: IconButtonType): React.ReactNode => {
-		switch (type) {
-			case "tonal":
-				return TonalIconButton;
-			default:
-				return FilledIconButton;
-		}
-	};
-
-	const FilledIconButton = (
-		<StyledFilledIconButton toggleable={toggleable} toggledOn={toggledOn} onClick={handleClick} disabled={disabled}>
+	return (
+		<Component toggleable={toggleable} toggledOn={toggledOn} onClick={handleClick} disabled={disabled}>
 			<div className="contentLayer">
 				<Icon sizeInRems={1.5} variant={iconVariant} color={contentColor} label={icon} disabled={disabled} />
 			</div>
-		</StyledFilledIconButton>
+		</Component>
 	);
-
-	const TonalIconButton = (
-		<StyledTonalIconButton toggleable={toggleable} toggledOn={toggledOn} onClick={handleClick} disabled={disabled}>
-			<div className="contentLayer">
-				<Icon sizeInRems={1.5} variant={iconVariant} color={contentColor} label={icon} disabled={disabled} />
-			</div>
-		</StyledTonalIconButton>
-	);
-
-	return <>{renderSwitch(type!)}</>;
 };
 
 IconButton.defaultProps = {

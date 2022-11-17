@@ -8,7 +8,8 @@ export type IconButtonContentColorType =
 	| "onPrimary"
 	| "onSurface"
 	| "onSecondaryContainer"
-	| "onSurfaceVariant";
+	| "onSurfaceVariant"
+	| "onInverseSurface";
 
 interface StyledIconButtonProps {
 	toggleable?: boolean;
@@ -72,10 +73,36 @@ export const StyledFilledIconButton = styled.button.attrs<StyledIconButtonProps>
 export const StyledTonalIconButton = styled(StyledFilledIconButton)(
 	({ theme, toggleable, toggledOn }) => css`
 		background-color: ${!toggleable || toggledOn ? theme.color.secondaryContainer : theme.color.surfaceVariant};
-
 		/* state layer */
 		&::before {
 			background-color: ${!toggleable || toggledOn ? theme.color.onSecondaryContainer : theme.color.onSurfaceVariant};
+		}
+	`
+);
+
+export const StyledOutlinedIconButton = styled(StyledFilledIconButton)(
+	({ theme, toggleable, toggledOn }) => css`
+		background-color: ${!toggleable || !toggledOn ? "transparent" : theme.color.inverseSurface};
+		border: 1px solid ${theme.color.outline};
+		/* state layer */
+		&::before {
+			background-color: ${!toggleable || !toggledOn ? theme.color.onSurfaceVariant : theme.color.onInverseSurface};
+		}
+		&:disabled {
+			border-color: ${setAlphaOnHex(theme.color.onSurface, theme.stateOpacity.outline.disabled)};
+		}
+	`
+);
+
+export const StyledStandardIconButton = styled(StyledFilledIconButton)(
+	({ theme, toggleable, toggledOn }) => css`
+		background-color: transparent;
+		/* state layer */
+		&::before {
+			background-color: ${!toggleable || !toggledOn ? theme.color.onSurfaceVariant : theme.color.primary};
+		}
+		&:disabled {
+			background-color: transparent;
 		}
 	`
 );
