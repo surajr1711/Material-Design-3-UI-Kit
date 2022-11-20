@@ -37,7 +37,7 @@ export const StyledTypography = styled.p<StyledTypographyProps>(
 		color: ${disabled ? setAlphaOnHex(theme.color[color!], theme.stateOpacity.content.disabled) : theme.color[color!]};
 	`
 );
-// color: ${theme.color[color!]};
+// color: ${disabled ? setAlphaOnHex(theme.color[color!], theme.stateOpacity.content.disabled) : color==='inherit' ? 'inherit' : theme.color[color!]};
 
 /*
 // defaultprops not required since they are always passed by Typography.tsx???
