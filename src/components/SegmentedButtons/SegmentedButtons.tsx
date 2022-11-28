@@ -1,12 +1,12 @@
 import React, { ChangeEventHandler, useState } from "react";
 import Typography from "../Typography";
 import { StyledSegmentedButtons, OptionsNumType, DensityInRemsType } from "./SegmentedButtons.styles";
-import { optionsStub } from "../../stubs/segmentedButtons";
+import { options3Stub } from "../../stubs/segmentedButtons";
 import Label from "./Label";
 
 export interface OptionType {
 	id: string; // custom ID of input to access its value
-	label: string; // the text that willb e displayed
+	label: string; // the text that will be displayed
 	md3Icon: string; // name of the material design 3 icon
 	defaultChecked?: boolean; // if user wants to set initial value of label as checked
 }
@@ -15,12 +15,22 @@ interface SegmentedButtonsProps {
 	buttonsType?: "singleSelect" | "multiSelect";
 	name: string; // name of the set of options
 	options: OptionType[]; // array of min2 max5 options with label text and/or icon
-	showIcon: boolean;
+	showIconWithText?: boolean;
+	/* buttonsStyle?:
+	 | 'textOnly' // shows only text. text turns to icon when compressed
+	 | 'iconOnly' // shows only icon and size doesnt change
+	 | "textWithIcon"; // shows text and icon. text is removed when compressed. */
 	density?: 0 | -1 | -2 | -3; // height of buttons
 	// reset/clear option
 }
 
-const SegmentedButtons: React.FC<SegmentedButtonsProps> = ({ buttonsType, name, options, showIcon, density }) => {
+const SegmentedButtons: React.FC<SegmentedButtonsProps> = ({
+	buttonsType,
+	name,
+	options,
+	showIconWithText,
+	density,
+}) => {
 	// Determine if set of inputs will be radio or checkbox type
 	const inputType: "radio" | "checkbox" = buttonsType === "singleSelect" ? "radio" : "checkbox";
 
@@ -79,7 +89,7 @@ const SegmentedButtons: React.FC<SegmentedButtonsProps> = ({ buttonsType, name, 
 						id={option.id}
 						checked={isButtonChecked(option.id)}
 						md3Icon={option.md3Icon}
-						showIcon={showIcon}
+						showIconWithText={showIconWithText!}
 						handleClick={handleClick}
 						// {...(option?.md3Icon && {md3Icon: option.md3Icon!})}
 					/>
@@ -92,8 +102,8 @@ const SegmentedButtons: React.FC<SegmentedButtonsProps> = ({ buttonsType, name, 
 SegmentedButtons.defaultProps = {
 	buttonsType: "singleSelect",
 	name: "Options",
-	options: optionsStub,
-	showIcon: false,
+	options: options3Stub,
+	showIconWithText: false,
 	density: 0,
 };
 

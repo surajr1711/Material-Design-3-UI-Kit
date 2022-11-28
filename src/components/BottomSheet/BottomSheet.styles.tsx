@@ -22,7 +22,7 @@ export const StyledBottomSheet = styled.div(
 			bottom: 0;
 			left: 0;
 			right: 0;
-			background-color: ${setAlphaOnHex(theme.color.surfaceTint, theme.surfaceToneOpacity.elevation1)};
+			background-color: ${setAlphaOnHex(theme.color.surfaceTint, theme.surfaceToneOpacity.elevation1 as number)};
 		}
 		.dragHandle {
 			background-color: ${setAlphaOnHex(theme.color.onSurfaceVariant, 0.4)};

@@ -24,6 +24,7 @@ export const StyledLabel = styled.label(
 		/* set the contentColor for text and icon. not required since already passed to typorgaphy component as default */
 		span {
 			color: ${theme.color.onSurface};
+			white-space: nowrap;
 		}
 		/* does not allow selection of items inside label; ex: span and icon. Luckily it doesn't affect the input. Input can still be selected. */
 		* {

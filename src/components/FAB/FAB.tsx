@@ -1,5 +1,5 @@
 import React from "react";
-import { AccentColorType } from "../../styles/theme";
+import { AccentColorType, Elevation } from "../../styles/theme";
 
 import Icon from "../Icon";
 import Typography from "../Typography";
@@ -15,15 +15,16 @@ import {
 export type FABColorType = AccentColorType | "surface";
 export type FABSizeType = "FAB" | "smallFAB" | "largeFAB" | "extendedFAB";
 
-interface FABProps {
+export interface FABProps {
 	icon?: string;
 	color?: FABColorType;
 	size?: FABSizeType;
 	tooltip?: string;
 	label?: string;
+	elevation?: Elevation;
 }
 
-const FAB: React.FC<FABProps> = ({ icon, color, size, tooltip, label }) => {
+const FAB: React.FC<FABProps> = ({ icon, color, size, tooltip, label, elevation }) => {
 	let fabBackgroundColor: FABBackgroundColorType;
 	// Content color to be passed to Icon component and styledfab for :before statelayer
 	let fabContentColor: FABContentColorType;
@@ -43,7 +44,12 @@ const FAB: React.FC<FABProps> = ({ icon, color, size, tooltip, label }) => {
 	}
 
 	const DefaultFAB = (
-		<StyledFAB backgroundColor={fabBackgroundColor} contentColor={fabContentColor} tooltip={tooltip}>
+		<StyledFAB
+			backgroundColor={fabBackgroundColor}
+			contentColor={fabContentColor}
+			tooltip={tooltip}
+			elevation={elevation}
+		>
 			<div className="contentLayer">
 				<Icon label={icon} sizeInRems={1.5} color={fabContentColor} />
 			</div>
@@ -51,7 +57,12 @@ const FAB: React.FC<FABProps> = ({ icon, color, size, tooltip, label }) => {
 	);
 
 	const SmallFAB = (
-		<StyledSmallFAB backgroundColor={fabBackgroundColor} contentColor={fabContentColor} tooltip={tooltip}>
+		<StyledSmallFAB
+			backgroundColor={fabBackgroundColor}
+			contentColor={fabContentColor}
+			tooltip={tooltip}
+			elevation={elevation}
+		>
 			<div className="contentLayer">
 				<Icon label={icon} sizeInRems={1.5} color={fabContentColor} />
 			</div>
@@ -59,7 +70,12 @@ const FAB: React.FC<FABProps> = ({ icon, color, size, tooltip, label }) => {
 	);
 
 	const LargeFAB = (
-		<StyledLargeFAB backgroundColor={fabBackgroundColor} contentColor={fabContentColor} tooltip={tooltip}>
+		<StyledLargeFAB
+			backgroundColor={fabBackgroundColor}
+			contentColor={fabContentColor}
+			tooltip={tooltip}
+			elevation={elevation}
+		>
 			<div className="contentLayer">
 				<Icon label={icon} sizeInRems={2.25} color={fabContentColor} />
 			</div>
@@ -67,7 +83,12 @@ const FAB: React.FC<FABProps> = ({ icon, color, size, tooltip, label }) => {
 	);
 
 	const ExtendedFAB = (
-		<StyledExtendedFAB backgroundColor={fabBackgroundColor} contentColor={fabContentColor} tooltip={tooltip}>
+		<StyledExtendedFAB
+			backgroundColor={fabBackgroundColor}
+			contentColor={fabContentColor}
+			tooltip={tooltip}
+			elevation={elevation}
+		>
 			<div className="contentLayer">
 				<Icon label={icon} sizeInRems={1.5} color={fabContentColor} />
 				{label && label !== "" && (
@@ -100,6 +121,7 @@ FAB.defaultProps = {
 	size: "FAB",
 	tooltip: "",
 	label: "Compose",
+	elevation: 3,
 };
 
 export default FAB;

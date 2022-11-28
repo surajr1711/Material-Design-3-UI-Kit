@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { ElevationKey, Elevation } from "../../styles/theme";
 
 // export type FABColorType = AccentColorType | "surface";
 export type FABBackgroundColorType = "primaryContainer" | "surface" | "secondaryContainer" | "tertiaryContainer";
@@ -8,22 +9,26 @@ export type FABContentColorType = "onPrimaryContainer" | "primary" | "onSecondar
 export interface StyledFABProps {
 	backgroundColor?: FABBackgroundColorType;
 	contentColor?: FABContentColorType;
+	elevation?: Elevation;
 	tooltip?: string;
 }
 
 export const StyledFAB = styled.button.attrs<StyledFABProps>(({ tooltip }) => ({
 	title: tooltip,
-}))<StyledFABProps>(
-	({ theme, backgroundColor, contentColor }) => css`
+}))<StyledFABProps>(({ theme, backgroundColor, contentColor, elevation }) => {
+	const defaultElevation = elevation === 0 ? `elevation0` : (`elevation${elevation!}` as ElevationKey);
+	const hoverElevation = elevation === 0 ? `elevation0` : (`elevation${elevation! + 1}` as ElevationKey);
+
+	return css`
 		height: 3.5rem;
 		width: 3.5rem;
 		border-radius: 1rem;
-		margin: 1rem;
+		/* margin: 1rem; */
 		border: none;
 		background-color: ${theme.color[backgroundColor!]};
 		overflow: hidden;
 		position: relative;
-		box-shadow: ${theme.boxShadow.elevation3};
+		box-shadow: ${theme.boxShadow[defaultElevation]};
 		/* * {
 			pointer-events: none;
 		} */
@@ -39,7 +44,7 @@ export const StyledFAB = styled.button.attrs<StyledFABProps>(({ tooltip }) => ({
 			z-index: 1;
 			background-color: ${theme.color.primary};
 			opacity: ${backgroundColor === "surface"
-				? theme.surfaceToneOpacity.elevation3
+				? theme.surfaceToneOpacity[defaultElevation]
 				: theme.surfaceToneOpacity.elevation0};
 		}
 
@@ -57,7 +62,7 @@ export const StyledFAB = styled.button.attrs<StyledFABProps>(({ tooltip }) => ({
 		}
 
 		&:hover {
-			box-shadow: ${theme.boxShadow.elevation4};
+			box-shadow: ${theme.boxShadow[hoverElevation]};
 		}
 		&:hover::after {
 			opacity: ${theme.stateOpacity.stateLayer.hover};
@@ -78,8 +83,8 @@ export const StyledFAB = styled.button.attrs<StyledFABProps>(({ tooltip }) => ({
 			justify-content: center;
 			gap: 0.5rem;
 		}
-	`
-);
+	`;
+});
 
 export const StyledSmallFAB = styled(StyledFAB)`
 	height: 2.5rem;
@@ -100,5 +105,6 @@ export const StyledExtendedFAB = styled(StyledFAB)`
 StyledFAB.defaultProps = {
 	backgroundColor: "primaryContainer",
 	contentColor: "primary",
+	elevation: 3,
 	tooltip: "",
 };

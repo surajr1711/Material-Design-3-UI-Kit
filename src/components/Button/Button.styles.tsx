@@ -15,69 +15,69 @@ export interface StyledButtonProps {
 const buttonVariantCSS = css<StyledButtonProps>(({ theme, color, variant }) => {
 	switch (variant) {
 		case "filled":
-			return `
-					background-color: ${theme.color[color!]};
-					&:hover {
-						box-shadow: ${theme.boxShadow.elevation1};
-					}
-					&:disabled {
-						box-shadow: none;
-					}
-				`;
+			return css`
+				background-color: ${theme.color[color!]};
+				&:hover {
+					box-shadow: ${theme.boxShadow.elevation1};
+				}
+				&:disabled {
+					box-shadow: none;
+				}
+			`;
 
 		case "outlined":
 			const outlineDisabledColor = setAlphaOnHex(theme.color.onSurface, theme.stateOpacity.outline.disabled);
-			return `
-					background-color: transparent;
-					border: 1px solid	${theme.color.outline};
-					&:disabled {
-						border: 1px solid ${outlineDisabledColor};
-					}
-				`;
+			return css`
+				background-color: transparent;
+				border: 1px solid ${theme.color.outline};
+				&:disabled {
+					border: 1px solid ${outlineDisabledColor};
+				}
+			`;
 
 		case "text":
-			return `
-					& .contentLayer {
-						padding-inline: 0.75rem;
-					}
-				`;
+			return css`
+				& .contentLayer {
+					padding-inline: 0.75rem;
+				}
+			`;
 
 		case "elevated":
-			const surfaceTone1 = setAlphaOnHex(theme.color[color!], theme.surfaceToneOpacity.elevation1);
-			const surfaceTone2 = setAlphaOnHex(theme.color[color!], theme.surfaceToneOpacity.elevation2);
-			return `
-					// background-color: ${surfaceTone1};
-					background-color: ${theme.color.surface};
-					box-shadow: ${theme.boxShadow.elevation1};
-					&:before {
-						content: "";
-						position: absolute;
-						top: 0;
-						bottom: 0;
-						left: 0;
-						right: 0;
-						background-color: ${setAlphaOnHex(theme.color[color!], theme.surfaceToneOpacity.elevation1)};
-					}
-					&:hover {
-						background-color: ${surfaceTone2};
-						box-shadow: ${theme.boxShadow.elevation2};
-					}
-					&:disabled {
-						box-shadow: none;
-					}
-				`;
+			const surfaceTone1 = setAlphaOnHex(theme.color[color!], theme.surfaceToneOpacity.elevation1 as number);
+			const surfaceTone2 = setAlphaOnHex(theme.color[color!], theme.surfaceToneOpacity.elevation2 as number);
+			return css`
+				// background-color: ${surfaceTone1};
+				background-color: ${theme.color.surface};
+				box-shadow: ${theme.boxShadow.elevation1};
+				&:before {
+					content: "";
+					position: absolute;
+					top: 0;
+					bottom: 0;
+					left: 0;
+					right: 0;
+					background-color: ${setAlphaOnHex(theme.color[color!], theme.surfaceToneOpacity.elevation1 as number)};
+				}
+				&:hover {
+					background-color: ${surfaceTone2};
+					box-shadow: ${theme.boxShadow.elevation2};
+				}
+				&:disabled {
+					box-shadow: none;
+				}
+			`;
 
 		default:
 			const tonalBgColor = `${color}Container` as ContainerColorType;
-			return `
-					background-color: ${theme.color[tonalBgColor]};
-					&:hover {
-						box-shadow: ${theme.boxShadow.elevation1};
-					}
-					&:disabled {
-						box-shadow: none;
-					}
-				`;
+			return css`
+				background-color: ${theme.color[tonalBgColor]};
+				&:hover {
+					box-shadow: ${theme.boxShadow.elevation1};
+				}
+				&:disabled {
+					box-shadow: none;
+				}
+			`;
 	}
 });
 

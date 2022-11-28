@@ -1,7 +1,7 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import SegmentedButtons from "./SegmentedButtons";
-import { optionsStub } from "../../stubs/segmentedButtons";
+import { options3Stub, options4Stub } from "../../stubs/segmentedButtons";
 
 export default {
 	title: "Components/SegmentedButtons",
@@ -16,14 +16,14 @@ const Template: ComponentStory<typeof SegmentedButtons> = (args) => <SegmentedBu
 export const Default = Template.bind({});
 Default.args = {
 	buttonsType: "singleSelect",
-	options: optionsStub,
+	options: options4Stub,
 };
 
 export const WithIcons = Template.bind({});
 WithIcons.args = {
 	buttonsType: "multiSelect",
-	options: optionsStub,
-	showIcon: true,
+	options: options3Stub,
+	showIconWithText: true,
 };
 /*
 const StyledDiv = styled.div(

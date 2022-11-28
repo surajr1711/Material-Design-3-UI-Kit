@@ -21,40 +21,6 @@ declare module "styled-components" {
 
 const { primary, secondary, tertiary, error, neutral, neutralVariant } = tonalPalette;
 
-// NOTE: why not create surfacetones directly and store a color value with opacity? Because you have to create 5 tones for 4 colors namely primary, secondary, tertiray and error. this could be computed instead.
-const surfaceToneOpacity = {
-	elevation0: 0,
-	elevation1: 0.05,
-	elevation2: 0.08,
-	elevation3: 0.11,
-	elevation4: 0.12,
-	elevation5: 0.14,
-};
-
-// statelayer color depends on button/component content color
-const stateOpacity = {
-	stateLayer: {
-		enabled: 0.0,
-		disabled: 0.0,
-		hover: 0.08,
-		focus: 0.12,
-		pressed: 0.12,
-		dragged: 0.16,
-	},
-	surfaceTint: {
-		disabled: 0.0,
-	},
-	container: {
-		disabled: 0.12,
-	},
-	outline: {
-		disabled: 0.12,
-	},
-	content: {
-		disabled: 0.38,
-	},
-};
-
 export const color = {
 	primary: primary.primary40,
 	primaryContainer: primary.primary90,
@@ -88,7 +54,53 @@ export const color = {
 	scrim: neutral.neutral0,
 };
 
-const boxShadow = {
+// Types for Elevation object and keys
+type ElevationObj = {
+	elevation0: number | string;
+	elevation1: number | string;
+	elevation2: number | string;
+	elevation3: number | string;
+	elevation4: number | string;
+	elevation5: number | string;
+};
+export type ElevationKey = keyof ElevationObj;
+export type Elevation = 0 | 1 | 2 | 3 | 4 | 5;
+// NOTE: why not create surfacetones directly and store a color value with opacity? Because you have to create 5 tones for 4 colors namely primary, secondary, tertiray and error. this could be computed instead.
+const surfaceToneOpacity: ElevationObj = {
+	elevation0: 0,
+	elevation1: 0.05,
+	elevation2: 0.08,
+	elevation3: 0.11,
+	elevation4: 0.12,
+	elevation5: 0.14,
+};
+
+// statelayer color depends on button/component content color
+const stateOpacity = {
+	stateLayer: {
+		enabled: 0.0,
+		disabled: 0.0,
+		hover: 0.08,
+		focus: 0.12,
+		pressed: 0.12,
+		dragged: 0.16,
+	},
+	surfaceTint: {
+		disabled: 0.0,
+	},
+	container: {
+		disabled: 0.12,
+	},
+	outline: {
+		disabled: 0.12,
+	},
+	content: {
+		disabled: 0.38,
+	},
+};
+
+const boxShadow: ElevationObj = {
+	elevation0: "none",
 	elevation1: `0px 1px 2px ${setAlphaOnHex(color.shadow, 0.3)}, 0px 1px 3px 1px ${setAlphaOnHex(color.shadow, 0.15)}`,
 	elevation2: `0px 1px 2px ${setAlphaOnHex(color.shadow, 0.3)}, 0px 2px 6px 2px ${setAlphaOnHex(color.shadow, 0.15)}`,
 	elevation3: `0px 4px 8px 3px ${setAlphaOnHex(color.shadow, 0.15)}, 0px 1px 3px ${setAlphaOnHex(color.shadow, 0.3)}`,
@@ -142,6 +154,7 @@ export const darkTheme: DefaultTheme = {
 		inversePrimary: primary.primary40,
 	},
 	boxShadow: {
+		...boxShadow,
 		elevation1: `0px 1px 3px 1px ${setAlphaOnHex(color.shadow, 0.15)}, 0px 1px 2px ${setAlphaOnHex(color.shadow, 0.3)}`,
 		elevation2: `0px 2px 6px 2px ${setAlphaOnHex(color.shadow, 0.15)}, 0px 1px 2px ${setAlphaOnHex(color.shadow, 0.3)}`,
 		elevation3: `0px 4px 8px 3px ${setAlphaOnHex(color.shadow, 0.15)}, 0px 1px 3px ${setAlphaOnHex(color.shadow, 0.3)}`,

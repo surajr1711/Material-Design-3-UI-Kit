@@ -13,11 +13,11 @@ import {
 type IconButtonType = "filled" | "tonal" | "outlined" | "standard";
 // type IconButtonType = "filled" | "tonal" | "outlined" | "standard";
 
-interface IconButtonProps {
-	toggleable: boolean;
-	icon?: string;
-	disabled?: boolean;
+export interface IconButtonProps {
+	icon: string;
 	type?: IconButtonType;
+	toggleable?: boolean;
+	disabled?: boolean;
 }
 
 const IconButton: React.FC<IconButtonProps> = ({ toggleable, icon, disabled, type }) => {
@@ -64,10 +64,10 @@ const IconButton: React.FC<IconButtonProps> = ({ toggleable, icon, disabled, typ
 };
 
 IconButton.defaultProps = {
-	toggleable: false,
 	icon: "settings",
-	disabled: false,
 	type: "filled",
+	toggleable: false,
+	disabled: false,
 };
 
 export default IconButton;
