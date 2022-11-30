@@ -10,9 +10,9 @@ interface TypographyProps extends StyledTypographyProps {
 	label?: string | number;
 }
 
-const Typography: React.FC<TypographyProps> = ({ typescale, tag, color, children, label, disabled, ...props }) => {
+const Typography: React.FC<TypographyProps> = ({ typescale, tag, color, children, label, ...props }) => {
 	return (
-		<StyledTypography typescale={typescale} as={tag} color={color} disabled={disabled} {...props}>
+		<StyledTypography typescale={typescale} as={tag} color={color} {...props}>
 			{children || label}
 		</StyledTypography>
 	);
@@ -24,7 +24,6 @@ Typography.defaultProps = {
 	children: "",
 	label: "",
 	color: "onBackground",
-	disabled: false,
 };
 
 export default Typography;

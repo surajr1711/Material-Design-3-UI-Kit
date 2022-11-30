@@ -14,12 +14,10 @@ export type IconButtonContentColorType =
 interface StyledIconButtonProps {
 	toggleable?: boolean;
 	toggledOn?: boolean;
-	disabled?: boolean;
+	// disabled?: boolean;
 }
 
-export const StyledFilledIconButton = styled.button.attrs<StyledIconButtonProps>(({ disabled }) => ({
-	disabled: disabled,
-}))<StyledIconButtonProps>(
+export const StyledFilledIconButton = styled.button<StyledIconButtonProps>(
 	({ theme, toggleable, toggledOn }) => css`
 		height: 2.5rem;
 		width: 2.5rem;
@@ -32,8 +30,7 @@ export const StyledFilledIconButton = styled.button.attrs<StyledIconButtonProps>
 			pointer-events: none;
 		}
 
-		// state layer
-		&::before {
+		& > div[data-md3role="stateLayer"] {
 			content: "";
 			position: absolute;
 			top: 0;
@@ -41,31 +38,34 @@ export const StyledFilledIconButton = styled.button.attrs<StyledIconButtonProps>
 			left: 0;
 			right: 0;
 			background-color: ${!toggleable || toggledOn ? theme.color.onPrimary : theme.color.primary};
-			opacity: 0;
+			opacity: ${theme.stateOpacity.stateLayer.enabled};
+		}
+		& > div[data-md3role="contentLayer"] {
+			// position: relative;
+			// width: 100%;
+			// height: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
 		}
 
-		&:hover::before {
+		// STATES
+		&:hover > div[data-md3role="stateLayer"] {
 			opacity: ${theme.stateOpacity.stateLayer.hover};
 		}
 
-		&:active::before {
+		&:active > div[data-md3role="stateLayer"] {
 			opacity: ${theme.stateOpacity.stateLayer.pressed};
 		}
 
 		&:disabled {
 			background-color: ${setAlphaOnHex(theme.color.onSurface, theme.stateOpacity.container.disabled)};
 		}
-		&:disabled::before {
-			opacity: ${theme.stateOpacity.stateLayer.disabled};
+		&:disabled > div[data-md3role="contentLayer"] {
+			opacity: ${theme.stateOpacity.content.disabled};
 		}
-
-		.contentLayer {
-			position: relative;
-			width: 100%;
-			height: 100%;
-			display: flex;
-			align-items: center;
-			justify-content: center;
+		&:disabled > div[data-md3role="stateLayer"] {
+			opacity: ${theme.stateOpacity.stateLayer.disabled};
 		}
 	`
 );
@@ -73,8 +73,8 @@ export const StyledFilledIconButton = styled.button.attrs<StyledIconButtonProps>
 export const StyledTonalIconButton = styled(StyledFilledIconButton)(
 	({ theme, toggleable, toggledOn }) => css`
 		background-color: ${!toggleable || toggledOn ? theme.color.secondaryContainer : theme.color.surfaceVariant};
-		/* state layer */
-		&::before {
+		// state layer
+		& > div[data-md3role="stateLayer"] {
 			background-color: ${!toggleable || toggledOn ? theme.color.onSecondaryContainer : theme.color.onSurfaceVariant};
 		}
 	`
@@ -84,8 +84,8 @@ export const StyledOutlinedIconButton = styled(StyledFilledIconButton)(
 	({ theme, toggleable, toggledOn }) => css`
 		background-color: ${!toggleable || !toggledOn ? "transparent" : theme.color.inverseSurface};
 		border: 1px solid ${theme.color.outline};
-		/* state layer */
-		&::before {
+		// state layer
+		& > div[data-md3role="stateLayer"] {
 			background-color: ${!toggleable || !toggledOn ? theme.color.onSurfaceVariant : theme.color.onInverseSurface};
 		}
 		&:disabled {
@@ -97,8 +97,8 @@ export const StyledOutlinedIconButton = styled(StyledFilledIconButton)(
 export const StyledStandardIconButton = styled(StyledFilledIconButton)(
 	({ theme, toggleable, toggledOn }) => css`
 		background-color: transparent;
-		/* state layer */
-		&::before {
+		// state layer
+		& > div[data-md3role="stateLayer"] {
 			background-color: ${!toggleable || !toggledOn ? theme.color.onSurfaceVariant : theme.color.primary};
 		}
 		&:disabled {
@@ -110,5 +110,5 @@ export const StyledStandardIconButton = styled(StyledFilledIconButton)(
 StyledFilledIconButton.defaultProps = {
 	toggleable: false,
 	toggledOn: false,
-	disabled: false,
+	// disabled: false,
 };

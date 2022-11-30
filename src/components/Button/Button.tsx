@@ -1,26 +1,30 @@
-import React, { FocusEventHandler, MouseEventHandler, useState } from "react";
+import React from "react";
+import PropTypes from "prop-types";
 
-import StateLayer, { StateType } from "../StateLayer";
+import { StyledButton } from "./Button.styles";
 import Typography, { ContentColorType } from "../Typography";
-import { StyledButtonProps, StyledButton } from "./Button.styles";
 import Icon from "../Icon";
 
-interface ButtonProps extends StyledButtonProps {
+const colorType = ["primary", "secondary", "tertiary", "error"] as const;
+export type ColorType = typeof colorType[number];
+
+const variantType = ["filled", "outlined", "text", "elevated", "tonal"] as const;
+export type VariantType = typeof variantType[number];
+
+export interface ButtonProps extends React.ComponentPropsWithoutRef<"button"> {
+	color?: ColorType;
+	variant?: VariantType;
 	label?: string;
-	icon?: string | undefined;
+	md3icon?: string;
 }
 
-const Button: React.FC<ButtonProps> = ({ label, color, disabled, variant, icon }) => {
-	// button state is for passing value to statelayer so that it can set its opacity accordingly
-	const [buttonState, setButtonState] = useState<StateType>("enabled");
-
-	// disabled prop also affects statelayer style and contentcolor.
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({ label, color, variant, md3icon, ...props }, ref) => {
 	let contentColor: ContentColorType = "onPrimary";
-
 	// if disabled prop is set or is equalt to true then set contentColor to onSurface
-	if (disabled === true) {
+	if (props.disabled === true) {
 		contentColor = "onSurface";
 	}
+
 	// else disabled prop is false and contentColor will be according to button variant prop
 	else {
 		if (variant === "filled") {
@@ -35,49 +39,29 @@ const Button: React.FC<ButtonProps> = ({ label, color, disabled, variant, icon }
 		}
 	}
 
-	// Set buttonstate based on mouse events. Button state is passed to statelayer component.
-	const handleHover: MouseEventHandler<HTMLButtonElement> = () => {
-		setButtonState("hover");
-	};
-	// onmouseleave, statelayer opacity depends on the disabled prop.
-	const handleLeave: MouseEventHandler<HTMLButtonElement> = () => {
-		disabled ? setButtonState("disabled") : setButtonState("enabled");
-	};
-	const handleFocus: FocusEventHandler<HTMLButtonElement> = () => {
-		setButtonState("focus");
-	};
-
-	const handlePressed: MouseEventHandler<HTMLButtonElement> = () => {
-		setButtonState("pressed");
-	};
-
 	return (
-		<StyledButton
-			onMouseEnter={handleHover}
-			onMouseLeave={handleLeave}
-			onFocus={handleFocus}
-			onMouseDown={handlePressed}
-			onMouseUp={handleHover}
-			disabled={disabled}
-			variant={variant}
-			color={color}
-		>
-			<StateLayer state={buttonState} color={contentColor}>
-				<div className="contentLayer">
-					{icon && <Icon label={icon} color={contentColor} sizeInRems={1.125} disabled={disabled} />}
-					<Typography typescale="labelLarge" tag="span" label={label} color={contentColor} disabled={disabled} />
-				</div>
-			</StateLayer>
+		<StyledButton ref={ref} variant={variant} color={color} stateLayerColor={contentColor} {...props}>
+			{variant === "elevated" && <div data-md3role="surfaceTint" />}
+			<div data-md3role="stateLayer" />
+			<div data-md3role="contentLayer">
+				{md3icon && <Icon label={md3icon} color={contentColor} sizeInRems={1.125} />}
+				<Typography typescale="labelLarge" tag="span" label={label || "Click me"} color={contentColor} />
+			</div>
 		</StyledButton>
 	);
+});
+
+Button.propTypes = {
+	label: PropTypes.string,
+	color: PropTypes.oneOf(colorType),
+	variant: PropTypes.oneOf(variantType),
+	md3icon: PropTypes.string,
 };
 
 Button.defaultProps = {
 	label: "Click me",
 	color: "primary",
 	variant: "filled",
-	icon: undefined,
-	disabled: false,
 };
 
 export default Button;

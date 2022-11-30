@@ -7,6 +7,9 @@ export default {
 	parameters: {
 		layout: "centered",
 	},
+	argTypes: {
+		disabled: { control: "boolean" },
+	},
 } as ComponentMeta<typeof Button>;
 
 const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />;
@@ -41,20 +44,15 @@ Tonal.args = {
 	variant: "tonal",
 };
 
-export const IconButton = Template.bind({});
-IconButton.args = {
-	label: "Add to cart",
-	icon: "add",
+export const WithIcon = Template.bind({});
+WithIcon.args = {
+	label: "",
+	md3icon: "add",
 	variant: "outlined",
 };
 
-// export const Secondary = Template.bind({});
-// Secondary.args = {
-// 	label: "Secondary",
-// 	color: "secondary",
-// };
-// export const Error = Template.bind({});
-// Error.args = {
-// 	label: "Error",
-// 	color: "error",
-// };
+export const OnClick = Template.bind({});
+OnClick.args = {
+	variant: "tonal",
+	onClick: () => alert("You clicked me"),
+};

@@ -2,107 +2,136 @@ import styled, { css } from "styled-components";
 
 import { ContainerColorType } from "../../styles/theme";
 import { setAlphaOnHex } from "../../utils/setAlphaOnHex";
+import { ContentColorType } from "../Typography";
+import { ColorType, VariantType } from "./Button";
 
-export type ButtonColorType = "primary" | "secondary" | "tertiary" | "error";
-export type VariantType = "filled" | "outlined" | "text" | "elevated" | "tonal";
-
-export interface StyledButtonProps {
-	color?: ButtonColorType;
+interface StyledButtonProps {
+	color?: ColorType;
 	variant?: VariantType;
-	disabled?: boolean;
+	stateLayerColor?: ContentColorType;
 }
 
-const buttonVariantCSS = css<StyledButtonProps>(({ theme, color, variant }) => {
-	switch (variant) {
-		case "filled":
-			return css`
-				background-color: ${theme.color[color!]};
-				&:hover {
-					box-shadow: ${theme.boxShadow.elevation1};
-				}
-				&:disabled {
-					box-shadow: none;
-				}
-			`;
+const filledButtonCSS = css<StyledButtonProps>(({ theme, color }) => {
+	return css`
+		background-color: ${theme.color[color!]};
+		&:hover {
+			box-shadow: ${theme.boxShadow.elevation1};
+		}
+	`;
+});
 
+const outlinedButtonCSS = css<StyledButtonProps>(({ theme }) => {
+	const outlineDisabledColor = setAlphaOnHex(theme.color.onSurface, theme.stateOpacity.outline.disabled);
+	return css`
+		border: 1px solid ${theme.color.outline};
+		&:disabled {
+			border: 1px solid ${outlineDisabledColor};
+		}
+	`;
+});
+
+const textButtonCSS = css<StyledButtonProps>(() => {
+	return css`
+		& > div[data-md3role="contentLayer"] {
+			padding-inline: 0.75rem;
+		}
+	`;
+});
+
+const elevatedButtonCSS = css<StyledButtonProps>(({ theme, color }) => {
+	return css`
+		background-color: ${theme.color.surface};
+		box-shadow: ${theme.boxShadow.elevation1};
+		// surface tint
+		& > div[data-md3role="surfaceTint"] {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			background-color: ${theme.color[color!]};
+			opacity: ${theme.surfaceToneOpacity.elevation1};
+		}
+		&:hover {
+			box-shadow: ${theme.boxShadow.elevation2};
+		}
+		&:disabled > div[data-md3role="surfaceTint"] {
+			opacity: ${theme.stateOpacity.surfaceTint.disabled};
+		}
+	`;
+});
+
+const tonalButtonCSS = css<StyledButtonProps>(({ theme, color }) => {
+	const tonalBgColor = `${color}Container` as ContainerColorType;
+	return css`
+		background-color: ${theme.color[tonalBgColor]};
+		&:hover {
+			box-shadow: ${theme.boxShadow.elevation1};
+		}
+	`;
+});
+
+const buttonVariantCSS = css<StyledButtonProps>(({ variant }) => {
+	switch (variant!) {
 		case "outlined":
-			const outlineDisabledColor = setAlphaOnHex(theme.color.onSurface, theme.stateOpacity.outline.disabled);
-			return css`
-				background-color: transparent;
-				border: 1px solid ${theme.color.outline};
-				&:disabled {
-					border: 1px solid ${outlineDisabledColor};
-				}
-			`;
-
-		case "text":
-			return css`
-				& .contentLayer {
-					padding-inline: 0.75rem;
-				}
-			`;
-
+			return outlinedButtonCSS;
 		case "elevated":
-			const surfaceTone1 = setAlphaOnHex(theme.color[color!], theme.surfaceToneOpacity.elevation1 as number);
-			const surfaceTone2 = setAlphaOnHex(theme.color[color!], theme.surfaceToneOpacity.elevation2 as number);
-			return css`
-				// background-color: ${surfaceTone1};
-				background-color: ${theme.color.surface};
-				box-shadow: ${theme.boxShadow.elevation1};
-				&:before {
-					content: "";
-					position: absolute;
-					top: 0;
-					bottom: 0;
-					left: 0;
-					right: 0;
-					background-color: ${setAlphaOnHex(theme.color[color!], theme.surfaceToneOpacity.elevation1 as number)};
-				}
-				&:hover {
-					background-color: ${surfaceTone2};
-					box-shadow: ${theme.boxShadow.elevation2};
-				}
-				&:disabled {
-					box-shadow: none;
-				}
-			`;
-
+			return elevatedButtonCSS;
+		case "text":
+			return textButtonCSS;
+		case "tonal":
+			return tonalButtonCSS;
 		default:
-			const tonalBgColor = `${color}Container` as ContainerColorType;
-			return css`
-				background-color: ${theme.color[tonalBgColor]};
-				&:hover {
-					box-shadow: ${theme.boxShadow.elevation1};
-				}
-				&:disabled {
-					box-shadow: none;
-				}
-			`;
+			return filledButtonCSS;
 	}
 });
 
-const bgDisabledColor = css(({ theme }) => setAlphaOnHex(theme.color.onSurface, theme.stateOpacity.container.disabled));
+// const bgDisabledColor = css(({ theme }) => setAlphaOnHex(theme.color.onSurface, theme.stateOpacity.container.disabled));
 
-export const StyledButton = styled.button.attrs<StyledButtonProps>(({ disabled }) => ({
-	disabled: disabled || false,
-}))<StyledButtonProps>`
-	border: none;
-	background-color: transparent;
-	border-radius: 100rem;
-	overflow: hidden;
-	position: relative; // allows for :before pseudo element in elevated button style.
-	/* & * {
-		pointer-events: none;
-	} */
-	.contentLayer {
-		padding: 0.625rem 1.5rem;
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-	}
-	&:disabled {
-		background-color: ${bgDisabledColor};
-	}
-	// variant specific css.
-	${buttonVariantCSS}
-`;
+export const StyledButton = styled.button<StyledButtonProps>(({ theme, stateLayerColor }) => {
+	return css`
+		border: none;
+		background-color: transparent;
+		border-radius: 100rem;
+		overflow: hidden;
+		height: 2.5rem;
+		position: relative; // allows for surfaceTone and stateLayer position absolute
+		& * {
+			pointer-events: none;
+		}
+
+		& > div[data-md3role="stateLayer"] {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			background-color: ${theme.color[stateLayerColor!]};
+			opacity: ${theme.stateOpacity.stateLayer.enabled};
+		}
+		& > div[data-md3role="contentLayer"] {
+			padding: 0.625rem 1.5rem;
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+		}
+
+		// STATES
+		&:hover > div[data-md3role="stateLayer"] {
+			opacity: ${theme.stateOpacity.stateLayer.hover};
+		}
+		&:active > div[data-md3role="stateLayer"] {
+			opacity: ${theme.stateOpacity.stateLayer.pressed};
+		}
+
+		// variant specific css. Contains state css. Must be placed before disabled css otherwise hover css overrides disabled css. Because in css even though a button is disabled, it can be hovered.
+		${buttonVariantCSS}
+
+		&:disabled > div[data-md3role="stateLayer"] {
+			opacity: ${theme.stateOpacity.stateLayer.disabled};
+		}
+		&:disabled > div[data-md3role="contentLayer"] {
+			opacity: ${theme.stateOpacity.content.disabled};
+		}
+		&:disabled {
+			background-color: ${setAlphaOnHex(theme.color.onSurface, theme.stateOpacity.container.disabled)};
+			box-shadow: none;
+		}
+	`;
+});

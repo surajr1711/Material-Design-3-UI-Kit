@@ -6,9 +6,9 @@ interface IconProps extends StyledIconProps {
 	label?: string;
 }
 
-const Icon: React.FC<IconProps> = ({ label, color, variant, sizeInRems, disabled }) => {
+const Icon: React.FC<IconProps> = ({ label, color, variant, sizeInRems }) => {
 	return (
-		<StyledIcon color={color} variant={variant} sizeInRems={sizeInRems} disabled={disabled}>
+		<StyledIcon color={color} variant={variant} sizeInRems={sizeInRems}>
 			{label}
 		</StyledIcon>
 	);
@@ -21,5 +21,4 @@ Icon.defaultProps = {
 	variant: "filled",
 	color: "primary",
 	sizeInRems: 1,
-	disabled: false,
 };
