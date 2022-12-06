@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
+import PropType from "prop-types";
 
 import { StyledButton } from "./Button.styles";
 import Typography, { ContentColorType } from "../Typography";
@@ -52,10 +52,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({ label, color,
 });
 
 Button.propTypes = {
-	label: PropTypes.string,
-	color: PropTypes.oneOf(colorType),
-	variant: PropTypes.oneOf(variantType),
-	md3icon: PropTypes.string,
+	label: PropType.string,
+	color: PropType.oneOf(colorType),
+	variant: PropType.oneOf(variantType),
+	md3icon: PropType.string,
 };
 
 Button.defaultProps = {

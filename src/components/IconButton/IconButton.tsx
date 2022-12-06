@@ -1,67 +1,100 @@
-import React, { useState, useEffect } from "react";
-import Icon from "../Icon/Icon";
-import { IconVariantType } from "../Icon/Icon.styles";
+import React, { useState } from "react";
+import PropType from "prop-types";
+import uuid from "react-uuid";
 
+import Icon from "../Icon/Icon";
 import {
 	StyledFilledIconButton,
 	StyledTonalIconButton,
 	StyledOutlinedIconButton,
 	StyledStandardIconButton,
-	IconButtonContentColorType,
 } from "./IconButton.styles";
+import { useContentColor } from "./useContentColor";
 
-type IconButtonType = "filled" | "tonal" | "outlined" | "standard";
+const variantType = ["filled", "tonal", "outlined", "standard"] as const;
+export type VariantType = typeof variantType[number];
 
-export interface IconButtonProps extends React.ComponentPropsWithoutRef<"button"> {
+const contentColorType = [
+	"primary",
+	"onPrimary",
+	"onSurface",
+	"onSecondaryContainer",
+	"onSurfaceVariant",
+	"onInverseSurface",
+] as const;
+export type ContentColorType = typeof contentColorType[number];
+
+export interface IconButtonProps extends React.ComponentPropsWithoutRef<"input"> {
 	icon: string;
-	variant?: IconButtonType;
 	toggleable?: boolean;
-	// disabled?: boolean;
+	variant?: VariantType;
+	// checked?: boolean; // for setting initial toggled state and for using controlled props
 }
 
-const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
+const IconButton = React.forwardRef<HTMLInputElement, IconButtonProps>(
 	({ toggleable, icon, variant, ...props }, ref) => {
+		// toggledOn state only for managing contentColor. Not for setting checked value! Leave component as uncontrolled input so that you can access checked prop through if consumer wants to access checked value in HOC.
 		const [toggledOn, setToggledOn] = useState<boolean>(false);
 
 		// use the correct icon variant based on noToggle or toggle selected/unselected
-		const iconVariant: IconVariantType = !toggleable || !toggledOn ? "outlined" : "filled";
+		const iconVariant: VariantType = !toggleable || !toggledOn ? "outlined" : "filled";
 
-		// determine which StyledIconButton to render and which contentColor to be passed to icon
-		// variant StyledIconButtonComponentType = typeof StyledFilledIconButton;
+		// provide common id for label 'hmltFor' and input 'id'
+		const [id] = useState<string>(uuid());
+
+		// check if button should be button or checkbox type
+		const type: "button" | "checkbox" = toggleable ? "checkbox" : "button";
+
+		// if its a button or a checked checkbox color is onPrimary
+		let contentColor: ContentColorType = useContentColor(variant, toggleable, toggledOn, props.disabled);
+
+		// determine which StyledIconButton to render
 		let Component: typeof StyledFilledIconButton;
-		let contentColor: IconButtonContentColorType;
-		if (!variant || variant === "filled") {
-			Component = StyledFilledIconButton;
-			contentColor = !toggleable || toggledOn ? "onPrimary" : "primary";
-		} else if (variant === "tonal") {
-			Component = StyledTonalIconButton;
-			contentColor = !toggleable || toggledOn ? "onSecondaryContainer" : "onSurfaceVariant";
-		} else if (variant === "outlined") {
-			Component = StyledOutlinedIconButton;
-			contentColor = !toggleable || !toggledOn ? "onSurfaceVariant" : "onInverseSurface";
-		} else {
-			Component = StyledStandardIconButton;
-			contentColor = !toggleable || !toggledOn ? "onSurfaceVariant" : "primary";
+		switch (variant) {
+			case "tonal":
+				Component = StyledTonalIconButton;
+				break;
+			case "outlined":
+				Component = StyledOutlinedIconButton;
+				break;
+			case "standard":
+				Component = StyledStandardIconButton;
+				break;
+			// filled and undefined
+			default:
+				Component = StyledFilledIconButton;
 		}
 
-		if (props.disabled === true) {
-			contentColor = "onSurface";
-		}
+		const handleClick: React.MouseEventHandler<HTMLInputElement> = (e) => {
+			// run user's onclick only if there IS a user provided onClick AND the button is NOT toggleable (ie regular button).
+			!toggleable && props.onClick && props.onClick(e);
+		};
 
-		// to change toggledon back to false when toggleable is set to false
-		useEffect(() => {
-			!toggleable && setToggledOn(false);
-		}, [toggleable]);
-
-		// if button is toggleable, switch styles between toggleselected and toggleUnselected
-		const handleClick: React.MouseEventHandler = () => {
+		const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+			// if button is toggleable, first switch contentColor depending on checked prop
 			toggleable && setToggledOn(!toggledOn);
+			// then if user
+			props.onChange && props.onChange(e);
 		};
 
 		return (
-			<Component ref={ref} toggleable={toggleable} toggledOn={toggledOn} onClick={handleClick} {...props}>
+			<Component htmlFor={id} toggleable={toggleable} toggledOn={toggledOn}>
 				<div data-md3role="stateLayer" />
 				<div data-md3role="contentLayer">
+					<input
+						// default props come first they can be overrriden by prop spreading
+						id={id}
+						type={type}
+						// prop spreading will override default props if they exist and add all props provided by consumer
+						{...props}
+						// props that you dont want the consumer to override are placed after prop spreading
+						// put handle change after prop spreading so that user provided onChange doesnt overrride built-in handleChange which is needed to set toggledOn state which is required by contentColor
+						onClick={handleClick}
+						onChange={handleChange}
+						// conditional prop inclusion. Add checked prop only if button is toggleable. for controlled input.
+						// {...(toggleable && { checked: toggledOn })}
+						ref={ref}
+					/>
 					<Icon sizeInRems={1.5} variant={iconVariant} color={contentColor} label={icon} />
 				</div>
 			</Component>
@@ -69,11 +102,18 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
 	}
 );
 
+IconButton.propTypes = {
+	toggleable: PropType.bool,
+	variant: PropType.oneOf(variantType),
+	icon: PropType.string.isRequired,
+	// checked: PropType.bool,
+};
+
 IconButton.defaultProps = {
 	icon: "settings",
-	variant: "filled",
 	toggleable: false,
-	// disabled: false,
+	variant: "filled",
+	// checked: false,
 };
 
 export default IconButton;
