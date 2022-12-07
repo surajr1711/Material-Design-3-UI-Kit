@@ -64,7 +64,9 @@ type ElevationObj = {
 	elevation5: number | string;
 };
 export type ElevationKey = keyof ElevationObj;
-export type Elevation = 0 | 1 | 2 | 3 | 4 | 5;
+export const elevationType = [0, 1, 2, 3, 4, 5] as const;
+export type Elevation = typeof elevationType[number];
+// export type Elevation = 0 | 1 | 2 | 3 | 4 | 5;
 // NOTE: why not create surfacetones directly and store a color value with opacity? Because you have to create 5 tones for 4 colors namely primary, secondary, tertiray and error. this could be computed instead.
 const surfaceToneOpacity: ElevationObj = {
 	elevation0: 0,

@@ -1,118 +1,61 @@
 import React from "react";
-import { AccentColorType, Elevation } from "../../styles/theme";
+import PropType from "prop-types";
 
+import { elevationType, Elevation } from "../../styles/theme";
 import Icon from "../Icon";
 import Typography from "../Typography";
-import {
-	StyledFAB,
-	StyledSmallFAB,
-	StyledLargeFAB,
-	StyledExtendedFAB,
-	FABContentColorType,
-	FABBackgroundColorType,
-} from "./FAB.styles";
+import { useFABColors } from "./useFABColors";
+import { useFABSizes } from "./useFABSizes";
 
-export type FABColorType = AccentColorType | "surface";
-export type FABSizeType = "FAB" | "smallFAB" | "largeFAB" | "extendedFAB";
+const colorType = ["primary", "secondary", "tertiary", "surface"] as const;
+export type ColorType = typeof colorType[number];
+
+const contentColorType = ["onPrimaryContainer", "primary", "onSecondaryContainer", "onTertiaryContainer"] as const;
+export type ContentColorType = typeof contentColorType[number];
+
+const bgColorType = ["primaryContainer", "surface", "secondaryContainer", "tertiaryContainer"] as const;
+export type BgColorType = typeof bgColorType[number];
+
+const sizeType = ["FAB", "smallFAB", "largeFAB", "extendedFAB"] as const;
+export type SizeType = typeof sizeType[number];
 
 export interface FABProps {
 	icon?: string;
-	color?: FABColorType;
-	size?: FABSizeType;
+	color?: ColorType;
+	size?: SizeType;
 	tooltip?: string;
 	label?: string;
 	elevation?: Elevation;
 }
 
 const FAB: React.FC<FABProps> = ({ icon, color, size, tooltip, label, elevation }) => {
-	let fabBackgroundColor: FABBackgroundColorType;
 	// Content color to be passed to Icon component and styledfab for :before statelayer
-	let fabContentColor: FABContentColorType;
+	const { bgColor, contentColor } = useFABColors(color!);
 
-	if (!color || color === "primary") {
-		fabBackgroundColor = "primaryContainer";
-		fabContentColor = "onPrimaryContainer";
-	} else if (color === "surface") {
-		fabBackgroundColor = "surface";
-		fabContentColor = "primary";
-	} else if (color === "secondary") {
-		fabBackgroundColor = "secondaryContainer";
-		fabContentColor = "onSecondaryContainer";
-	} else {
-		fabBackgroundColor = "tertiaryContainer";
-		fabContentColor = "onTertiaryContainer";
-	}
+	// determine which StyledFAB and iconSize accordingly to render
+	const { Component, iconSize } = useFABSizes(size!);
 
-	const DefaultFAB = (
-		<StyledFAB
-			backgroundColor={fabBackgroundColor}
-			contentColor={fabContentColor}
-			tooltip={tooltip}
-			elevation={elevation}
-		>
-			<div className="contentLayer">
-				<Icon label={icon} sizeInRems={1.5} color={fabContentColor} />
-			</div>
-		</StyledFAB>
-	);
-
-	const SmallFAB = (
-		<StyledSmallFAB
-			backgroundColor={fabBackgroundColor}
-			contentColor={fabContentColor}
-			tooltip={tooltip}
-			elevation={elevation}
-		>
-			<div className="contentLayer">
-				<Icon label={icon} sizeInRems={1.5} color={fabContentColor} />
-			</div>
-		</StyledSmallFAB>
-	);
-
-	const LargeFAB = (
-		<StyledLargeFAB
-			backgroundColor={fabBackgroundColor}
-			contentColor={fabContentColor}
-			tooltip={tooltip}
-			elevation={elevation}
-		>
-			<div className="contentLayer">
-				<Icon label={icon} sizeInRems={2.25} color={fabContentColor} />
-			</div>
-		</StyledLargeFAB>
-	);
-
-	const ExtendedFAB = (
-		<StyledExtendedFAB
-			backgroundColor={fabBackgroundColor}
-			contentColor={fabContentColor}
-			tooltip={tooltip}
-			elevation={elevation}
-		>
-			<div className="contentLayer">
-				<Icon label={icon} sizeInRems={1.5} color={fabContentColor} />
-				{label && label !== "" && (
-					<Typography label={label} tag="span" color={fabContentColor} typescale="labelLarge" />
+	return (
+		<Component bgColor={bgColor} contentColor={contentColor} tooltip={tooltip} elevation={elevation}>
+			<div data-md3role="surfaceTint" />
+			<div data-md3role="stateLayer" />
+			<div data-md3role="contentLayer">
+				<Icon label={icon} sizeInRems={iconSize} color={contentColor} />
+				{size === "extendedFAB" && label && label !== "" && (
+					<Typography label={label} tag="span" color={contentColor} typescale="labelLarge" />
 				)}
 			</div>
-		</StyledExtendedFAB>
+		</Component>
 	);
+};
 
-	type RenderSwitchType = (size: FABSizeType) => React.ReactNode;
-	const renderSwitch: RenderSwitchType = (size) => {
-		switch (size) {
-			case "smallFAB":
-				return SmallFAB;
-			case "largeFAB":
-				return LargeFAB;
-			case "extendedFAB":
-				return ExtendedFAB;
-			default:
-				return DefaultFAB;
-		}
-	};
-
-	return <>{renderSwitch(size!)}</>;
+FAB.propTypes = {
+	icon: PropType.string,
+	color: PropType.oneOf(colorType),
+	size: PropType.oneOf(sizeType),
+	tooltip: PropType.string,
+	label: PropType.string,
+	elevation: PropType.oneOf(elevationType),
 };
 
 FAB.defaultProps = {
