@@ -19,7 +19,7 @@ export type BgColorType = typeof bgColorType[number];
 const sizeType = ["FAB", "smallFAB", "largeFAB", "extendedFAB"] as const;
 export type SizeType = typeof sizeType[number];
 
-export interface FABProps {
+export interface FABProps extends React.ComponentPropsWithoutRef<"button"> {
 	icon?: string;
 	color?: ColorType;
 	size?: SizeType;
@@ -28,26 +28,35 @@ export interface FABProps {
 	elevation?: Elevation;
 }
 
-const FAB: React.FC<FABProps> = ({ icon, color, size, tooltip, label, elevation }) => {
-	// Content color to be passed to Icon component and styledfab for :before statelayer
-	const { bgColor, contentColor } = useFABColors(color!);
+const FAB = React.forwardRef<HTMLButtonElement, FABProps>(
+	({ icon, color, size, tooltip, label, elevation, ...props }, ref) => {
+		// Content color to be passed to Icon component and styledfab for :before statelayer
+		const { bgColor, contentColor } = useFABColors(color!);
 
-	// determine which StyledFAB and iconSize accordingly to render
-	const { Component, iconSize } = useFABSizes(size!);
+		// determine which StyledFAB and iconSize accordingly to render
+		const { Component, iconSize } = useFABSizes(size!);
 
-	return (
-		<Component bgColor={bgColor} contentColor={contentColor} tooltip={tooltip} elevation={elevation}>
-			<div data-md3role="surfaceTint" />
-			<div data-md3role="stateLayer" />
-			<div data-md3role="contentLayer">
-				<Icon label={icon} sizeInRems={iconSize} color={contentColor} />
-				{size === "extendedFAB" && label && label !== "" && (
-					<Typography label={label} tag="span" color={contentColor} typescale="labelLarge" />
-				)}
-			</div>
-		</Component>
-	);
-};
+		return (
+			<Component
+				{...props}
+				bgColor={bgColor}
+				contentColor={contentColor}
+				tooltip={tooltip}
+				elevation={elevation}
+				ref={ref}
+			>
+				<div data-md3role="surfaceTint" />
+				<div data-md3role="stateLayer" />
+				<div data-md3role="contentLayer">
+					<Icon label={icon} sizeInRems={iconSize} color={contentColor} />
+					{size === "extendedFAB" && label && label !== "" && (
+						<Typography label={label} tag="span" color={contentColor} typescale="labelLarge" />
+					)}
+				</div>
+			</Component>
+		);
+	}
+);
 
 FAB.propTypes = {
 	icon: PropType.string,

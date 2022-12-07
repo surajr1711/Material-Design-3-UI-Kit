@@ -9,6 +9,7 @@ export default {
 	},
 	argTypes: {
 		disabled: { control: "boolean" },
+		onClick: {},
 	},
 } as ComponentMeta<typeof Button>;
 
@@ -54,5 +55,5 @@ WithIcon.args = {
 export const OnClick = Template.bind({});
 OnClick.args = {
 	variant: "tonal",
-	onClick: () => alert("You clicked me"),
+	onClick: (e) => console.log("You clicked me", e.currentTarget),
 };

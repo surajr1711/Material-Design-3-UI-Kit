@@ -7,6 +7,9 @@ export default {
 	parameters: {
 		layout: "centered",
 	},
+	args: {
+		onClick: (e) => console.log("Hello", e.target),
+	},
 } as ComponentMeta<typeof FAB>;
 
 const Template: ComponentStory<typeof FAB> = (args) => <FAB {...args} />;
