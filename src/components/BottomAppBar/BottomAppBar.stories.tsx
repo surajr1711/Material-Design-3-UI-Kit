@@ -1,5 +1,4 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import React from "react";
 import styled, { css } from "styled-components";
 import BottomAppBar from "./BottomAppBar";
 import { fourIconButtons, oneIconButton, twoIconButtons } from "./bottomAppBarStubs";
@@ -45,7 +44,7 @@ const BottomNavigation = styled.div(
 			bottom: 0;
 			right: 0;
 			background-color: ${theme.color.surfaceTint};
-			opacity: ${theme.surfaceToneOpacity.elevation2};
+			opacity: ${theme.elevation.surfaceTintOpacity.level2};
 		}
 		// pill
 		&::after {
@@ -61,7 +60,9 @@ const BottomNavigation = styled.div(
 	`
 );
 
-const Template: ComponentStory<typeof BottomAppBar> = (args) => (
+const Template: ComponentStory<typeof BottomAppBar> = (args) => <BottomAppBar {...args} />;
+
+const PhoneTemplate: ComponentStory<typeof BottomAppBar> = (args) => (
 	<PhoneOutline>
 		<BottomPositionWrapper>
 			<BottomAppBar {...args} />
@@ -72,6 +73,11 @@ const Template: ComponentStory<typeof BottomAppBar> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
+	iconButtons: twoIconButtons,
+};
+
+export const WithPhoneTemplate = PhoneTemplate.bind({});
+WithPhoneTemplate.args = {
 	iconButtons: twoIconButtons,
 };
 

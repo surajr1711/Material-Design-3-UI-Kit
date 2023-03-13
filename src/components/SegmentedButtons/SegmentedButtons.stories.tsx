@@ -1,7 +1,7 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import SegmentedButtons from "./SegmentedButtons";
-import { options3Stub, options4Stub } from "../../stubs/segmentedButtons";
+import { options3Stub, options4Stub } from "./segmentedButtons.stubs";
 
 export default {
 	title: "Components/SegmentedButtons",

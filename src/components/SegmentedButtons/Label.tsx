@@ -1,7 +1,7 @@
 import React, { ChangeEventHandler } from "react";
 
 import { StyledLabel } from "./Label.styles";
-import Typography from "../Typography";
+import Typography from "../Type";
 import Icon from "../Icon";
 
 interface LabelProps {
@@ -29,11 +29,20 @@ const Label: React.FC<LabelProps> = ({
 	return (
 		<StyledLabel>
 			<input type={inputType} name={name} id={id} checked={checked} onChange={handleClick} />
-			<div className="content">
+			<div data-md3role="contentLayer">
 				{(showIconWithText || checked) && (
-					<Icon color="onSurface" label={checked ? "check" : md3Icon} sizeInRems={1.125} variant="outlined" />
+					<Icon
+						color="onSurface"
+						// label={checked ? "check" : md3Icon}
+						sizeInRems={1.125}
+						variant="outlined"
+					>
+						{checked ? "check" : md3Icon}
+					</Icon>
 				)}
-				<Typography label={label} tag="span" typescale="labelLarge" color="onSurface" />
+				<Typography tag="span" typescale="labelLarge" color="onSurface">
+					{label}
+				</Typography>
 			</div>
 		</StyledLabel>
 	);

@@ -1,5 +1,4 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { ChangeEvent, MouseEvent, useRef, useState } from "react";
 import IconButton from "./IconButton";
 
 export default {
@@ -10,30 +9,34 @@ export default {
 	},
 	argTypes: {
 		disabled: { control: "boolean" },
+		onClick: {},
+		onChange: {},
 	},
 } as ComponentMeta<typeof IconButton>;
 
 const Template: ComponentStory<typeof IconButton> = (args) => <IconButton {...args} />;
 
-export const Default: ComponentStory<typeof IconButton> = (args) => {
-	const myRef = useRef<HTMLInputElement>(null);
-	// const [toggledState, setToggledState] = useState<boolean>(myRef.current?.checked || false);
+export const Default = Template.bind({});
 
-	const handleClick = (e: MouseEvent) => {
-		console.log("onClick: ", e.currentTarget);
-		// alert("You clicked me!");
-	};
+export const Toggleable = Template.bind({});
+Toggleable.args = {
+	toggleable: true,
+};
 
-	const handleChange = (e: ChangeEvent) => {
-		// setToggledState(myRef.current?.checked || false);
-		console.log("onChange: e.currentTarget = ", e.currentTarget);
-		console.log("onChange: Consuming component ref = ", myRef.current?.checked);
-		// console.log("onChange: Consuming component state = ", toggledState);
-	};
+export const Outlined = Template.bind({});
+Outlined.args = {
+	toggleable: true,
+	variant: "outlined",
+};
 
-	return (
-		// <div style={{ padding: "2rem", backgroundColor: toggledState ? "lightpink" : "lightblue" }}>
-		<IconButton ref={myRef} onChange={handleChange} onClick={handleClick} {...args} />
-		// </div>
-	);
+export const Tonal = Template.bind({});
+Tonal.args = {
+	toggleable: true,
+	variant: "tonal",
+};
+
+export const Standard = Template.bind({});
+Standard.args = {
+	toggleable: true,
+	variant: "standard",
 };

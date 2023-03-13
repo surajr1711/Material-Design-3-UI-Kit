@@ -1,104 +1,177 @@
 import styled, { css } from "styled-components";
-import { ElevationKey, Elevation } from "../../styles/theme";
-import { BgColorType, ContentColorType } from "./FAB";
+import { FabColor, FabElevation, FabState, FabProps, FabSize, FabLayout, FabStyles } from "./Fab.types";
 
-export interface StyledFABProps {
-	bgColor?: BgColorType;
-	contentColor?: ContentColorType;
-	elevation?: Elevation;
-	tooltip?: string;
+// FAB LAYOUTS
+const fabLayouts: { [T in FabSize]: FabLayout } = {
+	fab: {
+		height: 3.5,
+		width: 3.5,
+		shapeFamily: "rounded",
+		shapeScale: "large",
+		iconSizeInRems: 1.5,
+	},
+	smallFab: {
+		height: 2.5,
+		width: 2.5,
+		shapeFamily: "rounded",
+		shapeScale: "medium",
+		iconSizeInRems: 1.5,
+	},
+	largeFab: {
+		height: 6.5,
+		width: 6.5,
+		shapeFamily: "rounded",
+		shapeScale: "extraLarge",
+		iconSizeInRems: 2.25,
+	},
+};
+
+// export const newFabColors: {
+// 	[T in FabColor]: {
+// 		container: FabContainerColor;
+// 		content: FabContentColor;
+// 	};
+// } = {}
+
+// FAB STYLES
+export const fabStyles: { [T in FabColor]: FabStyles } = {
+	primary: {
+		containerColor: "primaryContainer",
+		contentAndStateLayerColor: "onPrimaryContainer",
+	},
+	surface: {
+		containerColor: "surface",
+		contentAndStateLayerColor: "primary",
+	},
+	secondary: {
+		containerColor: "secondaryContainer",
+		contentAndStateLayerColor: "onSecondaryContainer",
+	},
+	tertiary: {
+		containerColor: "tertiaryContainer",
+		contentAndStateLayerColor: "onTertiaryContainer",
+	},
+};
+
+// FAB STATE ELEVATIONS MAP
+export const fabStateElevations: { [S in FabState]: FabElevation } = {
+	enabled: "level3",
+	hover: "level4",
+	focus: "level3",
+	pressed: "level3",
+};
+
+interface StyledFabProps extends FabProps {
+	elevation: FabElevation;
 }
 
-export const StyledFAB = styled.button.attrs<StyledFABProps>(({ tooltip }) => ({
+export const StyledFab = styled.button.attrs<StyledFabProps>(({ tooltip }) => ({
 	title: tooltip,
-}))<StyledFABProps>(({ theme, bgColor, contentColor, elevation }) => {
-	const defaultElevation = elevation === 0 ? `elevation0` : (`elevation${elevation!}` as ElevationKey);
-	const hoverElevation = elevation === 0 ? `elevation0` : (`elevation${elevation! + 1}` as ElevationKey);
-
+}))<StyledFabProps>(({ theme, size, color, elevation }) => {
 	return css`
-		height: 3.5rem;
-		width: 3.5rem;
-		border-radius: 1rem;
+		height: ${fabLayouts[size!].height}rem;
+		width: ${fabLayouts[size!].width}rem;
+		border-radius: ${theme.shape.rounded[fabLayouts[size!].shapeScale]};
 		border: none;
-		background-color: ${theme.color[bgColor!]};
+		background-color: ${theme.color[fabStyles[color!].containerColor]};
 		overflow: hidden;
 		position: relative;
-		box-shadow: ${theme.boxShadow[defaultElevation]};
+		box-shadow: ${theme.elevation.boxShadow[elevation!]};
 		* {
 			pointer-events: none;
-		}
-
-		// surface tint
-		[data-md3role="surfaceTint"] {
-			position: absolute;
-			top: 0;
-			bottom: 0;
-			left: 0;
-			right: 0;
-			z-index: 1;
-			background-color: ${theme.color.primary};
-			opacity: ${bgColor === "surface"
-				? theme.surfaceToneOpacity[defaultElevation]
-				: theme.surfaceToneOpacity.elevation0};
-		}
-
-		// state layer
-		[data-md3role="stateLayer"] {
-			position: absolute;
-			top: 0;
-			bottom: 0;
-			left: 0;
-			right: 0;
-			z-index: 2;
-			background-color: ${theme.color[contentColor!]};
-			opacity: 0;
-		}
-
-		// content layer
-		[data-md3role="contentLayer"] {
-			position: relative;
-			width: 100%;
-			height: 100%;
-			padding-inline: 1rem;
-			z-index: 3;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			gap: 0.5rem;
-		}
-
-		// States
-		&:hover {
-			box-shadow: ${theme.boxShadow[hoverElevation]};
-		}
-		&:hover [data-md3role="stateLayer"] {
-			opacity: ${theme.stateOpacity.stateLayer.hover};
-		}
-		&:active [data-md3role="stateLayer"] {
-			opacity: ${theme.stateOpacity.stateLayer.pressed};
 		}
 	`;
 });
 
-export const StyledSmallFAB = styled(StyledFAB)`
-	height: 2.5rem;
-	width: 2.5rem;
-	border-radius: 0.75rem;
-`;
+// for use as fab.icon prop style values. Consumer can just prop spread props according to the type of fab he's using. Example: if hes using a largeFab with surface color, then his fabicon will be <Fab.Icon {...fabIconProps.largeFab.surface} >add</Fab.Icon>
+export interface FabContentStyles {
+	color: FabStyles["contentAndStateLayerColor"];
+	sizeInRems: FabLayout["iconSizeInRems"];
+}
 
-export const StyledLargeFAB = styled(StyledFAB)`
-	height: 6rem;
-	width: 6rem;
-	border-radius: 1.75rem;
-`;
-
-export const StyledExtendedFAB = styled(StyledFAB)`
-	width: auto;
-`;
-
-StyledFAB.defaultProps = {
-	bgColor: "primaryContainer",
-	contentColor: "primary",
-	elevation: 3,
-	tooltip: "",
+export const fabContentStyles: {
+	[S in FabSize]: {
+		[C in FabColor]: FabContentStyles;
+	};
+} = {
+	fab: {
+		primary: {
+			sizeInRems: fabLayouts.fab.iconSizeInRems,
+			color: fabStyles.primary.contentAndStateLayerColor,
+		},
+		surface: {
+			sizeInRems: fabLayouts.fab.iconSizeInRems,
+			color: fabStyles.surface.contentAndStateLayerColor,
+		},
+		secondary: {
+			sizeInRems: fabLayouts.fab.iconSizeInRems,
+			color: fabStyles.secondary.contentAndStateLayerColor,
+		},
+		tertiary: {
+			sizeInRems: fabLayouts.fab.iconSizeInRems,
+			color: fabStyles.tertiary.contentAndStateLayerColor,
+		},
+	},
+	smallFab: {
+		primary: {
+			sizeInRems: fabLayouts.smallFab.iconSizeInRems,
+			color: fabStyles.primary.contentAndStateLayerColor,
+		},
+		surface: {
+			sizeInRems: fabLayouts.smallFab.iconSizeInRems,
+			color: fabStyles.surface.contentAndStateLayerColor,
+		},
+		secondary: {
+			sizeInRems: fabLayouts.smallFab.iconSizeInRems,
+			color: fabStyles.secondary.contentAndStateLayerColor,
+		},
+		tertiary: {
+			sizeInRems: fabLayouts.smallFab.iconSizeInRems,
+			color: fabStyles.tertiary.contentAndStateLayerColor,
+		},
+	},
+	largeFab: {
+		primary: {
+			sizeInRems: fabLayouts.largeFab.iconSizeInRems,
+			color: fabStyles.primary.contentAndStateLayerColor,
+		},
+		surface: {
+			sizeInRems: fabLayouts.largeFab.iconSizeInRems,
+			color: fabStyles.surface.contentAndStateLayerColor,
+		},
+		secondary: {
+			sizeInRems: fabLayouts.largeFab.iconSizeInRems,
+			color: fabStyles.secondary.contentAndStateLayerColor,
+		},
+		tertiary: {
+			sizeInRems: fabLayouts.largeFab.iconSizeInRems,
+			color: fabStyles.tertiary.contentAndStateLayerColor,
+		},
+	},
 };
+
+// used for fab.label just like fab.icon. Consumer can just prop spread props according to the type of fab he's using. Example: if hes using a largeFab with surface color, then his fablabel will be <Fab.Label {...fabLabelProps.surface} >add</Fab.Label>
+// export const fabLabelProps: {
+// 	[T in FabColor]: Pick<TypeProps, "color" | "typescale" | "tag">;
+// } = {
+// 	primary: {
+// 		color: fabStyles.primary.contentAndStateLayerColor,
+// 		typescale: "labelLarge",
+// 		tag: "label",
+// 	},
+// 	surface: {
+// 		color: fabStyles.surface.contentAndStateLayerColor,
+// 		typescale: "labelLarge",
+// 		tag: "label",
+// 	},
+// 	secondary: {
+// 		color: fabStyles.secondary.contentAndStateLayerColor,
+// 		typescale: "labelLarge",
+// 		tag: "label",
+// 	},
+// 	tertiary: {
+// 		color: fabStyles.tertiary.contentAndStateLayerColor,
+// 		typescale: "labelLarge",
+// 		tag: "label",
+// 	},
+// };

@@ -6,7 +6,7 @@ export const StyledLabel = styled.label(
 		overflow: hidden;
 		/* 	for labelbefore */
 		position: relative;
-		.content {
+		[data-md3role="contentLayer"] {
 			/* to bring input and span in front of labelbefore */
 			position: relative;
 			height: 100%;

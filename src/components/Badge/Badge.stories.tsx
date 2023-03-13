@@ -15,14 +15,14 @@ export const Default = Template.bind({});
 
 export const Large = Template.bind({});
 Large.args = {
-	label: 2,
+	count: 2,
 };
 
 export const LargeMax = Template.bind({});
 LargeMax.args = {
-	label: 1234,
+	count: 1234,
 };
 export const Decimal = Template.bind({});
 Decimal.args = {
-	label: 3.428,
+	count: 3.428,
 };

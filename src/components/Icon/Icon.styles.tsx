@@ -1,18 +1,9 @@
 import styled, { css } from "styled-components";
+import { IconProps } from "./Icon.types";
 
-import { ContentColorType } from "../Typography";
-
-export type IconVariantType = "filled" | "outlined";
-
-export interface StyledIconProps {
-	color?: ContentColorType;
-	variant?: IconVariantType;
-	sizeInRems?: number;
-}
-
-export const StyledIcon = styled.span.attrs<StyledIconProps>(({ variant }) => ({
+export const StyledIcon = styled.span.attrs<IconProps>(({ variant }) => ({
 	className: variant === "filled" ? "material-icons" : "material-icons-outlined",
-}))<StyledIconProps>(
+}))<IconProps>(
 	({ theme, color, sizeInRems }) => css`
 		color: ${theme.color[color!]};
 		font-size: ${sizeInRems}rem;

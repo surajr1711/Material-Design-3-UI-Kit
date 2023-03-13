@@ -1,43 +1,52 @@
+// IMPORTS
 import React from "react";
+import PropTypes from "prop-types";
+// Types
+import { BadgeProps, BadgeType } from "./Badge.types";
+import { shapeScaleKeys } from "../../styles/shape";
+// Custom components
+import Typography from "../Type";
+// Styles
+import { StyledBadge, SmallBadge, LargeBadge, LargeMaxBadge } from "./Badge.styles";
 
-import Typography from "../Typography";
-import { BadgeType, StyledBadge } from "./Badge.styles";
+// COMPONENT DEFINITION
+const badgeComponentMap: { [T in BadgeType]: typeof StyledBadge } = {
+	small: SmallBadge,
+	large: LargeBadge,
+	largeMax: LargeMaxBadge,
+};
 
-interface BadgeProps {
-	label?: number | undefined;
-}
-
-const Badge: React.FC<BadgeProps> = ({ label }) => {
-	// Determine badge style by label. If label exists or is single digit or 4 digits.
+const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(({ count = 0, shapeScale = "full", ...restProps }, ref) => {
+	// Determine badge style based on count
 	let badgeType: BadgeType;
 
-	// if undefined or negative, set label to 0
-	if (!label || label < 0) label = 0;
-
-	// else remove decimals
-	label = Math.round(label);
-
-	if (label <= 0) {
+	if (count <= 0) {
 		badgeType = "small";
+	} else if (count > 0 && count <= 9) {
+		badgeType = "large";
 	} else {
-		if (label > 0 && label <= 9) {
-			badgeType = "large";
-		} else {
-			badgeType = "largeMax";
-		}
+		badgeType = "largeMax";
 	}
 
+	// render correct badge type component
+	const BadgeComponent = badgeComponentMap[badgeType];
+
 	return (
-		<StyledBadge badgeType={badgeType}>
-			{label !== 0 && (
-				<Typography tag="span" color="onError" label={label >= 1000 ? "999+" : label} typescale="labelSmall" />
-			)}
-		</StyledBadge>
+		<BadgeComponent ref={ref} shapeScale={shapeScale} {...restProps}>
+			<Typography tag="span" color="onError" typescale="labelSmall">
+				{count >= 1000 ? "999+" : count > 0 ? Math.round(count) : ""}
+			</Typography>
+		</BadgeComponent>
 	);
+});
+
+Badge.displayName = "Badge";
+
+// PROPTYPES
+Badge.propTypes = {
+	count: PropTypes.number,
+	shapeScale: PropTypes.oneOf(shapeScaleKeys),
 };
 
+// EXPORTS
 export default Badge;
-
-Badge.defaultProps = {
-	label: undefined,
-};

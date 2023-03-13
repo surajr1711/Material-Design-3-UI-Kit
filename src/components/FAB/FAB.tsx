@@ -1,79 +1,92 @@
-import React from "react";
+// IMPORTS
+// 3rd party packages
+import React, { useState } from "react";
 import PropType from "prop-types";
+// Types
+import { fabColor, fabSize, FabProps, FabState, FabComposition } from "./Fab.types";
+// Hooks and utils
+import { FabContext } from "./FabContext";
+// Custom components
+import InteractionTemplate from "../InteractionTemplate/InteractionTemplate";
+import { fabContentStyles, FabContentStyles, fabStateElevations, fabStyles, StyledFab } from "./Fab.styles";
+import Type from "../Type";
+import { FlexBox } from "../spacing/FlexBox";
+import FabIcon from "./FabIcon";
+// Styles
 
-import { elevationType, Elevation } from "../../styles/theme";
-import Icon from "../Icon";
-import Typography from "../Typography";
-import { useFABColors } from "./useFABColors";
-import { useFABSizes } from "./useFABSizes";
+// COMPNENT DEFINITION
+const Fab = React.forwardRef<HTMLButtonElement, FabProps>(
+	(
+		{
+			children = <FabIcon />,
+			color = "primary",
+			size = "fab",
+			tooltip = "",
+			disabled, // Fab should never be disabled
+			onClick,
+			...restProps
+		},
+		ref
+	) => {
+		const [fabState, setFabState] = useState<FabState>("enabled");
 
-const colorType = ["primary", "secondary", "tertiary", "surface"] as const;
-export type ColorType = typeof colorType[number];
+		const handleClick = (e: React.MouseEvent) => {
+			console.log(e.type);
+			setFabState("pressed");
+		};
+		const handleMouseEnter = (e: React.MouseEvent) => {
+			console.log(e.type);
+			setFabState("hover");
+		};
+		const handleMouseLeave = (e: React.MouseEvent) => {
+			console.log(e.type);
+			setFabState("enabled");
+		};
 
-const contentColorType = ["onPrimaryContainer", "primary", "onSecondaryContainer", "onTertiaryContainer"] as const;
-export type ContentColorType = typeof contentColorType[number];
+		// Interaction template needs elevation and statelayercolor
+		const fabElevation = fabStateElevations[fabState];
+		const { contentAndStateLayerColor } = fabStyles[color!];
 
-const bgColorType = ["primaryContainer", "surface", "secondaryContainer", "tertiaryContainer"] as const;
-export type BgColorType = typeof bgColorType[number];
-
-const sizeType = ["FAB", "smallFAB", "largeFAB", "extendedFAB"] as const;
-export type SizeType = typeof sizeType[number];
-
-export interface FABProps extends React.ComponentPropsWithoutRef<"button"> {
-	icon?: string;
-	color?: ColorType;
-	size?: SizeType;
-	tooltip?: string;
-	label?: string;
-	elevation?: Elevation;
-}
-
-const FAB = React.forwardRef<HTMLButtonElement, FABProps>(
-	({ icon, color, size, tooltip, label, elevation, ...props }, ref) => {
-		// Content color to be passed to Icon component and styledfab for :before statelayer
-		const { bgColor, contentColor } = useFABColors(color!);
-
-		// determine which StyledFAB and iconSize accordingly to render
-		const { Component, iconSize } = useFABSizes(size!);
+		// This will be used by fab.icon and fab.label child components for styles
+		const fabContextValue: FabContentStyles = {
+			color: contentAndStateLayerColor,
+			sizeInRems: fabContentStyles[size][color].sizeInRems!,
+		};
 
 		return (
-			<Component
-				{...props}
-				bgColor={bgColor}
-				contentColor={contentColor}
-				tooltip={tooltip}
-				elevation={elevation}
-				ref={ref}
-			>
-				<div data-md3role="surfaceTint" />
-				<div data-md3role="stateLayer" />
-				<div data-md3role="contentLayer">
-					<Icon label={icon} sizeInRems={iconSize} color={contentColor} />
-					{size === "extendedFAB" && label && label !== "" && (
-						<Typography label={label} tag="span" color={contentColor} typescale="labelLarge" />
-					)}
-				</div>
-			</Component>
+			<FabContext.Provider value={fabContextValue}>
+				<StyledFab
+					ref={ref}
+					elevation={fabElevation}
+					size={size}
+					tooltip={tooltip}
+					color={color}
+					onClick={handleClick}
+					onMouseEnter={handleMouseEnter}
+					onMouseLeave={handleMouseLeave}
+					{...restProps}
+				>
+					<InteractionTemplate elevation={fabElevation} state={fabState} stateLayerColor={contentAndStateLayerColor}>
+						{children}
+					</InteractionTemplate>
+				</StyledFab>
+			</FabContext.Provider>
 		);
 	}
+	// ) as FabComposition;
 );
 
-FAB.propTypes = {
-	icon: PropType.string,
-	color: PropType.oneOf(colorType),
-	size: PropType.oneOf(sizeType),
+// // COMPOSITION
+// Fab.Icon = Icon;
+// Fab.Label = Type;
+
+// PROPTYPES
+Fab.propTypes = {
+	children: PropType.element,
+	color: PropType.oneOf(fabColor),
+	size: PropType.oneOf(fabSize),
 	tooltip: PropType.string,
-	label: PropType.string,
-	elevation: PropType.oneOf(elevationType),
 };
 
-FAB.defaultProps = {
-	icon: "create",
-	color: "primary",
-	size: "FAB",
-	tooltip: "",
-	label: "Compose",
-	elevation: 3,
-};
-
-export default FAB;
+export default Object.assign(Fab, { Icon: FabIcon, Label: Type, Wrapper: FlexBox }) as FabComposition;
+// export default Fab;

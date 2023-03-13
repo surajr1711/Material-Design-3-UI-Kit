@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-import { ContainerColorType } from "../../styles/theme";
+import { ContainerColor } from "../../styles/colors";
 import { setAlphaOnHex } from "../../utils/setAlphaOnHex";
 import { ButtonColor, ButtonContentColor, ButtonVariant } from "./Button.types";
 
@@ -14,7 +14,7 @@ export const StyledButton = styled.button<StyledButtonProps>(({ theme, stateLaye
 	return css`
 		// Button Container
 		border: none;
-		border-radius: 100rem;
+		border-radius: ${theme.shape.rounded.full};
 		overflow: hidden;
 		height: 2.5rem;
 		position: relative; // allows for surfaceTone and stateLayer position absolute
@@ -61,21 +61,21 @@ export const StyledButton = styled.button<StyledButtonProps>(({ theme, stateLaye
 	`;
 });
 
-export const StyledFilledButton = styled(StyledButton)(
+export const FilledButton = styled(StyledButton)(
 	({ theme, color }) => css`
 		// Button Container
 		background-color: ${theme.color[color!]};
 		// States
 		&:hover {
-			box-shadow: ${theme.boxShadow.elevation1};
+			box-shadow: ${theme.elevation.boxShadow.level1};
 		}
 		&:disabled {
-			box-shadow: none;
+			box-shadow: ${theme.elevation.boxShadow.level0};
 		}
 	`
 );
 
-export const StyledOutlinedButton = styled(StyledButton)(({ theme }) => {
+export const OutlinedButton = styled(StyledButton)(({ theme }) => {
 	return css`
 		// CSS Variables
 		--outlineDisabledColor: ${setAlphaOnHex(theme.color.onSurface, theme.stateOpacity.outline.disabled)};
@@ -89,7 +89,7 @@ export const StyledOutlinedButton = styled(StyledButton)(({ theme }) => {
 	`;
 });
 
-export const StyledTextButton = styled(StyledButton)`
+export const TextButton = styled(StyledButton)`
 	// Button Container
 	background-color: transparent;
 	// Content layer
@@ -98,25 +98,25 @@ export const StyledTextButton = styled(StyledButton)`
 	}
 `;
 
-export const StyledElevatedButton = styled(StyledButton)(({ theme, color }) => {
+export const ElevatedButton = styled(StyledButton)(({ theme, color }) => {
 	return css`
 		// Button Container
 		background-color: ${theme.color.surface};
-		box-shadow: ${theme.boxShadow.elevation1};
+		box-shadow: ${theme.elevation.boxShadow.level1};
 		// Surface tint
 		[data-md3role="surfaceTint"] {
 			position: absolute;
 			width: 100%;
 			height: 100%;
 			background-color: ${theme.color[color!]};
-			opacity: ${theme.surfaceToneOpacity.elevation1};
+			opacity: ${theme.elevation.surfaceTintOpacity.level1};
 		}
 		//States
 		&:hover {
-			box-shadow: ${theme.boxShadow.elevation2};
+			box-shadow: ${theme.elevation.boxShadow.level2};
 		}
 		&:disabled {
-			box-shadow: none;
+			box-shadow: ${theme.elevation.boxShadow.level0};
 		}
 		&:disabled [data-md3role="surfaceTint"] {
 			opacity: ${theme.stateOpacity.surfaceTint.disabled};
@@ -124,17 +124,17 @@ export const StyledElevatedButton = styled(StyledButton)(({ theme, color }) => {
 	`;
 });
 
-export const StyledTonalButton = styled(StyledButton)(({ theme, color }) => {
-	const tonalBgColor = `${color}Container` as ContainerColorType;
+export const TonalButton = styled(StyledButton)(({ theme, color }) => {
+	const tonalBgColor = `${color}Container` as ContainerColor;
 	return css`
 		// Button Container
 		background-color: ${theme.color[tonalBgColor]};
 		// States
 		&:hover {
-			box-shadow: ${theme.boxShadow.elevation1};
+			box-shadow: ${theme.elevation.boxShadow.level1};
 		}
 		&:disabled {
-			box-shadow: none;
+			box-shadow: ${theme.elevation.boxShadow.level0};
 		}
 	`;
 });

@@ -1,39 +1,28 @@
 import styled, { css } from "styled-components";
+import { BadgeProps } from "./Badge.types";
 
-export type BadgeType = "small" | "large" | "largeMax";
-
-export interface StyledBadgeProps {
-	badgeType: BadgeType;
-}
-
-const badgeTypeCSS = css<StyledBadgeProps>(({ badgeType }) => {
-	switch (badgeType) {
-		case "large":
-			return `
-				height: 1rem;
-				width: 1rem;
-			`;
-		case "largeMax":
-			return `
-				height: 1rem;
-				padding-inline: 0.2rem;
-			`;
-		default:
-			return `
-				height: 0.375rem;
-				width: 0.375rem;
-			`;
-	}
-});
-
-export const StyledBadge = styled.div<StyledBadgeProps>(
-	({ theme }) => css`
+export const StyledBadge = styled.div<BadgeProps>(
+	({ theme, shapeScale }) => css`
 		background-color: ${theme.color.error};
 		display: grid;
 		align-items: center;
 		justify-content: center;
-		border-radius: 2rem;
-
-		${badgeTypeCSS}
+		border-radius: ${theme.shape.rounded[shapeScale!]};
+		pointer-events: none;
 	`
 );
+
+export const SmallBadge = styled(StyledBadge)`
+	height: 0.375rem;
+	width: 0.375rem;
+`;
+
+export const LargeBadge = styled(StyledBadge)`
+	height: 1rem;
+	width: 1rem;
+`;
+
+export const LargeMaxBadge = styled(StyledBadge)`
+	height: 1rem;
+	padding-inline: 0.2rem;
+`;

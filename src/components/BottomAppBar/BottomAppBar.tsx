@@ -5,7 +5,7 @@ import uuid from "react-uuid";
 import IconButton from "../IconButton";
 import { StyledBottomAppBar, StyledIconsBar } from "./BottomAppBar.styles";
 import { twoIconButtons } from "./bottomAppBarStubs";
-import FAB from "../FAB/FAB";
+import FAB from "../FAB/Fab";
 
 interface BottomAppBarProps {
 	iconButtons: string[]; // min2 max4 iconbuttons data
@@ -29,7 +29,7 @@ const BottomAppBar: React.FC<BottomAppBarProps> = ({ iconButtons, fab, ...props 
 			<StyledIconsBar>
 				{arrLength && iconButtons.map((icon) => <IconButton key={uuid()} icon={icon} type="standard" />)}
 			</StyledIconsBar>
-			<div>{fab && fab.icon && <FAB elevation={0} icon={fab?.icon} tooltip={fab?.tooltip} />}</div>
+			<div>{fab && fab.icon && <FAB icon={fab?.icon} tooltip={fab?.tooltip} />}</div>
 		</StyledBottomAppBar>
 	);
 };

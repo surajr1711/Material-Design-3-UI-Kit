@@ -1,7 +1,7 @@
 import React, { ChangeEventHandler, useState } from "react";
-import Typography from "../Typography";
+import Typography from "../Type";
 import { StyledSegmentedButtons, OptionsNumType, DensityInRemsType } from "./SegmentedButtons.styles";
-import { options3Stub } from "../../stubs/segmentedButtons";
+import { options3Stub } from "./segmentedButtons.stubs";
 import Label from "./Label";
 
 export interface OptionType {

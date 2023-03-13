@@ -1,24 +1,30 @@
+// IMPORTS
 import React from "react";
+import PropTypes from "prop-types";
+// Types
+import { iconContentColor, IconProps, iconVariant } from "./Icon.types";
+// Styles
+import { StyledIcon } from "./Icon.styles";
 
-import { StyledIcon, StyledIconProps } from "./Icon.styles";
+// COMPONENT DEFINITION
+const Icon = React.forwardRef<HTMLSpanElement, IconProps>(
+	({ children = "home", color = "primary", variant = "filled", sizeInRems = 1, ...restProps }, ref) => {
+		return (
+			<StyledIcon ref={ref} color={color} variant={variant} sizeInRems={sizeInRems} {...restProps}>
+				{children}
+			</StyledIcon>
+		);
+	}
+);
 
-interface IconProps extends StyledIconProps {
-	label?: string;
-}
+Icon.displayName = "Icon";
 
-const Icon: React.FC<IconProps> = ({ label, color, variant, sizeInRems }) => {
-	return (
-		<StyledIcon color={color} variant={variant} sizeInRems={sizeInRems}>
-			{label}
-		</StyledIcon>
-	);
+// PROPTYPES
+Icon.propTypes = {
+	children: PropTypes.string,
+	color: PropTypes.oneOf(iconContentColor),
+	variant: PropTypes.oneOf(iconVariant),
+	sizeInRems: PropTypes.number,
 };
 
 export default Icon;
-
-Icon.defaultProps = {
-	label: "home",
-	variant: "filled",
-	color: "primary",
-	sizeInRems: 1,
-};

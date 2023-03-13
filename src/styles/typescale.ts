@@ -106,9 +106,10 @@ export const typescale = {
 		letterSpacing: 0.031,
 	},
 };
+export type Typescale = keyof typeof typescale;
+export const typescaleKeys = Object.keys(typescale) as Typescale[];
 
-/*
-// UNITS IN PX
+/* // UNITS IN PX
 export const typescale = {
 	displayLarge: {
 		fontSize: 57,

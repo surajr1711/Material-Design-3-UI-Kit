@@ -1,4 +1,4 @@
-import { OptionType } from "../components/SegmentedButtons/SegmentedButtons";
+import { OptionType } from "./SegmentedButtons";
 
 export const options3Stub: OptionType[] = [
 	{ id: "option1", label: "Option 1", md3Icon: "star_outline" },

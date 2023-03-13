@@ -26,7 +26,7 @@ export const StyledBottomAppBar = styled.div<StyledBottomAppBarProps>(
 			bottom: 0;
 			right: 0;
 			background-color: ${theme.color.surfaceTint};
-			opacity: ${theme.surfaceToneOpacity.elevation2};
+			opacity: ${theme.elevation.surfaceTintOpacity.level2};
 		}
 	`
 );
