@@ -3,9 +3,9 @@ import React from "react";
 import PropTypes from "prop-types";
 // Types
 import { ContentLayerProps } from "./ContentLayer/ContentLayer";
-import { StateLayerProps } from "./StateLayer/StateLayer.types";
+import { stateLayerColors, StateLayerProps } from "./StateLayer/StateLayer.types";
 import { SurfaceTintProps } from "./SurfaceTint/SurfaceTint";
-import { onColorKeys } from "../../styles/colors";
+// import { onColorKeys } from "../../styles/colors";
 import { elevationKeys } from "../../styles/elevation";
 import { stateKeys } from "../../styles/interactionStates";
 // Custom components
@@ -37,7 +37,6 @@ const InteractionTemplate: React.FC<InteractionProps> & InteractionComposition =
 	);
 };
 
-// DISPLAY NAME
 InteractionTemplate.SurfaceTint = SurfaceTint;
 InteractionTemplate.StateLayer = StateLayer;
 InteractionTemplate.ContentLayer = ContentLayer;
@@ -47,7 +46,7 @@ InteractionTemplate.propTypes = {
 	children: PropTypes.element,
 	elevation: PropTypes.oneOf(elevationKeys).isRequired,
 	state: PropTypes.oneOf(stateKeys).isRequired,
-	stateLayerColor: PropTypes.oneOf(onColorKeys).isRequired,
+	stateLayerColor: PropTypes.oneOf(stateLayerColors).isRequired,
 };
 
 // EXPORTS

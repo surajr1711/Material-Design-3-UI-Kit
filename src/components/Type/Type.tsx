@@ -10,12 +10,15 @@ import { StyledType } from "./Type.styles";
 
 // COMPONENT DEFINITION
 const Type: React.FC<TypeProps> = ({
+	children = "Default Text",
+	render = true,
 	typescale = "bodyLarge",
 	tag = "p",
 	color = "onSurface",
-	children = "Default Text",
 	...restProps
 }) => {
+	if (!render) return null;
+
 	return (
 		<StyledType typescale={typescale} as={tag} color={color} {...restProps}>
 			{children}
@@ -27,8 +30,9 @@ Type.displayName = "Typography";
 
 // PROPTYPES
 Type.propTypes = {
-	tag: PropType.oneOf(typeTag),
 	children: PropType.oneOfType([PropType.string, PropType.number]),
+	render: PropType.bool,
+	tag: PropType.oneOf(typeTag),
 	typescale: PropType.oneOf(typescaleKeys),
 	color: PropType.oneOf(typeContentColorKeys),
 };

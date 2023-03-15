@@ -3,55 +3,65 @@
 import React, { useState } from "react";
 import PropType from "prop-types";
 // Types
-import { fabColor, fabSize, FabProps, FabState, FabComposition } from "./Fab.types";
+import { fabColor, fabSize, FabProps, FabState, FabComposition, FabContextObj } from "./Fab.types";
 // Hooks and utils
 import { FabContext } from "./FabContext";
 // Custom components
 import InteractionTemplate from "../InteractionTemplate/InteractionTemplate";
-import { fabContentStyles, FabContentStyles, fabStateElevations, fabStyles, StyledFab } from "./Fab.styles";
 import Type from "../Type";
 import { FlexBox } from "../spacing/FlexBox";
 import FabIcon from "./FabIcon";
 // Styles
+import { fabStateElevations, fabColors, StyledFab, fabLayouts } from "./Fab.styles";
 
 // COMPNENT DEFINITION
 const Fab = React.forwardRef<HTMLButtonElement, FabProps>(
 	(
 		{
 			children = <FabIcon />,
+			render = true,
 			color = "primary",
 			size = "fab",
 			tooltip = "",
 			disabled, // Fab should never be disabled
 			onClick,
+			onMouseEnter,
+			onMouseLeave,
+			onFocus,
 			...restProps
 		},
 		ref
 	) => {
 		const [fabState, setFabState] = useState<FabState>("enabled");
 
-		const handleClick = (e: React.MouseEvent) => {
-			console.log(e.type);
+		const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
 			setFabState("pressed");
+			if (onClick) onClick(e);
 		};
-		const handleMouseEnter = (e: React.MouseEvent) => {
-			console.log(e.type);
+		const handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
 			setFabState("hover");
+			if (onMouseEnter) onMouseEnter(e);
 		};
-		const handleMouseLeave = (e: React.MouseEvent) => {
-			console.log(e.type);
+		const handleMouseLeave = (e: React.MouseEvent<HTMLButtonElement>) => {
 			setFabState("enabled");
+			if (onMouseLeave) onMouseLeave(e);
+		};
+		const handleFocus = (e: React.FocusEvent<HTMLButtonElement>) => {
+			setFabState("focus");
+			if (onFocus) onFocus(e);
 		};
 
 		// Interaction template needs elevation and statelayercolor
 		const fabElevation = fabStateElevations[fabState];
-		const { contentAndStateLayerColor } = fabStyles[color!];
+		const contentAndStateLayerColor = fabColors[color].content;
 
 		// This will be used by fab.icon and fab.label child components for styles
-		const fabContextValue: FabContentStyles = {
+		const fabContextValue: FabContextObj = {
 			color: contentAndStateLayerColor,
-			sizeInRems: fabContentStyles[size][color].sizeInRems!,
+			sizeInRems: fabLayouts[size].iconSizeInRems,
 		};
+
+		if (!render) return null;
 
 		return (
 			<FabContext.Provider value={fabContextValue}>
@@ -61,9 +71,10 @@ const Fab = React.forwardRef<HTMLButtonElement, FabProps>(
 					size={size}
 					tooltip={tooltip}
 					color={color}
-					onClick={handleClick}
 					onMouseEnter={handleMouseEnter}
 					onMouseLeave={handleMouseLeave}
+					onFocus={handleFocus}
+					onClick={handleClick}
 					{...restProps}
 				>
 					<InteractionTemplate elevation={fabElevation} state={fabState} stateLayerColor={contentAndStateLayerColor}>
@@ -83,6 +94,7 @@ const Fab = React.forwardRef<HTMLButtonElement, FabProps>(
 // PROPTYPES
 Fab.propTypes = {
 	children: PropType.element,
+	render: PropType.bool,
 	color: PropType.oneOf(fabColor),
 	size: PropType.oneOf(fabSize),
 	tooltip: PropType.string,

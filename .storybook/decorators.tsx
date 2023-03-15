@@ -1,6 +1,7 @@
 import React from "react";
 import { ThemeProvider } from "styled-components";
 import { DecoratorFn } from "@storybook/react";
+import DeviceTemplate from "../src/styles/DeviceTemplate";
 
 import { lightTheme, darkTheme } from "../src/styles/theme";
 import GlobalStyle from "../src/styles/GlobalStyle";
@@ -17,4 +18,13 @@ const withTheme: DecoratorFn = (StoryFn, context) => {
 	);
 };
 
+// const withDeviceTemplate: DecoratorFn = (Story) => {
+// 	return (
+// 		<DeviceTemplate>
+// 			<Story />
+// 		</DeviceTemplate>
+// 	);
+// };
+
+// export const globalDecorators = [withDeviceTemplate, withTheme];
 export const globalDecorators = [withTheme];

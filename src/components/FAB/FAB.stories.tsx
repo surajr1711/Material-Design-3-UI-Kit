@@ -9,7 +9,10 @@ export default {
 		layout: "centered",
 	},
 	args: {
-		// onClick: (e) => console.log("Hello", e.target),
+		onMouseEnter: (e) => console.log(e.target, e.type),
+		onMouseLeave: (e) => console.log(e.target, e.type),
+		onClick: (e) => console.log(e.target, e.type),
+		onFocus: (e) => console.log(e.target, e.type),
 	},
 	subcomponents: {
 		icon: Fab.Icon,
@@ -36,17 +39,3 @@ LargeSurface.args = {
 	color: "surface",
 	size: "largeFab",
 };
-
-// export const ExtendedSecondary = Template.bind({});
-// ExtendedSecondary.args = {
-// 	color: "secondary",
-// 	size: "extendedFab",
-// 	children: (
-// 		// <Fab.Wrapper>
-// 		<>
-// 			<Fab.Icon>view_in_ar</Fab.Icon>
-// 			<Fab.Label>This is a label</Fab.Label>
-// 		</>
-// 		// </Fab.Wrapper>
-// 	),
-// };

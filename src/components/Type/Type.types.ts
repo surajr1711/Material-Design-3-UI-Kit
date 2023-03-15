@@ -22,8 +22,9 @@ export const typeContentColorKeys = [
 export type TypeContentColor = BaseColor | OnBaseColor | OnContainerColor | OnNeutralColor;
 
 export interface TypeProps {
+	children?: string | number;
+	render?: boolean;
 	typescale?: Typescale;
 	color?: TypeContentColor;
 	tag?: TypeTag;
-	children?: string | number;
 }

@@ -18,11 +18,14 @@ export const iconContentColor: IconContentColor[] = [
 ];
 // export type IconContentColor = typeof iconContentColor[number];
 
-export const iconVariant = ["filled", "outlined"] as const;
-export type IconVariant = typeof iconVariant[number];
+export type IconVariant = "filled" | "outlined";
+export const iconVariant: [Extract<IconVariant, "filled">, Extract<IconVariant, "outlined">] = ["filled", "outlined"];
+// export const iconVariant = ["filled", "outlined"] as const;
+// export type IconVariant = typeof iconVariant[number];
 
 export interface IconProps extends React.ComponentPropsWithRef<"span"> {
 	children?: string;
+	render?: boolean;
 	color?: IconContentColor;
 	variant?: IconVariant;
 	sizeInRems?: number;

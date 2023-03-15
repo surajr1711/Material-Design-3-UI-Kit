@@ -1,19 +1,29 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
+import DeviceTemplate from "../../styles/DeviceTemplate";
+// import DeviceTemplate from "../../styles/DeviceTemplate";
 import ExtendedFab from "./ExtendedFab";
-// import { fabIconProps, fabLabelProps } from "./Fab.styles";
 
 export default {
 	title: "Components/ExtendedFab",
 	component: ExtendedFab,
-	parameters: {
-		layout: "centered",
-	},
 	args: {
-		// onClick: (e) => console.log("Hello", e.target),
+		// onMouseEnter: (e) => console.log(e.target, e.type),
+		// onMouseLeave: (e) => console.log(e.target, e.type),
+		// onClick: (e) => console.log(e.target, e.type),
+		// onFocus: (e) => console.log(e.target, e.type),
 	},
 	subcomponents: {
 		icon: ExtendedFab.Icon,
+		label: ExtendedFab.Label,
+		wrapper: ExtendedFab.Wrapper,
 	},
+	// decorators: [
+	// 	(Story) => (
+	// 		<DeviceTemplate>
+	// 			<Story />
+	// 		</DeviceTemplate>
+	// 	),
+	// ],
 } as ComponentMeta<typeof ExtendedFab>;
 
 const Template: ComponentStory<typeof ExtendedFab> = (args) => <ExtendedFab {...args} />;
@@ -23,19 +33,19 @@ Default.args = {
 	disabled: true,
 };
 
-export const Tertiary = Template.bind({});
-Tertiary.args = {
+export const TertiaryWithoutIcon = Template.bind({});
+TertiaryWithoutIcon.args = {
 	children: (
 		<ExtendedFab.Wrapper>
-			<ExtendedFab.Icon>add</ExtendedFab.Icon>
+			<ExtendedFab.Icon render={false}>add</ExtendedFab.Icon>
 			<ExtendedFab.Label>Click to add</ExtendedFab.Label>
 		</ExtendedFab.Wrapper>
 	),
 	color: "tertiary",
 };
 
-export const Surface = Template.bind({});
-Surface.args = {
+export const SurfaceFullWidth = Template.bind({});
+SurfaceFullWidth.args = {
 	children: (
 		<ExtendedFab.Wrapper>
 			<ExtendedFab.Icon>palette</ExtendedFab.Icon>
@@ -43,4 +53,12 @@ Surface.args = {
 		</ExtendedFab.Wrapper>
 	),
 	color: "surface",
+	width: "fluid",
 };
+SurfaceFullWidth.decorators = [
+	(Story) => (
+		<DeviceTemplate>
+			<Story />
+		</DeviceTemplate>
+	),
+];

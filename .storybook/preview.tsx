@@ -8,7 +8,7 @@ export const parameters = {
 			date: /Date$/,
 		},
 	},
-	layout: "fullscreen",
+	layout: "centered",
 };
 
 // export all decorators that should be globally applied in an array
