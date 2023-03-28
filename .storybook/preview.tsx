@@ -1,4 +1,5 @@
 import { globalDecorators } from "./decorators";
+import "@bedrock-layout/css/lib/bedrock-layout.min.css";
 
 export const parameters = {
 	actions: { argTypesRegex: "^on[A-Z].*" },

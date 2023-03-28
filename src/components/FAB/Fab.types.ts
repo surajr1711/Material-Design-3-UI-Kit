@@ -1,65 +1,26 @@
 import { ShapeFamily, ShapeScale } from "../../styles/shape";
-import { BaseColor, ContainerColor, NeutralColor, OnContainerColor } from "../../styles/colors";
-import { Elevation } from "../../styles/elevation";
-import { State } from "../../styles/interactionStates";
-import FabIcon from "./FabIcon";
+import { IconProps } from "../Icon";
 
 // SHARED TYPES (FOR BOTH FAB AND EXTENDED-FAB)
-export type FabColor = Exclude<BaseColor, "error"> | Extract<NeutralColor, "surface">;
-export const fabColor: [
-	Extract<FabColor, "primary">,
-	Extract<FabColor, "secondary">,
-	Extract<FabColor, "tertiary">,
-	Extract<FabColor, "surface">
-] = ["primary", "secondary", "tertiary", "surface"];
+export const fabColor = ["primary", "secondary", "tertiary", "surface"] as const;
+export type FabColor = typeof fabColor[number];
 
-export type FabContentColor = Exclude<OnContainerColor, "onErrorContainer"> | Extract<BaseColor, "primary">;
-export const fabContentColor: [
-	Extract<FabContentColor, "onPrimaryContainer">,
-	Extract<FabContentColor, "onSecondaryContainer">,
-	Extract<FabContentColor, "onTertiaryContainer">,
-	Extract<FabContentColor, "primary">
-] = ["onPrimaryContainer", "onSecondaryContainer", "onTertiaryContainer", "primary"];
+export const fabContentColor = [
+	"onPrimaryContainer",
+	"onSecondaryContainer",
+	"onTertiaryContainer",
+	"primary",
+] as const;
+export type FabContentColor = typeof fabContentColor[number];
 
-export type FabContainerColor = Exclude<ContainerColor, "errorContainer"> | Extract<NeutralColor, "surface">;
-export const fabContainerColor: [
-	Extract<FabContainerColor, "primaryContainer">,
-	Extract<FabContainerColor, "secondaryContainer">,
-	Extract<FabContainerColor, "tertiaryContainer">,
-	Extract<FabContainerColor, "surface">
-] = ["primaryContainer", "secondaryContainer", "tertiaryContainer", "surface"];
+export const fabContainerColor = ["primaryContainer", "secondaryContainer", "tertiaryContainer", "surface"] as const;
+export type FabContainerColor = typeof fabContainerColor[number];
 
-export type FabSize = "fab" | "smallFab" | "largeFab";
-export const fabSize: [Extract<FabSize, "fab">, Extract<FabSize, "smallFab">, Extract<FabSize, "largeFab">] = [
-	"fab",
-	"smallFab",
-	"largeFab",
-];
+export const fabSize = ["fab", "smallFab", "largeFab"] as const;
+export type FabSize = typeof fabSize[number];
 
-export type FabIconSizeInRems = 1.5 | 2.25;
-export const fabIconSizeInRems: [Extract<FabIconSizeInRems, 1.5>, Extract<FabIconSizeInRems, 2.25>] = [1.5, 2.25];
-
-export type FabState = Exclude<State, "disabled" | "dragged">;
-export const fabState: [
-	Extract<FabState, "enabled">,
-	Extract<FabState, "hover">,
-	Extract<FabState, "focus">,
-	Extract<FabState, "pressed">
-] = ["enabled", "hover", "focus", "pressed"];
-
-export type FabElevation = Exclude<Elevation, "level0" | "level5">;
-export const fabElevation: [
-	Extract<FabElevation, "level1">,
-	Extract<FabElevation, "level2">,
-	Extract<FabElevation, "level3">,
-	Extract<FabElevation, "level4">
-] = ["level1", "level2", "level3", "level4"];
-
-// used for transfering fab content styles to child components automatically via fabcontext
-export interface FabContextObj {
-	color: FabContentColor;
-	sizeInRems: FabIconSizeInRems;
-}
+export const fabIconSizeInRems = [1.5, 2.25] as const;
+export type FabIconSizeInRems = typeof fabIconSizeInRems[number];
 
 // FAB TYPES (NON-EXTENDED)
 export type FabLayout = {
@@ -71,14 +32,10 @@ export type FabLayout = {
 };
 
 export interface FabProps extends React.ComponentPropsWithRef<"button"> {
-	children?: JSX.Element;
 	render?: boolean;
 	color?: FabColor;
 	size?: FabSize;
 	tooltip?: string;
-}
-
-export interface FabComposition
-	extends React.ForwardRefExoticComponent<FabProps & React.RefAttributes<HTMLButtonElement>> {
-	Icon: typeof FabIcon;
+	icon: React.ReactElement<IconProps>;
+	// icon: React.ReactElement;
 }

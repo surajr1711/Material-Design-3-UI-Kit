@@ -1,42 +1,48 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
+import Icon from "../Icon";
 import IconButton from "./IconButton";
+import { iconButtonVariant } from "./IconButton.types";
 
 export default {
-	title: "Components/IconButton",
+	title: "Components/IconBTN",
 	component: IconButton,
-	parameters: {
-		layout: "centered",
-	},
 	argTypes: {
-		disabled: { control: "boolean" },
-		onClick: {},
-		onChange: {},
+		icon: {
+			table: {
+				disable: true,
+			},
+		},
+		variant: {
+			options: iconButtonVariant,
+			control: { type: "select" }, // Automatically inferred when 'options' is defined
+		},
+		disabled: {
+			control: { type: "boolean" },
+		},
+		toggle: {
+			control: { type: "boolean" },
+		},
+		selected: {
+			control: { type: "boolean" },
+		},
 	},
 } as ComponentMeta<typeof IconButton>;
 
 const Template: ComponentStory<typeof IconButton> = (args) => <IconButton {...args} />;
 
 export const Default = Template.bind({});
-
-export const Toggleable = Template.bind({});
-Toggleable.args = {
-	toggleable: true,
+Default.args = {
+	icon: <Icon children="face" />,
+	variant: "filled",
+	toggle: false,
+	selected: false,
+	disabled: false,
 };
-
-export const Outlined = Template.bind({});
-Outlined.args = {
-	toggleable: true,
-	variant: "outlined",
-};
-
-export const Tonal = Template.bind({});
-Tonal.args = {
-	toggleable: true,
-	variant: "tonal",
-};
-
-export const Standard = Template.bind({});
-Standard.args = {
-	toggleable: true,
+export const StandardToggle = Template.bind({});
+StandardToggle.args = {
+	icon: <Icon children="settings" />,
 	variant: "standard",
+	toggle: true,
+	selected: false,
+	disabled: false,
 };

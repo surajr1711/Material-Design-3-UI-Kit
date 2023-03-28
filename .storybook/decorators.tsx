@@ -2,7 +2,6 @@ import React from "react";
 import { ThemeProvider } from "styled-components";
 import { DecoratorFn } from "@storybook/react";
 import DeviceTemplate from "../src/styles/DeviceTemplate";
-
 import { lightTheme, darkTheme } from "../src/styles/theme";
 import GlobalStyle from "../src/styles/GlobalStyle";
 

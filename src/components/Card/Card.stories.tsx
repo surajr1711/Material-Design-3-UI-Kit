@@ -1,17 +1,14 @@
-// IMPORTS
-// 3rd part packages
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import styled from "styled-components";
-// Types
-import { cardType } from "./Card.types";
-// Custom components
 import Card from "./Card";
-import CardContent from "./CardContent";
-import CardText from "./CardText";
 import Button from "../Button";
-// Styles
 import "./CardStories.css";
-import { stateKeys } from "../../styles/interactionStates";
+import { Frame, Inline, PadBox, Stack } from "@bedrock-layout/primitives";
+import Text from "../Text";
+import { CardImage } from "./Card.stubs";
+import { shape } from "../../styles/shape";
+import { cardType } from "./Card.types";
+import IconButton from "../IconButton";
+import Icon from "../Icon";
 
 export default {
 	title: "Components/Card",
@@ -20,94 +17,129 @@ export default {
 		layout: "centered",
 	},
 	argTypes: {
+		children: {
+			table: {
+				disable: true,
+			},
+		},
 		type: { control: "select", options: cardType },
-		state: { control: "radio", options: stateKeys },
+		disabled: { control: "boolean" },
 	},
 } as ComponentMeta<typeof Card>;
 
 const Template: ComponentStory<typeof Card> = (args) => <Card {...args} />;
 
-const ElevatedCardMedia = styled.div`
-	aspect-ratio: 16/9;
-	background-color: ${(props) => props.theme.color.primaryContainer};
-`;
-const ElevatedCardContent = (
-	<Card.Content>
-		<CardContent.Media>
-			<ElevatedCardMedia />
-		</CardContent.Media>
-		<CardContent.Text>
-			<CardText.Headline typescale="headlineLarge" color="onSurface">
-				Headline
-			</CardText.Headline>
-			<CardText.Subhead typescale="headlineSmall" color="onSurface">
-				Subhead
-			</CardText.Subhead>
-			<CardText.SupportingText typescale="bodyMedium" color="onSurface">
-				Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui facere odit quibusdam, nemo adipisci debitis.
-			</CardText.SupportingText>
-		</CardContent.Text>
-		<CardContent.Actions className="elevatedCardActions">
-			<Button label="Action 1" variant="outlined" />
-			<Button label="Action 2" />
-		</CardContent.Actions>
-	</Card.Content>
-);
-
-const FilledCardMedia = styled.div`
-	aspect-ratio: 32/9;
-	background-color: ${(props) => props.theme.color.inversePrimary};
-	border-radius: 999rem;
-	margin-top: 1rem;
-`;
-const FilledCardContent = (
-	<Card.Content className="filledCardContent">
-		<CardContent.Text>
-			<CardText.Headline />
-			<CardText.Subhead />
-			<CardText.SupportingText />
-		</CardContent.Text>
-		<CardContent.Media>
-			<FilledCardMedia />
-		</CardContent.Media>
-		<CardContent.Actions className="filledCardActions" />
-	</Card.Content>
-);
-
-const OutlinedCardMedia = styled.div`
-	aspect-ratio: 32/9;
-	background-color: ${(props) => props.theme.color.inversePrimary};
-	border-radius: 1rem;
-`;
-const OutlinedCardContent = (
-	<Card.Content>
-		<CardContent.Actions />
-		<CardContent.Media>
-			<OutlinedCardMedia />
-		</CardContent.Media>
-		<CardContent.Actions />
-	</Card.Content>
-);
-
 export const Default = Template.bind({});
-Default.args = {
-	onClick: (e) => console.log("hello from custom handleClick", e.currentTarget),
-};
+Default.args = {};
 
-export const Elevated = Template.bind({});
-Elevated.args = {
+export const ElevatedCard = Template.bind({});
+ElevatedCard.args = {
 	type: "elevated",
-	children: ElevatedCardContent,
+	children: (
+		<Stack>
+			{/* Media block */}
+			<Frame ratio="16/9">
+				<CardImage />
+			</Frame>
+			<PadBox padding="1rem">
+				<Stack gutter="1rem">
+					{/* Text block */}
+					<Stack gutter="0.5rem">
+						<Text typescale="headlineLarge" color="onSurface">
+							Headline
+						</Text>
+						<Text typescale="headlineSmall" color="onSurface">
+							Subhead
+						</Text>
+						<Text typescale="bodyMedium" color="onSurface">
+							Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui facere odit quibusdam, nemo adipisci debitis.
+						</Text>
+					</Stack>
+					{/* Actions block */}
+					<Inline gutter="1rem">
+						<Button label="Action 1" variant="outlined" />
+						<Button label="Action 2" />
+					</Inline>
+				</Stack>
+			</PadBox>
+		</Stack>
+	),
 };
 
-export const Filled = Template.bind({});
-Filled.args = {
+export const FilledCard = Template.bind({});
+FilledCard.args = {
 	type: "filled",
-	children: FilledCardContent,
+	children: (
+		<PadBox padding="1rem">
+			<Stack>
+				{/* Text block */}
+				<Text typescale="displaySmall">Live music coming soon to The Hideout</Text>
+				{/* Media block */}
+				<Stack>
+					<Frame ratio="16/9">
+						<CardImage />
+					</Frame>
+					<Text typescale="bodyMedium">
+						Watch exclusive live performances at The Hideout every Saturday starting at 7pm.
+					</Text>
+				</Stack>
+				{/* Actions */}
+				<Inline>
+					<Inline>
+						<Button>Get Tickets</Button>
+						<Button variant="outlined">LearnMore</Button>
+					</Inline>
+					<IconButton icon={<Icon children="edit" />} />
+				</Inline>
+			</Stack>
+		</PadBox>
+	),
 };
 
-export const Outlined = Template.bind({});
-Outlined.args = {
-	type: "outlined",
-	children: OutlinedCardContent,
+export const OutlinedCard = Template.bind({});
+OutlinedCard.args = {
+	children: (
+		<PadBox padding="1rem">
+			<Stack gutter="1rem">
+				{/* Actions */}
+				<Inline stretch="start">
+					<IconButton icon={<Icon children="edit" />} />
+					<Inline gutter="0.5rem">
+						<Button variant="outlined">Favorite</Button>
+						<Button variant="outlined">Mark Date</Button>
+					</Inline>
+				</Inline>
+				<Stack />
+
+				{/* Media */}
+				<Inline align="stretch" gutter="0.5rem" style={{ height: "10rem" }}>
+					<CardImage style={{ borderRadius: `${shape.rounded.large}`, width: "24rem" }} />
+					<CardImage style={{ borderRadius: `${shape.rounded.full}`, width: "4rem" }} />
+				</Inline>
+
+				{/* Text */}
+				<Text typescale="bodyMedium">
+					Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dignissimos at, adipisci dolorem qui vel omnis sit.
+					Doloremque obcaecati molestias temporibus quod exercitationem error aliquid, officiis quo consequuntur eius
+					culpa in?
+				</Text>
+
+				{/* Actions */}
+				<Inline stretch="start">
+					{/* Primary Buttons */}
+					<Inline gutter="0.5rem">
+						<Button variant="tonal">Favorite</Button>
+						<Button variant="tonal">Mark Date</Button>
+					</Inline>
+					{/* Quick Actions */}
+					<Inline gutter="0.5rem">
+						<IconButton variant="standard" icon={<Icon children="face" />} />
+						<IconButton variant="standard" icon={<Icon children="phone" />} />
+					</Inline>
+				</Inline>
+
+				<Stack />
+			</Stack>
+		</PadBox>
+	),
 };

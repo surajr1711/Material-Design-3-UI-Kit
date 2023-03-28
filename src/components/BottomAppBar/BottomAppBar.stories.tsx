@@ -1,5 +1,6 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import styled, { css } from "styled-components";
+import DeviceTemplate from "../../styles/DeviceTemplate";
 import BottomAppBar from "./BottomAppBar";
 import { fourIconButtons, oneIconButton, twoIconButtons } from "./bottomAppBarStubs";
 
@@ -11,15 +12,6 @@ export default {
 	},
 } as ComponentMeta<typeof BottomAppBar>;
 
-const PhoneOutline = styled.div`
-	width: 30rem;
-	height: 20rem;
-	border: 0.5rem solid ${({ theme }) => theme.color.outlineVariant};
-	border-top: none;
-	border-radius: 2rem;
-	overflow: hidden;
-	position: relative;
-`;
 // simply a wrapper to position its comopnents at the bottom
 const BottomPositionWrapper = styled.div`
 	position: absolute;
@@ -63,12 +55,12 @@ const BottomNavigation = styled.div(
 const Template: ComponentStory<typeof BottomAppBar> = (args) => <BottomAppBar {...args} />;
 
 const PhoneTemplate: ComponentStory<typeof BottomAppBar> = (args) => (
-	<PhoneOutline>
+	<DeviceTemplate>
 		<BottomPositionWrapper>
 			<BottomAppBar {...args} />
 			<BottomNavigation />
 		</BottomPositionWrapper>
-	</PhoneOutline>
+	</DeviceTemplate>
 );
 
 export const Default = Template.bind({});

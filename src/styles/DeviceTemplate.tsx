@@ -9,10 +9,9 @@ import styled, { css } from "styled-components";
 const DeviceTemplate = styled.div(
 	({ theme }) => css`
 		--storybook-canvas-padding: 1rem;
+
 		width: calc(100vw - (2 * var(--storybook-canvas-padding)));
 		height: calc(100vh - (2 * var(--storybook-canvas-padding)));
-		/* min-width: 20rem;
-		max-width: 90rem; */
 		border: 0.5rem solid ${theme.color.outlineVariant};
 		border-radius: ${theme.shape.rounded.extraLarge};
 		overflow: hidden;

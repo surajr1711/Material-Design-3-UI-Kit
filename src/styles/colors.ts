@@ -38,6 +38,7 @@ const neutralColor = {
 	inversePrimary: primary.primary80,
 	shadow: neutral.neutral0,
 	scrim: neutral.neutral0,
+	none: "transparent",
 };
 const onNeutralColor = {
 	onBackground: neutral.neutral10,
@@ -56,30 +57,35 @@ export const color = {
 
 // Dark Theme
 const baseColorDark: typeof baseColor = {
+	...baseColor,
 	primary: primary.primary80,
 	secondary: secondary.secondary80,
 	tertiary: tertiary.tertiary80,
 	error: error.error80,
 };
 const containerColorDark: typeof containerColor = {
+	...containerColor,
 	primaryContainer: primary.primary30,
 	secondaryContainer: secondary.secondary30,
 	tertiaryContainer: tertiary.tertiary30,
 	errorContainer: error.error30,
 };
 const onBaseColorDark: typeof onBaseColor = {
+	...onBaseColor,
 	onPrimary: primary.primary20,
 	onSecondary: secondary.secondary20,
 	onTertiary: tertiary.tertiary20,
 	onError: error.error20,
 };
 const onContainerColorDark: typeof onContainerColor = {
+	...onContainerColor,
 	onPrimaryContainer: primary.primary90,
 	onSecondaryContainer: secondary.secondary90,
 	onTertiaryContainer: tertiary.tertiary90,
 	onErrorContainer: error.error90,
 };
 const neutralColorDark: typeof neutralColor = {
+	...neutralColor,
 	background: neutral.neutral10,
 	surface: neutral.neutral10,
 	surfaceVariant: neutralVariant.neutralVariant30,
@@ -88,10 +94,9 @@ const neutralColorDark: typeof neutralColor = {
 	surfaceTint: primary.primary80,
 	inverseSurface: neutral.neutral90,
 	inversePrimary: primary.primary40,
-	shadow: neutral.neutral0,
-	scrim: neutral.neutral0,
 };
 const onNeutralColorDark: typeof onNeutralColor = {
+	...onNeutralColor,
 	onBackground: neutral.neutral90,
 	onSurface: neutral.neutral90,
 	onSurfaceVariant: neutralVariant.neutralVariant80,

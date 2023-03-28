@@ -1,6 +1,8 @@
+import { Inline } from "@bedrock-layout/primitives";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import DeviceTemplate from "../../styles/DeviceTemplate";
-// import DeviceTemplate from "../../styles/DeviceTemplate";
+import Icon from "../Icon";
+import Text from "../Text";
 import ExtendedFab from "./ExtendedFab";
 
 export default {
@@ -12,18 +14,11 @@ export default {
 		// onClick: (e) => console.log(e.target, e.type),
 		// onFocus: (e) => console.log(e.target, e.type),
 	},
-	subcomponents: {
-		icon: ExtendedFab.Icon,
-		label: ExtendedFab.Label,
-		wrapper: ExtendedFab.Wrapper,
+	argTypes: {
+		disabled: { table: { disable: true } },
+		icon: { table: { disable: true } },
+		label: { table: { disable: true } },
 	},
-	// decorators: [
-	// 	(Story) => (
-	// 		<DeviceTemplate>
-	// 			<Story />
-	// 		</DeviceTemplate>
-	// 	),
-	// ],
 } as ComponentMeta<typeof ExtendedFab>;
 
 const Template: ComponentStory<typeof ExtendedFab> = (args) => <ExtendedFab {...args} />;
@@ -35,30 +30,24 @@ Default.args = {
 
 export const TertiaryWithoutIcon = Template.bind({});
 TertiaryWithoutIcon.args = {
-	children: (
-		<ExtendedFab.Wrapper>
-			<ExtendedFab.Icon render={false}>add</ExtendedFab.Icon>
-			<ExtendedFab.Label>Click to add</ExtendedFab.Label>
-		</ExtendedFab.Wrapper>
-	),
+	icon: <Icon children="add" />,
+	label: <Text children="Click to add" />,
 	color: "tertiary",
 };
 
 export const SurfaceFullWidth = Template.bind({});
 SurfaceFullWidth.args = {
-	children: (
-		<ExtendedFab.Wrapper>
-			<ExtendedFab.Icon>palette</ExtendedFab.Icon>
-			<ExtendedFab.Label>Select brush</ExtendedFab.Label>
-		</ExtendedFab.Wrapper>
-	),
+	icon: <Icon children="palette" />,
+	label: <Text children="Select brush" />,
 	color: "surface",
 	width: "fluid",
 };
 SurfaceFullWidth.decorators = [
 	(Story) => (
 		<DeviceTemplate>
-			<Story />
+			<Inline style={{ position: "absolute", bottom: "4rem", marginInline: "1rem" }}>
+				<Story />
+			</Inline>
 		</DeviceTemplate>
 	),
 ];

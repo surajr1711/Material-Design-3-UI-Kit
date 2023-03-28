@@ -2,7 +2,7 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { DecoratorFn } from "@storybook/react";
 import styled from "styled-components";
 
-import Type from "./Type";
+import Text from "./Text";
 
 interface StyledBackgroundProps {
 	color?:
@@ -38,8 +38,11 @@ const withBackground: DecoratorFn = (StoryFn, context) => {
 };
 
 export default {
-	component: Type,
-	title: "Components/Type",
+	component: Text,
+	title: "Components/Text",
+	parameters: {
+		layout: "fullscreen",
+	},
 	decorators: [withBackground],
 	argTypes: {
 		color: {
@@ -48,9 +51,9 @@ export default {
 			},
 		},
 	},
-} as ComponentMeta<typeof Type>;
+} as ComponentMeta<typeof Text>;
 
-const Template: ComponentStory<typeof Type> = (args) => <Type {...args} />;
+const Template: ComponentStory<typeof Text> = (args) => <Text {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {

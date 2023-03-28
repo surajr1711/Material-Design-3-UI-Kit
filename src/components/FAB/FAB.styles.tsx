@@ -1,14 +1,7 @@
 import styled, { css } from "styled-components";
-import {
-	FabColor,
-	FabElevation,
-	FabState,
-	FabProps,
-	FabSize,
-	FabLayout,
-	FabContainerColor,
-	FabContentColor,
-} from "./Fab.types";
+import { Elevation } from "../../styles/elevation";
+import { State } from "../../styles/interactionStates";
+import { FabColor, FabProps, FabSize, FabLayout, FabContainerColor, FabContentColor } from "./Fab.types";
 
 // FAB LAYOUTS
 export const fabLayouts: { [T in FabSize]: FabLayout } = {
@@ -60,15 +53,17 @@ export const fabColors: {
 };
 
 // FAB STATE ELEVATIONS MAP
-export const fabStateElevations: { [S in FabState]: FabElevation } = {
+export const fabStateElevations: { [S in State]: Elevation } = {
 	enabled: "level3",
 	hover: "level4",
 	focus: "level3",
 	pressed: "level3",
+	dragged: "level0", // Fab cannot be dragged
+	disabled: "level0", // Fab cannot be disabled
 };
 
-interface StyledFabProps extends FabProps {
-	elevation: FabElevation;
+interface StyledFabProps extends Omit<FabProps, "icon"> {
+	elevation: Elevation;
 }
 
 export const StyledFab = styled.button.attrs<StyledFabProps>(({ tooltip }) => ({

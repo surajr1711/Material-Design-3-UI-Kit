@@ -1,115 +1,85 @@
-// IMPORTS
-// Packages
-import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
-// Types
-import { CardComposition, CardProps, CardStateStyles, CardType, cardType } from "./Card.types";
-import { State, stateKeys } from "../../styles/interactionStates";
-// Custom Components
+import React, { useEffect } from "react";
+import PropType from "prop-types";
+import { CardProps, CardType, cardType } from "./Card.types";
 import InteractionTemplate from "../InteractionTemplate/InteractionTemplate";
-// Styles
 import {
+	cardColors,
+	cardStateElevations,
 	ElevatedCard,
-	elevatedCardStateStyles,
 	FilledCard,
-	filledCardStateStyles,
 	OutlinedCard,
-	outlinedCardStateStyles,
-	StyledCard,
+	StyledCardProps,
 } from "./Card.styles";
-import CardContent from "./CardContent";
+import { useInteractionHandlers } from "../InteractionTemplate/useInteractionHandlers";
+import { placeholder } from "./Card.stubs";
 
-// COMOPNENT DEFINITION
-const cardComponentMap: { [T in CardType]: typeof StyledCard } = {
+// COMPONENT DEFINITION
+const componentMap: { [T in CardType]: React.FC<StyledCardProps> } = {
 	elevated: ElevatedCard,
 	filled: FilledCard,
 	outlined: OutlinedCard,
 };
-const cardStylesMap: { [T in CardType]: CardStateStyles } = {
-	elevated: elevatedCardStateStyles,
-	filled: filledCardStateStyles,
-	outlined: outlinedCardStateStyles,
-};
 
 const Card = React.forwardRef<HTMLDivElement, CardProps>(
-	({ children = <CardContent />, type = "elevated", state = "enabled", ...restProps }, ref) => {
-		const [cardState, setCardState] = useState<State>(state);
+	(
+		{
+			children = placeholder,
+			type = "elevated",
+			disabled = false,
+			onMouseEnter,
+			onMouseLeave,
+			onMouseDown,
+			onMouseUp,
+			onFocus,
+			onDragStart,
+			onDragEnd,
+			onClick,
+			...restProps
+		},
+		ref
+	) => {
+		const { interactionState, setInteractionState, eventHandlers } = useInteractionHandlers(
+			disabled ? "disabled" : "enabled",
+			{
+				onMouseEnter,
+				onMouseLeave,
+				onMouseDown,
+				onMouseUp,
+				onFocus,
+				onDragStart,
+				onDragEnd,
+			}
+		);
 
 		useEffect(() => {
-			setCardState(state);
+			disabled ? setInteractionState("disabled") : setInteractionState("enabled");
 			// console.log("state changed");
-		}, [state]);
+		}, [disabled, setInteractionState]);
 
-		const handleMouseEnter = () => {
-			if (cardState === "disabled") return;
-			// console.log("mouseenter");
-			setCardState("hover");
-			// if (restProps.onMouseEnter) onMouseEnter();
-		};
-		const handleMouseLeave = () => {
-			if (cardState === "disabled") return;
-			// console.log("mouseleave");
-			setCardState("enabled");
-		};
-		const handleMouseDown = () => {
-			if (cardState === "disabled") return;
-			// console.log("mousedown");
-			setCardState("pressed");
-		};
-		const handleMouseUp = () => {
-			if (cardState === "disabled") return;
-			// console.log("mouseup");
-			setCardState("hover");
-		};
-		const handleDragStart = () => {
-			if (cardState === "disabled") return;
-			// console.log("dragstart");
-			if (restProps.draggable) setCardState("dragged");
-		};
-		const handleDragEnd = () => {
-			if (cardState === "disabled") return;
-			// console.log("dragend");
-			setCardState("hover");
-		};
-		const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-			if (cardState === "disabled") return;
-			console.log("hello from built-in handleClick");
-			if (restProps.onClick) restProps.onClick(e);
+		const handleClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
+			if (disabled) return;
+			if (onClick) onClick(e);
 		};
 
-		// render correct card type and pass correct cardstatestyles to interaction template
-		const CardComponent = cardComponentMap[type];
-		const { elevation, stateLayerColor } = cardStylesMap[type][cardState];
+		// CARD STYLING
+		const Component = componentMap[type];
+		const elevation = cardStateElevations[type][interactionState];
+		const stateLayerColor = cardColors[type].stateLayer;
 
 		return (
-			<CardComponent
-				ref={ref}
-				state={cardState}
-				{...restProps}
-				onMouseEnter={handleMouseEnter}
-				onMouseLeave={handleMouseLeave}
-				onMouseDown={handleMouseDown}
-				onMouseUp={handleMouseUp}
-				onDragStart={handleDragStart}
-				onDragEnd={handleDragEnd}
-				onClick={handleClick}
-			>
-				<InteractionTemplate elevation={elevation} state={cardState} stateLayerColor={stateLayerColor}>
+			<Component ref={ref} type={type} state={interactionState} onClick={handleClick} {...eventHandlers} {...restProps}>
+				<InteractionTemplate elevation={elevation} state={interactionState} stateLayerColor={stateLayerColor}>
 					{children}
 				</InteractionTemplate>
-			</CardComponent>
+			</Component>
 		);
 	}
-) as CardComposition;
-
-// CARD COMPOSITION
-Card.Content = CardContent;
+);
 
 // PROPTYPES
 Card.propTypes = {
-	children: PropTypes.element,
-	type: PropTypes.oneOf(cardType),
-	state: PropTypes.oneOf(stateKeys),
+	children: PropType.element,
+	type: PropType.oneOf(cardType),
 };
 
 export default Card;

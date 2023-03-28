@@ -1,5 +1,5 @@
 import React, { ChangeEventHandler, useState } from "react";
-import Typography from "../Type";
+import Typography from "../Text";
 import { StyledSegmentedButtons, OptionsNumType, DensityInRemsType } from "./SegmentedButtons.styles";
 import { options3Stub } from "./segmentedButtons.stubs";
 import Label from "./Label";

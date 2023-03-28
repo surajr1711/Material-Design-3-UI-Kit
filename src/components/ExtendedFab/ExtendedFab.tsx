@@ -1,116 +1,92 @@
-// IMPORTS
-// 3rd party packages
-import React, { useState } from "react";
+import React from "react";
 import PropType from "prop-types";
-// Types
-import { FabState, fabColor, FabContextObj } from "../FAB/Fab.types";
-import { ExtendedFabProps, ExtendedFabComposition, extFabWidthKeys } from "./ExtendedFab.types";
-// Hooks and utils
-import { FabContext } from "../FAB/FabContext";
-// Custom components
+import { fabColor } from "../FAB/Fab.types";
+import { ExtendedFabProps, extFabWidthKeys } from "./ExtendedFab.types";
+import { useInteractionHandlers } from "../InteractionTemplate/useInteractionHandlers";
 import InteractionTemplate from "../InteractionTemplate/InteractionTemplate";
-import { FlexBox } from "../spacing/FlexBox";
-import FabIcon from "../FAB/FabIcon";
-import FabLabel from "../FAB/FabLabel";
-// Styles
-import { extFabLayout, StyledExtendedFab } from "./ExtendedFab.styles";
+import { ContentWrapper, extFabLayout, StyledExtendedFab } from "./ExtendedFab.styles";
 import { fabColors, fabStateElevations } from "../FAB/Fab.styles";
+import Icon from "../Icon";
+import Text from "../Text";
 
 // COMPNENT DEFINITION
-const placeholder = (
-	<FlexBox>
-		<FabIcon />
-		<FabLabel />
-	</FlexBox>
-);
 const ExtendedFab = React.forwardRef<HTMLButtonElement, ExtendedFabProps>(
 	(
 		{
-			children = placeholder,
+			icon = (
+				<Icon color="onPrimaryContainer" sizeInRems={1.5}>
+					edit
+				</Icon>
+			),
+			label = (
+				<Text typescale="labelLarge" color="onPrimaryContainer">
+					Start composing
+				</Text>
+			),
 			render = true,
 			color = "primary",
 			tooltip = "",
 			width = "fixed",
 			disabled, // Fab should never be disabled
-			onClick,
+			draggable, // Fab should never be draggable
 			onMouseEnter,
 			onMouseLeave,
+			onMouseDown,
+			onMouseUp,
 			onFocus,
 			...restProps
 		},
 		ref
 	) => {
-		const [fabState, setFabState] = useState<FabState>("enabled");
+		const { interactionState, eventHandlers } = useInteractionHandlers("enabled", {
+			onMouseEnter,
+			onMouseLeave,
+			onMouseDown,
+			onMouseUp,
+			onFocus,
+		});
 
-		const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-			setFabState("pressed");
-			if (onClick) onClick(e);
-		};
-		const handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
-			setFabState("hover");
-			if (onMouseEnter) onMouseEnter(e);
-		};
-		const handleMouseLeave = (e: React.MouseEvent<HTMLButtonElement>) => {
-			setFabState("enabled");
-			if (onMouseLeave) onMouseLeave(e);
-		};
-		const handleFocus = (e: React.FocusEvent<HTMLButtonElement>) => {
-			setFabState("focus");
-			if (onFocus) onFocus(e);
-		};
-
+		// STYLES
 		// Interaction template needs elevation and statelayercolor
-		const fabElevation = fabStateElevations[fabState];
-		const contentAndStateLayerColor = fabColors[color!].content;
+		const elevation = fabStateElevations[interactionState];
+		const contentColor = fabColors[color!].content;
 
-		// This will be used by fab.icon and fab.label child components for styles
-		const fabContextValue: FabContextObj = {
-			color: contentAndStateLayerColor,
-			sizeInRems: extFabLayout.iconSizeInRems,
-		};
+		// Styling defaults. Overrides supplied icon and label elements' props
+		const fabIcon = React.cloneElement(icon, { color: contentColor, sizeInRems: extFabLayout.iconSizeInRems });
 
+		const fabLabel = React.cloneElement(label, { color: contentColor, typescale: "labelLarge" });
+
+		// RENDER
 		if (!render) return null;
-
 		return (
-			<FabContext.Provider value={fabContextValue}>
-				<StyledExtendedFab
-					ref={ref}
-					color={color}
-					width={width}
-					elevation={fabElevation}
-					tooltip={tooltip}
-					onMouseEnter={handleMouseEnter}
-					onMouseLeave={handleMouseLeave}
-					onClick={handleClick}
-					onFocus={handleFocus}
-					{...restProps}
-				>
-					<InteractionTemplate elevation={fabElevation} state={fabState} stateLayerColor={contentAndStateLayerColor}>
-						{children}
-					</InteractionTemplate>
-				</StyledExtendedFab>
-			</FabContext.Provider>
+			<StyledExtendedFab
+				ref={ref}
+				color={color}
+				width={width}
+				elevation={elevation}
+				tooltip={tooltip}
+				{...eventHandlers}
+				{...restProps}
+			>
+				<InteractionTemplate elevation={elevation} state={interactionState} stateLayerColor={contentColor}>
+					<ContentWrapper>
+						{fabIcon}
+						{fabLabel}
+					</ContentWrapper>
+				</InteractionTemplate>
+			</StyledExtendedFab>
 		);
 	}
-	// ) as FabComposition;
 );
-
-// // COMPOSITION
-// Fab.Icon = Icon;
-// Fab.Label = Type;
 
 // PROPTYPES
 ExtendedFab.propTypes = {
-	children: PropType.element,
+	icon: PropType.element.isRequired,
+	label: PropType.element.isRequired,
 	render: PropType.bool,
 	color: PropType.oneOf(fabColor),
 	width: PropType.oneOf(extFabWidthKeys),
 	tooltip: PropType.string,
 };
 
-export default Object.assign(ExtendedFab, {
-	Icon: FabIcon,
-	Label: FabLabel,
-	Wrapper: FlexBox,
-}) as ExtendedFabComposition;
-// export default Fab;
+export default ExtendedFab;

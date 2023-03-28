@@ -1,14 +1,88 @@
 import styled, { css } from "styled-components";
 import { setAlphaOnHex } from "../../utils/setAlphaOnHex";
+import {
+	IconButtonContainerColor,
+	IconButtonContentColor,
+	IconButtonProps,
+	IconButtonVariant,
+} from "./IconButton.types";
 
-interface StyledIconButtonProps {
-	toggleable?: boolean;
-	toggledOn?: boolean;
-}
+export const iconButtonLayout = {
+	height: 2.5,
+	width: 2.5,
+	shapeFamily: "rounded",
+	shapeScale: "full",
+	iconSizeinRems: 1.5,
+} as const;
 
-export const StyledIconButton = styled.label<StyledIconButtonProps>(
-	({ theme }) => css`
-		// label container
+export const iconButtonColors: {
+	[T in IconButtonVariant]: {
+		icon: {
+			noToggle: IconButtonContentColor;
+			unselected: IconButtonContentColor;
+			selected: IconButtonContentColor;
+		};
+		container: {
+			noToggle: IconButtonContainerColor;
+			unselected: IconButtonContainerColor;
+			selected: IconButtonContainerColor;
+		};
+	};
+} = {
+	filled: {
+		icon: {
+			noToggle: "onPrimary",
+			unselected: "primary",
+			selected: "onPrimary",
+		},
+		container: {
+			noToggle: "primary",
+			unselected: "surfaceVariant",
+			selected: "primary",
+		},
+	},
+	tonal: {
+		icon: {
+			noToggle: "onSecondaryContainer",
+			unselected: "onSurfaceVariant",
+			selected: "onSecondaryContainer",
+		},
+		container: {
+			noToggle: "secondaryContainer",
+			unselected: "surfaceVariant",
+			selected: "secondaryContainer",
+		},
+	},
+	outlined: {
+		icon: {
+			noToggle: "onSurfaceVariant",
+			unselected: "onSurfaceVariant",
+			selected: "onInverseSurface",
+		},
+		container: {
+			noToggle: "none", // transparent
+			unselected: "none", // transparent
+			selected: "inverseSurface",
+		},
+	},
+	standard: {
+		icon: {
+			noToggle: "onSurfaceVariant",
+			unselected: "onSurfaceVariant",
+			selected: "primary",
+		},
+		container: {
+			noToggle: "none", // transparent
+			unselected: "none", // transparent
+			selected: "none", //transparent
+		},
+	},
+};
+
+interface StyledIconButtonProps extends Omit<IconButtonProps, "icon"> {}
+
+export const StyledIconButton = styled.button<StyledIconButtonProps>(
+	({ theme, variant, toggle, selected }) => css`
 		display: inline-block;
 		height: 2.5rem;
 		width: 2.5rem;
@@ -16,115 +90,39 @@ export const StyledIconButton = styled.label<StyledIconButtonProps>(
 		border: none;
 		overflow: hidden;
 		position: relative;
+		transition: all ${theme.motion.duration.medium4} ${theme.motion.easing.emphasized};
+
+		background-color: ${!toggle
+			? theme.color[iconButtonColors[variant!].container.noToggle]
+			: !selected
+			? theme.color[iconButtonColors[variant!].container.unselected]
+			: theme.color[iconButtonColors[variant!].container.selected]};
 		* {
 			pointer-events: none;
 		}
 
-		// State layer
-		[data-md3role="stateLayer"] {
-			position: absolute;
-			top: 0;
-			bottom: 0;
-			left: 0;
-			right: 0;
-			opacity: ${theme.stateOpacity.stateLayer.enabled};
-		}
-
-		// Content layer
-		[data-md3role="contentLayer"] {
-			position: absolute;
-			top: 0;
-			bottom: 0;
-			left: 0;
-			right: 0;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			// hide the checkbox square
-			input {
-				appearance: none;
-			}
-		}
-
-		// STATES
-		&:hover [data-md3role="stateLayer"] {
-			opacity: ${theme.stateOpacity.stateLayer.hover};
-		}
-
-		&:active [data-md3role="stateLayer"] {
-			opacity: ${theme.stateOpacity.stateLayer.pressed};
-		}
-
-		&:has(input:disabled) [data-md3role="contentLayer"] {
-			opacity: ${theme.stateOpacity.content.disabled};
-		}
-		&:has(input:disabled) [data-md3role="stateLayer"] {
-			opacity: ${theme.stateOpacity.stateLayer.disabled};
-		}
-	`
-);
-
-export const StyledFilledIconButton = styled(StyledIconButton)(
-	({ theme, toggleable, toggledOn }) => css`
-		// Label container
-		background-color: ${!toggleable || toggledOn ? theme.color.primary : theme.color.surfaceVariant};
-
-		// State layer
-		[data-md3role="stateLayer"] {
-			background-color: ${!toggleable || toggledOn ? theme.color.onPrimary : theme.color.primary};
-		}
-
 		// Disabled
-		&:has(input:disabled) {
+		&:disabled {
 			background-color: ${setAlphaOnHex(theme.color.onSurface, theme.stateOpacity.container.disabled)};
 		}
 	`
 );
 
-export const StyledTonalIconButton = styled(StyledIconButton)(
-	({ theme, toggleable, toggledOn }) => css`
-		// Label container
-		background-color: ${!toggleable || toggledOn ? theme.color.secondaryContainer : theme.color.surfaceVariant};
-
-		// State layer
-		[data-md3role="stateLayer"] {
-			background-color: ${!toggleable || toggledOn ? theme.color.onSecondaryContainer : theme.color.onSurfaceVariant};
-		}
-
+export const FilledIconButton = styled(StyledIconButton)(({ theme }) => css``);
+export const TonalIconButton = styled(StyledIconButton)(({ theme }) => css``);
+export const OutlinedIconButton = styled(StyledIconButton)(
+	({ theme, toggle, selected }) => css`
+		border: 1px solid ${!toggle || !selected ? theme.color.outline : theme.color.none};
 		// Disabled
-		&:has(input:disabled) {
-			background-color: ${setAlphaOnHex(theme.color.onSurface, theme.stateOpacity.container.disabled)};
-		}
-	`
-);
-
-export const StyledOutlinedIconButton = styled(StyledIconButton)(
-	({ theme, toggleable, toggledOn }) => css`
-		// Label container
-		background-color: ${!toggleable || !toggledOn ? "transparent" : theme.color.inverseSurface};
-		border: 1px solid ${!toggleable || !toggledOn ? theme.color.outline : "transparent"};
-
-		// State layer
-		[data-md3role="stateLayer"] {
-			background-color: ${!toggleable || !toggledOn ? theme.color.onSurfaceVariant : theme.color.onInverseSurface};
-		}
-
-		// Disabled border color of label container
-		&:has(input:disabled) {
-			background-color: ${setAlphaOnHex(theme.color.onSurface, theme.stateOpacity.container.disabled)};
+		&:disabled {
 			border-color: ${setAlphaOnHex(theme.color.onSurface, theme.stateOpacity.outline.disabled)};
 		}
 	`
 );
-
-export const StyledStandardIconButton = styled(StyledIconButton)(
-	({ theme, toggleable, toggledOn }) => css`
-		// Label container
-		background-color: transparent;
-
-		// State layer
-		[data-md3role="stateLayer"] {
-			background-color: ${!toggleable || !toggledOn ? theme.color.onSurfaceVariant : theme.color.primary};
+export const StandardIconButton = styled(StyledIconButton)(
+	({ theme }) => css`
+		&:disabled {
+			background-color: ${theme.color.none};
 		}
 	`
 );

@@ -1,16 +1,12 @@
-// IMPORTS
 import React from "react";
 import PropTypes from "prop-types";
-// Types
 import { BadgeProps, BadgeType } from "./Badge.types";
 import { shapeScaleKeys } from "../../styles/shape";
-// Custom components
-import Typography from "../Type";
-// Styles
+import Text from "../Text";
 import { StyledBadge, SmallBadge, LargeBadge, LargeMaxBadge } from "./Badge.styles";
 
 // COMPONENT DEFINITION
-const badgeComponentMap: { [T in BadgeType]: typeof StyledBadge } = {
+const componentMap: { [T in BadgeType]: typeof StyledBadge } = {
 	small: SmallBadge,
 	large: LargeBadge,
 	largeMax: LargeMaxBadge,
@@ -29,14 +25,14 @@ const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(({ count = 0, shapeSc
 	}
 
 	// render correct badge type component
-	const BadgeComponent = badgeComponentMap[badgeType];
+	const Component = componentMap[badgeType];
 
 	return (
-		<BadgeComponent ref={ref} shapeScale={shapeScale} {...restProps}>
-			<Typography tag="span" color="onError" typescale="labelSmall">
+		<Component ref={ref} shapeScale={shapeScale} {...restProps}>
+			<Text tag="span" color="onError" typescale="labelSmall">
 				{count >= 1000 ? "999+" : count > 0 ? Math.round(count) : ""}
-			</Typography>
-		</BadgeComponent>
+			</Text>
+		</Component>
 	);
 });
 
@@ -48,5 +44,4 @@ Badge.propTypes = {
 	shapeScale: PropTypes.oneOf(shapeScaleKeys),
 };
 
-// EXPORTS
 export default Badge;

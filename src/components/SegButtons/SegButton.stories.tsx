@@ -1,5 +1,5 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import Type from "../Type";
+import Type from "../Text";
 import Input from "./Input";
 // import Label from "./Label";
 import SegButton from "./SegButton";

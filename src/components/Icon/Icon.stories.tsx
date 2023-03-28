@@ -7,6 +7,13 @@ export default {
 	parameters: {
 		layout: "centered",
 	},
+	decorators: [
+		(Story) => (
+			<div style={{ height: "5rem", width: "5rem", border: "1px solid black" }}>
+				<Story />
+			</div>
+		),
+	],
 } as ComponentMeta<typeof Icon>;
 
 const Template: ComponentStory<typeof Icon> = (args) => <Icon {...args} />;

@@ -1,7 +1,7 @@
 import React, { ChangeEventHandler } from "react";
 
 import { StyledLabel } from "./Label.styles";
-import Typography from "../Type";
+import Typography from "../Text";
 import Icon from "../Icon";
 
 interface LabelProps {

@@ -16,7 +16,8 @@ const GlobalStyle = createGlobalStyle(
 			font-family: "Roboto";
 			font-weight: 400;
 			font-style: normal;
-			font-display: swap;
+			// font-display: swap;
+			font-display: fallback; //https://styled-components.com/docs/faqs#how-do-i-fix-flickering-text-after-server-side-rendering
 			src: local("Roboto"), url("./fonts/roboto-v30-latin-regular.woff2") format("woff2"),
 				// Chrome 26+, Opera 23+, Firefox 39+
 				url("./fonts/roboto-v30-latin-regular.woff") format("woff"); // Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+
@@ -25,7 +26,8 @@ const GlobalStyle = createGlobalStyle(
 			font-family: "Roboto";
 			font-weight: 500;
 			font-style: normal;
-			font-display: swap;
+			// font-display: swap;
+			font-display: fallback; // https://styled-components.com/docs/faqs#how-do-i-fix-flickering-text-after-server-side-rendering
 			src: local("Roboto"), url("./fonts/roboto-v30-latin-500.woff2") format("woff2"),
 				// Chrome 26+, Opera 23+, Firefox 39+
 				url("./fonts/roboto-v30-latin-500.woff") format("woff"); // Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+

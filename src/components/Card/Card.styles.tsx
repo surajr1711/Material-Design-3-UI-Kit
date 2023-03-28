@@ -1,152 +1,97 @@
 import styled, { css } from "styled-components";
+import { OnColor } from "../../styles/colors";
+import { Elevation } from "../../styles/elevation";
+import { State } from "../../styles/interactionStates";
 import { setAlphaOnHex } from "../../utils/setAlphaOnHex";
-import { CardProps, CardStateStyles, CardStyles } from "./Card.types";
+import { CardColor, CardProps, CardType } from "./Card.types";
 
-export const elevatedCardStyles: CardStyles = {
-	cardColor: "surface",
-	elevation: "level1",
-	stateLayerColor: "onSurface",
-};
-export const elevatedCardStateStyles: CardStateStyles = {
-	enabled: {
-		...elevatedCardStyles,
+export const cardColors: {
+	[T in CardType]: {
+		container: CardColor;
+		stateLayer: OnColor;
+	};
+} = {
+	elevated: {
+		container: "surface",
+		stateLayer: "onSurface",
 	},
-	hover: {
-		...elevatedCardStyles,
-		elevation: "level2",
+	filled: {
+		container: "surfaceVariant",
+		stateLayer: "onSurface",
 	},
-	focus: {
-		...elevatedCardStyles,
-		elevation: "level1",
-	},
-	pressed: {
-		...elevatedCardStyles,
-		elevation: "level1",
-	},
-	dragged: {
-		...elevatedCardStyles,
-		elevation: "level3",
-	},
-	disabled: {
-		...elevatedCardStyles,
-		cardColor: "surfaceVariant",
-		elevation: "level0",
+	outlined: {
+		container: "surface",
+		stateLayer: "onSurface",
 	},
 };
-
-export const filledCardStyles: CardStyles = {
-	cardColor: "surfaceVariant",
-	elevation: "level0",
-	stateLayerColor: "onSurface",
-};
-export const filledCardStateStyles: CardStateStyles = {
-	enabled: {
-		...filledCardStyles,
+export const cardStateElevations: {
+	[T in CardType]: {
+		[S in State]: Elevation;
+	};
+} = {
+	elevated: {
+		enabled: "level1",
+		hover: "level2",
+		focus: "level1",
+		pressed: "level1",
+		dragged: "level3",
+		disabled: "level0",
 	},
-	hover: {
-		...filledCardStyles,
-		elevation: "level1",
+	filled: {
+		enabled: "level0",
+		hover: "level1",
+		focus: "level0",
+		pressed: "level0",
+		dragged: "level3",
+		disabled: "level1",
 	},
-	focus: {
-		...filledCardStyles,
-		elevation: "level0",
-	},
-	pressed: {
-		...filledCardStyles,
-		elevation: "level0",
-	},
-	dragged: {
-		...filledCardStyles,
-		elevation: "level3",
-	},
-	disabled: {
-		...filledCardStyles,
-		cardColor: "surface",
-		elevation: "level1",
+	outlined: {
+		enabled: "level0",
+		hover: "level1",
+		focus: "level0",
+		pressed: "level0",
+		dragged: "level2",
+		disabled: "level0",
 	},
 };
 
-export const outlinedCardStyles: CardStyles = {
-	cardColor: "surface",
-	elevation: "level0",
-	stateLayerColor: "onSurface",
-};
-export const outlinedCardStateStyles: CardStateStyles = {
-	enabled: {
-		...outlinedCardStyles,
-	},
-	hover: {
-		...outlinedCardStyles,
-		elevation: "level1",
-	},
-	focus: {
-		...outlinedCardStyles,
-		elevation: "level0",
-	},
-	pressed: {
-		...outlinedCardStyles,
-		elevation: "level0",
-	},
-	dragged: {
-		...outlinedCardStyles,
-		elevation: "level2",
-	},
-	disabled: {
-		...outlinedCardStyles,
-		cardColor: "surface",
-		elevation: "level0",
-	},
-};
+export interface StyledCardProps extends CardProps {
+	state: State;
+}
 
-export const StyledCard = styled.div<CardProps>(({ theme }) => {
+export const StyledCard = styled.div<StyledCardProps>(({ theme, type, state }) => {
 	return css`
 		position: relative;
 		border-radius: ${theme.shape.rounded.medium};
 		overflow: hidden;
+		background-color: ${theme.color[cardColors[type!].container]};
 		transition: all ${theme.motion.duration.medium4} ${theme.motion.easing.emphasized};
-	`;
-});
 
-export const ElevatedCard = styled(StyledCard)<CardProps>(({ theme, state }) => {
-	const { cardColor, elevation } = elevatedCardStateStyles[state!];
-	return css`
-		background-color: ${theme.color[cardColor!]};
-		box-shadow: ${theme.elevation.boxShadow[elevation!]};
-		// disabled css
+		// box shadow disabled state managed directly here
+		box-shadow: ${theme.elevation.boxShadow[cardStateElevations[type!][state!]]};
+
+		// disabled
 		${state === "disabled" &&
 		css`
 			pointer-events: none;
-			background-color: ${setAlphaOnHex(theme.color[cardColor], theme.stateOpacity.container.disabled)};
+			background-color: ${setAlphaOnHex(
+				theme.color[cardColors[type!].container],
+				theme.stateOpacity.container.disabled
+			)};
 		`}
 	`;
 });
 
-export const FilledCard = styled(StyledCard)<CardProps>(({ theme, state }) => {
-	const { cardColor, elevation } = filledCardStateStyles[state!];
-	return css`
-		background-color: ${theme.color[cardColor!]};
-		box-shadow: ${theme.elevation.boxShadow[elevation!]};
-		// disabled css
-		${state === "disabled" &&
-		css`
-			pointer-events: none;
-			background-color: ${setAlphaOnHex(theme.color[cardColor], theme.stateOpacity.container.disabled)};
-			box-shadow: ${theme.elevation.boxShadow["level0"]};
-		`}
-	`;
-});
+export const ElevatedCard = styled(StyledCard)<StyledCardProps>``;
 
-export const OutlinedCard = styled(StyledCard)<CardProps>(({ theme, state }) => {
-	const { cardColor, elevation } = outlinedCardStateStyles[state!];
+export const FilledCard = styled(StyledCard)<StyledCardProps>``;
+
+export const OutlinedCard = styled(StyledCard)<StyledCardProps>(({ theme, state }) => {
 	return css`
-		background-color: ${theme.color[cardColor!]};
-		box-shadow: ${theme.elevation.boxShadow[elevation!]};
 		border: 1px solid ${theme.color.outline};
 		// disabled css
 		${state === "disabled" &&
 		css`
-			pointer-events: none;
-			background-color: ${setAlphaOnHex(theme.color[cardColor], theme.stateOpacity.container.disabled)};
 			border-color: ${setAlphaOnHex(theme.color.outline, theme.stateOpacity.outline.disabled)};
 		`}
 	`;

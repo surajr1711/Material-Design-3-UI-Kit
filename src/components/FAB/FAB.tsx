@@ -1,30 +1,28 @@
-// IMPORTS
-// 3rd party packages
-import React, { useState } from "react";
+import React from "react";
 import PropType from "prop-types";
-// Types
-import { fabColor, fabSize, FabProps, FabState, FabComposition, FabContextObj } from "./Fab.types";
-// Hooks and utils
-import { FabContext } from "./FabContext";
-// Custom components
+import { fabColor, fabSize, FabProps } from "./Fab.types";
+import { useInteractionHandlers } from "../InteractionTemplate/useInteractionHandlers";
 import InteractionTemplate from "../InteractionTemplate/InteractionTemplate";
-import Type from "../Type";
-import { FlexBox } from "../spacing/FlexBox";
-import FabIcon from "./FabIcon";
-// Styles
 import { fabStateElevations, fabColors, StyledFab, fabLayouts } from "./Fab.styles";
+import Icon from "../Icon";
 
 // COMPNENT DEFINITION
 const Fab = React.forwardRef<HTMLButtonElement, FabProps>(
 	(
 		{
-			children = <FabIcon />,
 			render = true,
 			color = "primary",
 			size = "fab",
 			tooltip = "",
+			icon = (
+				<Icon color="onPrimaryContainer" sizeInRems={1.5}>
+					edit
+				</Icon>
+			),
 			disabled, // Fab should never be disabled
-			onClick,
+			draggable, // Fab should never be draggable
+			onMouseDown,
+			onMouseUp,
 			onMouseEnter,
 			onMouseLeave,
 			onFocus,
@@ -32,73 +30,49 @@ const Fab = React.forwardRef<HTMLButtonElement, FabProps>(
 		},
 		ref
 	) => {
-		const [fabState, setFabState] = useState<FabState>("enabled");
-
-		const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-			setFabState("pressed");
-			if (onClick) onClick(e);
-		};
-		const handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
-			setFabState("hover");
-			if (onMouseEnter) onMouseEnter(e);
-		};
-		const handleMouseLeave = (e: React.MouseEvent<HTMLButtonElement>) => {
-			setFabState("enabled");
-			if (onMouseLeave) onMouseLeave(e);
-		};
-		const handleFocus = (e: React.FocusEvent<HTMLButtonElement>) => {
-			setFabState("focus");
-			if (onFocus) onFocus(e);
-		};
+		// adds interaction state handlers
+		const { interactionState: state, eventHandlers } = useInteractionHandlers("enabled", {
+			onMouseUp,
+			onMouseDown,
+			onMouseEnter,
+			onMouseLeave,
+			onFocus,
+		});
 
 		// Interaction template needs elevation and statelayercolor
-		const fabElevation = fabStateElevations[fabState];
-		const contentAndStateLayerColor = fabColors[color].content;
+		const elevation = fabStateElevations[state];
+		const contentColor = fabColors[color].content;
 
-		// This will be used by fab.icon and fab.label child components for styles
-		const fabContextValue: FabContextObj = {
-			color: contentAndStateLayerColor,
-			sizeInRems: fabLayouts[size].iconSizeInRems,
-		};
+		// style icon according to fab style. (overrides any icon props passed by user)
+		const fabIcon = React.cloneElement(icon, { color: contentColor, sizeInRems: fabLayouts[size].iconSizeInRems });
 
+		// RENDER
 		if (!render) return null;
-
 		return (
-			<FabContext.Provider value={fabContextValue}>
-				<StyledFab
-					ref={ref}
-					elevation={fabElevation}
-					size={size}
-					tooltip={tooltip}
-					color={color}
-					onMouseEnter={handleMouseEnter}
-					onMouseLeave={handleMouseLeave}
-					onFocus={handleFocus}
-					onClick={handleClick}
-					{...restProps}
-				>
-					<InteractionTemplate elevation={fabElevation} state={fabState} stateLayerColor={contentAndStateLayerColor}>
-						{children}
-					</InteractionTemplate>
-				</StyledFab>
-			</FabContext.Provider>
+			<StyledFab
+				ref={ref}
+				elevation={elevation}
+				size={size}
+				tooltip={tooltip}
+				color={color}
+				{...eventHandlers}
+				{...restProps}
+			>
+				<InteractionTemplate elevation={elevation} state={state} stateLayerColor={contentColor}>
+					{fabIcon}
+				</InteractionTemplate>
+			</StyledFab>
 		);
 	}
-	// ) as FabComposition;
 );
-
-// // COMPOSITION
-// Fab.Icon = Icon;
-// Fab.Label = Type;
 
 // PROPTYPES
 Fab.propTypes = {
-	children: PropType.element,
+	icon: PropType.element.isRequired,
 	render: PropType.bool,
 	color: PropType.oneOf(fabColor),
 	size: PropType.oneOf(fabSize),
 	tooltip: PropType.string,
 };
 
-export default Object.assign(Fab, { Icon: FabIcon, Label: Type, Wrapper: FlexBox }) as FabComposition;
-// export default Fab;
+export default Fab;

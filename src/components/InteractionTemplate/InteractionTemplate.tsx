@@ -1,28 +1,18 @@
-// IMPORTS
 import React from "react";
 import PropTypes from "prop-types";
-// Types
-import { ContentLayerProps } from "./ContentLayer/ContentLayer";
-import { stateLayerColors, StateLayerProps } from "./StateLayer/StateLayer.types";
-import { SurfaceTintProps } from "./SurfaceTint/SurfaceTint";
-// import { onColorKeys } from "../../styles/colors";
+import { STProps } from "./SurfaceTint";
 import { elevationKeys } from "../../styles/elevation";
+import { SLProps, stateLayerColors } from "./StateLayer";
 import { stateKeys } from "../../styles/interactionStates";
-// Custom components
+import { CLProps } from "./ContentLayer";
 import SurfaceTint from "./SurfaceTint";
 import StateLayer from "./StateLayer";
 import ContentLayer from "./ContentLayer";
 
-// TYPES
-export interface InteractionProps extends SurfaceTintProps, StateLayerProps, ContentLayerProps {}
-export interface InteractionComposition {
-	SurfaceTint: typeof SurfaceTint;
-	StateLayer: typeof StateLayer;
-	ContentLayer: typeof ContentLayer;
-}
+export interface InteractionProps extends Omit<STProps, "render">, Omit<SLProps, "render">, CLProps {}
 
 // COMPONENT DEFINITION
-const InteractionTemplate: React.FC<InteractionProps> & InteractionComposition = ({
+const InteractionTemplate: React.FC<InteractionProps> = ({
 	children = "",
 	elevation = "level0",
 	state = "enabled",
@@ -37,10 +27,6 @@ const InteractionTemplate: React.FC<InteractionProps> & InteractionComposition =
 	);
 };
 
-InteractionTemplate.SurfaceTint = SurfaceTint;
-InteractionTemplate.StateLayer = StateLayer;
-InteractionTemplate.ContentLayer = ContentLayer;
-
 // PROPTYPES
 InteractionTemplate.propTypes = {
 	children: PropTypes.element,
@@ -49,5 +35,4 @@ InteractionTemplate.propTypes = {
 	stateLayerColor: PropTypes.oneOf(stateLayerColors).isRequired,
 };
 
-// EXPORTS
 export default InteractionTemplate;

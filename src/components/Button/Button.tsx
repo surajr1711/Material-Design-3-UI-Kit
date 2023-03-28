@@ -1,7 +1,7 @@
 // IMPORTS
 import React from "react";
 import PropType from "prop-types";
-import Typography from "../Type";
+import Typography from "../Text";
 import Icon from "../Icon";
 import { useButtonContentColor } from "./useButtonContentColor";
 import { buttonColor, ButtonProps, buttonVariant, ButtonVariant } from "./Button.types";

@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
+import { Elevation } from "../../styles/elevation";
 import { fabColors } from "../FAB/Fab.styles";
-import { FabElevation } from "../FAB/Fab.types";
 import { ExtFabLayout, ExtendedFabProps } from "./ExtendedFab.types";
 
 export const extFabLayout: ExtFabLayout = {
@@ -11,8 +11,8 @@ export const extFabLayout: ExtFabLayout = {
 	iconSizeInRems: 1.5,
 };
 
-interface StyledExtendedFabProps extends ExtendedFabProps {
-	elevation: FabElevation;
+interface StyledExtendedFabProps extends Omit<ExtendedFabProps, "icon" | "label"> {
+	elevation: Elevation;
 }
 
 export const StyledExtendedFab = styled.button.attrs<StyledExtendedFabProps>(({ tooltip }) => ({
@@ -34,3 +34,9 @@ export const StyledExtendedFab = styled.button.attrs<StyledExtendedFabProps>(({ 
 		}
 	`;
 });
+
+export const ContentWrapper = styled.div`
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+`;
