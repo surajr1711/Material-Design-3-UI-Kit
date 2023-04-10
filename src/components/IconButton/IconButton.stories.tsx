@@ -4,7 +4,7 @@ import IconButton from "./IconButton";
 import { iconButtonVariant } from "./IconButton.types";
 
 export default {
-	title: "Components/IconBTN",
+	title: "Components/IconButton",
 	component: IconButton,
 	argTypes: {
 		icon: {

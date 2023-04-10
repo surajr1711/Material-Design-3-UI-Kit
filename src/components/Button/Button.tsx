@@ -1,11 +1,21 @@
-// IMPORTS
 import React from "react";
 import PropType from "prop-types";
-import Typography from "../Text";
-import Icon from "../Icon";
-import { useButtonContentColor } from "./useButtonContentColor";
-import { buttonColor, ButtonProps, buttonVariant, ButtonVariant } from "./Button.types";
-import { ElevatedButton, FilledButton, OutlinedButton, StyledButton, TextButton, TonalButton } from "./Button.styles";
+import { ButtonProps, buttonVariant, ButtonVariant } from "./Button.types";
+import {
+	buttonColors,
+	ButtonContent,
+	buttonLayouts,
+	buttonStateElevations,
+	ElevatedButton,
+	FilledButton,
+	OutlinedButton,
+	StyledButton,
+	TextButton,
+	TonalButton,
+} from "./Button.styles";
+import Text from "../Text";
+import Icon from "../Icon/Icon";
+import { TintLayer, StateLayer, ContentLayer } from "../InteractionLayers";
 
 // COMOPNENT DEFINITION
 const componentMap: { [T in ButtonVariant]: typeof StyledButton } = {
@@ -17,27 +27,55 @@ const componentMap: { [T in ButtonVariant]: typeof StyledButton } = {
 };
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-	({ label = "Click me", color = "primary", variant = "filled", md3icon, ...props }, ref) => {
-		// get content color
-		const contentColor = useButtonContentColor(variant!, color!, props.disabled!);
-
-		// get correct styled button variant
+	(
+		{
+			icon,
+			label = "Click me",
+			// label = <Text>Click me</Text>,
+			variant = "filled",
+			disabled = false,
+			...restProps
+		},
+		ref
+	) => {
+		// STYLES
 		const Component = componentMap[variant!];
+		const contentColor = disabled ? buttonColors[variant].disabled : buttonColors[variant].content;
+		const elevation = buttonStateElevations[variant].enabled;
+
+		/* // Icon and label defaults
+	icon =
+		icon &&
+		React.cloneElement(icon, {
+			color: contentColor as IconContentColor,
+			sizeInRems: buttonLayouts.contained.iconSize,
+		});
+
+	label =
+		label &&
+		React.cloneElement(label, {
+			color: contentColor,
+			typescale: buttonLayouts.contained.labelTypescale,
+		}); */
 
 		return (
-			<Component ref={ref} variant={variant} color={color} stateLayerColor={contentColor} {...props}>
-				{variant === "elevated" && <div data-md3role="surfaceTint" />}
-				<div data-md3role="stateLayer" />
-				<div data-md3role="contentLayer">
-					{md3icon && (
-						<Icon color={contentColor} sizeInRems={1.125}>
-							{md3icon}
-						</Icon>
-					)}
-					<Typography typescale="labelLarge" tag="span" color={contentColor}>
-						{label || "Click me"}
-					</Typography>
-				</div>
+			<Component ref={ref} variant={variant} icon={icon} disabled={disabled} {...restProps}>
+				{variant === "elevated" && <TintLayer elevation={elevation} />}
+				<StateLayer stateLayerColor={contentColor} />
+				<ContentLayer>
+					<ButtonContent>
+						{icon && (
+							<Icon color={contentColor} sizeInRems={buttonLayouts.contained.iconSize}>
+								{icon}
+							</Icon>
+						)}
+						<Text color={contentColor} typescale={buttonLayouts.contained.labelTypescale}>
+							{label}
+						</Text>
+						{/* {icon}
+					{label} */}
+					</ButtonContent>
+				</ContentLayer>
 			</Component>
 		);
 	}
@@ -45,10 +83,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
 // PROPTYPES
 Button.propTypes = {
-	label: PropType.string,
-	color: PropType.oneOf(buttonColor),
 	variant: PropType.oneOf(buttonVariant),
-	md3icon: PropType.string,
+	icon: PropType.string,
+	label: PropType.string,
+	// icon: PropType.element,
+	// label: PropType.element,
 };
 
 export default Button;

@@ -1,5 +1,7 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import Button from "./Button";
+// import Text from "../Text";
+// import Icon from "../Icon";
 
 export default {
 	title: "Components/Button",
@@ -8,6 +10,8 @@ export default {
 		layout: "centered",
 	},
 	argTypes: {
+		label: { control: "string" },
+		icon: { control: "string" },
 		disabled: { control: "boolean" },
 		onClick: {},
 	},
@@ -17,43 +21,37 @@ const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-	label: "Filled",
+	label: "Default",
 };
 
 export const Outlined = Template.bind({});
 Outlined.args = {
-	label: "Outlined",
 	variant: "outlined",
-	color: "primary",
+	label: "Outlined",
+	icon: "add",
 };
 
-export const Text = Template.bind({});
-Text.args = {
-	label: "Text Button",
+export const TextButton = Template.bind({});
+TextButton.args = {
 	variant: "text",
+	label: "Text",
 };
 
 export const Elevated = Template.bind({});
 Elevated.args = {
-	label: "Elevated",
 	variant: "elevated",
+	label: "Elevated",
 };
 
 export const Tonal = Template.bind({});
 Tonal.args = {
-	label: "Tonal Button",
 	variant: "tonal",
-};
-
-export const WithIcon = Template.bind({});
-WithIcon.args = {
-	label: "",
-	md3icon: "add",
-	variant: "outlined",
+	icon: "phone",
+	label: "Call",
 };
 
 export const OnClick = Template.bind({});
 OnClick.args = {
-	variant: "tonal",
+	variant: "outlined",
 	onClick: (e) => console.log("You clicked me", e.currentTarget),
 };

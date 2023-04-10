@@ -7,6 +7,7 @@ import { State, stateKeys } from "../../styles/interactionStates";
 export interface CLProps {
 	children?: React.ReactNode;
 	state: State;
+	render?: boolean;
 }
 export interface ContentLayerProps extends CLProps, React.ComponentPropsWithRef<"div"> {}
 
@@ -26,7 +27,8 @@ export const StyledContentLayer = styled.div.attrs<ContentLayerProps>(() => ({
 );
 
 // COMPONENT DEFINITION
-const ContentLayer = ({ children = <div />, state = "enabled" }: ContentLayerProps) => {
+const ContentLayer = ({ children = <div />, state = "enabled", render = true }: ContentLayerProps) => {
+	if (!render) return null;
 	return <StyledContentLayer state={state}>{children}</StyledContentLayer>;
 };
 

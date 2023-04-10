@@ -6,8 +6,8 @@ import { State } from "../../styles/interactionStates";
 import { stateKeys } from "../../styles/interactionStates";
 
 // TYPES
-export type StateLayerColor = BaseColor | OnColor;
-export const stateLayerColors: StateLayerColor[] = [...baseColorKeys, ...onColorKeys];
+export const stateLayerColors = ["primary", "none", ...onColorKeys] as const;
+export type StateLayerColor = typeof stateLayerColors[number];
 
 export interface SLProps extends React.ComponentPropsWithRef<"div"> {
 	stateLayerColor: StateLayerColor;
@@ -32,40 +32,6 @@ export const StyledStateLayer = styled.div.attrs<StateLayerProps>(() => ({
 		transition: all ${theme.motion.duration.medium1} ${theme.motion.easing.emphasized};
 	`
 );
-/* // click animation circle
-&:after {
-	content: "";
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 1rem;
-	height: 1rem;
-	border-radius: 50%;
-	background-color: ${theme.color[stateLayerColor!]};
-	opacity: 0;
-	transform-origin: center;
-}
-@keyframes clickAnimation {
-	from {
-		transform: scale(0);
-	}
-	to {
-		transform: scale(10);
-	}
-}
-
-${state === "pressed" &&
-css`
-	background-color: transparent;
-	opacity: 1;
-	&:after {
-		opacity: ${theme.stateOpacity.stateLayer.pressed};
-		animation-name: clickAnimation;
-		animation-duration: ${theme.motion.duration.medium4};
-		animation-timing-function: ${theme.motion.easing.emphasized};
-		animation-fill-mode: none;
-	}
-`} */
 
 // COMPONENT DEFINITION
 const StateLayer = React.forwardRef<HTMLDivElement, StateLayerProps>(

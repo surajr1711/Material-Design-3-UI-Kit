@@ -13,14 +13,11 @@ import { StyledText } from "./Text.styles";
 
 const Text: React.FC<TextProps> = ({
 	children = "Default Text",
-	render = true,
 	typescale = "bodyLarge",
 	tag = "span",
 	color = "onSurface",
 	...restProps
 }) => {
-	if (!render) return null;
-
 	return (
 		<StyledText typescale={typescale} as={tag} color={color} {...restProps}>
 			{children}
@@ -33,7 +30,6 @@ Text.displayName = "Text";
 // PROPTYPES
 Text.propTypes = {
 	children: PropType.oneOfType([PropType.string, PropType.number]),
-	render: PropType.bool,
 	tag: PropType.oneOf(textTag),
 	typescale: PropType.oneOf(typescaleKeys),
 	color: PropType.oneOf(textColorKeys),

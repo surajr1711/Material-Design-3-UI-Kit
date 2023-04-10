@@ -35,7 +35,7 @@ export const StyledExtendedFab = styled.button.attrs<StyledExtendedFabProps>(({ 
 	`;
 });
 
-export const ContentWrapper = styled.div`
+export const ExtendedFabContent = styled.div`
 	display: flex;
 	gap: 0.5rem;
 	align-items: center;

@@ -4,7 +4,7 @@ import { fabColor } from "../FAB/Fab.types";
 import { ExtendedFabProps, extFabWidthKeys } from "./ExtendedFab.types";
 import { useInteractionHandlers } from "../InteractionTemplate/useInteractionHandlers";
 import InteractionTemplate from "../InteractionTemplate/InteractionTemplate";
-import { ContentWrapper, extFabLayout, StyledExtendedFab } from "./ExtendedFab.styles";
+import { ExtendedFabContent, extFabLayout, StyledExtendedFab } from "./ExtendedFab.styles";
 import { fabColors, fabStateElevations } from "../FAB/Fab.styles";
 import Icon from "../Icon";
 import Text from "../Text";
@@ -69,10 +69,10 @@ const ExtendedFab = React.forwardRef<HTMLButtonElement, ExtendedFabProps>(
 				{...restProps}
 			>
 				<InteractionTemplate elevation={elevation} state={interactionState} stateLayerColor={contentColor}>
-					<ContentWrapper>
+					<ExtendedFabContent>
 						{fabIcon}
 						{fabLabel}
-					</ContentWrapper>
+					</ExtendedFabContent>
 				</InteractionTemplate>
 			</StyledExtendedFab>
 		);

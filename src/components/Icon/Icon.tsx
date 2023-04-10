@@ -16,11 +16,7 @@ const StyledIcon = styled.span.attrs<IconProps>(({ variant }) => ({
 
 // COMPONENT DEFINITION
 const Icon = React.forwardRef<HTMLSpanElement, IconProps>(
-	(
-		{ children = "home", color = "primary", variant = "filled", sizeInRems = 1.5, render = true, ...restProps },
-		ref
-	) => {
-		if (!render) return null;
+	({ children = "home", color = "primary", variant = "filled", sizeInRems = 1.5, ...restProps }, ref) => {
 		return (
 			<StyledIcon ref={ref} color={color} variant={variant} sizeInRems={sizeInRems} {...restProps}>
 				{children}
@@ -34,7 +30,6 @@ Icon.displayName = "Icon";
 // PROPTYPES
 Icon.propTypes = {
 	children: PropType.string,
-	render: PropType.bool,
 	color: PropType.oneOf(iconContentColor),
 	variant: PropType.oneOf(iconVariant),
 	sizeInRems: PropType.number,

@@ -1,4 +1,6 @@
 import { baseColorKeys, onBaseColorKeys, onContainerColorKeys, onNeutralColorKeys } from "../../styles/colors";
+// import { IconProps } from "../Icon";
+// import { TextProps } from "../Text";
 
 export const buttonColor = [...baseColorKeys] as const;
 export type ButtonColor = typeof buttonColor[number];
@@ -14,9 +16,10 @@ export const buttonContentColor = [
 ] as const;
 export type ButtonContentColor = typeof buttonContentColor[number];
 
-export interface ButtonProps extends React.ComponentPropsWithoutRef<"button"> {
-	color?: ButtonColor;
+export interface ButtonProps extends React.ComponentPropsWithRef<"button"> {
 	variant?: ButtonVariant;
+	// icon?: React.ReactElement<IconProps>;
+	// label?: React.ReactElement<TextProps>;
 	label?: string;
-	md3icon?: string;
+	icon?: string;
 }
