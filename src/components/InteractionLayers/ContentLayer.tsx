@@ -19,6 +19,7 @@ export const ContentLayer = styled.div.attrs<ContentLayerProps>(() => ({
 		justify-content: center;
 		align-items: center;
 		height: 100%;
+		gap: 0.5rem;
 	`
 );
 

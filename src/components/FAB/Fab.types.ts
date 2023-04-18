@@ -1,5 +1,4 @@
 import { ShapeFamily, ShapeScale } from "../../styles/shape";
-import { IconProps } from "../Icon";
 
 // SHARED TYPES (FOR BOTH FAB AND EXTENDED-FAB)
 export const fabColor = ["primary", "secondary", "tertiary", "surface"] as const;
@@ -32,10 +31,8 @@ export type FabLayout = {
 };
 
 export interface FabProps extends React.ComponentPropsWithRef<"button"> {
-	render?: boolean;
 	color?: FabColor;
 	size?: FabSize;
 	tooltip?: string;
-	icon: React.ReactElement<IconProps>;
-	// icon: React.ReactElement;
+	icon?: string;
 }

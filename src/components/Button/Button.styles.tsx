@@ -159,12 +159,6 @@ export const StyledButton = styled.button<ButtonProps>(({ theme, variant, icon }
 	`;
 });
 
-export const ButtonContent = styled.div`
-	display: flex;
-	gap: 0.5rem;
-	align-items: center;
-`;
-
 export const ElevatedButton = styled(StyledButton)(({ theme }) => css``);
 
 export const FilledButton = styled(StyledButton)(({ theme }) => css``);

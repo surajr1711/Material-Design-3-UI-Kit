@@ -1,6 +1,6 @@
 module.exports = {
-	stories: ["../src/components/Button/*.stories.mdx", "../src/components/Button/*.stories.@(js|jsx|ts|tsx)"],
-	// stories: ["../src/**/*.stories.mdx", "../src/**/*.stories.@(js|jsx|ts|tsx)"],
+	// stories: ["../src/components/ExtendedFab/*.stories.mdx", "../src/components/ExtendedFab/*.stories.@(js|jsx|ts|tsx)"],
+	stories: ["../src/**/*.stories.mdx", "../src/**/*.stories.@(js|jsx|ts|tsx)"],
 	staticDirs: ["../public"],
 	addons: [
 		"@storybook/addon-links",

@@ -1,53 +1,29 @@
 import React, { useEffect, useState } from "react";
 import PropType from "prop-types";
-import InteractionTemplate from "../InteractionTemplate";
-import { useInteractionHandlers } from "../InteractionTemplate/useInteractionHandlers";
+import Icon from "../Icon";
+import { ContentLayer, StateLayer } from "../InteractionLayers";
 import { IconButtonProps, iconButtonVariant } from "./IconButton.types";
 import { useIconButtonStyles } from "./useIconButtonStyles";
-import Icon from "../Icon";
 
 // COMPONENT DEFINITION
 const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
 	(
 		{
-			icon = <Icon children="edit" />,
-			render = true,
+			icon = "settings",
 			variant = "filled",
 			toggle = false,
 			selected: initialSelected = false,
 			disabled = false,
-			onMouseEnter,
-			onMouseLeave,
-			onMouseDown,
-			onMouseUp,
-			onFocus,
 			onClick,
 			...restProps
 		},
 		ref
 	) => {
-		// Interaction State
-		const { interactionState, setInteractionState, eventHandlers } = useInteractionHandlers(
-			disabled ? "disabled" : "enabled",
-			{
-				onMouseEnter,
-				onMouseLeave,
-				onMouseDown,
-				onMouseUp,
-				onFocus,
-			}
-		);
-
-		// Selected state
 		const [selected, setSelected] = useState<boolean>(initialSelected);
 
 		useEffect(() => {
 			setSelected(initialSelected);
 		}, [initialSelected]);
-
-		useEffect(() => {
-			disabled ? setInteractionState("disabled") : setInteractionState("enabled");
-		}, [disabled, setInteractionState]);
 
 		const handleClick: React.MouseEventHandler<HTMLButtonElement> = (e) => {
 			if (disabled) return;
@@ -55,35 +31,31 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
 			if (onClick) onClick(e);
 		};
 
-		// COMPONENT STYLES
-		const { Component, contentColor, buttonIcon } = useIconButtonStyles(variant, disabled, toggle, selected, icon);
+		// STYLES
+		const { Component, contentColor, iconVariant } = useIconButtonStyles(variant, toggle, selected, disabled);
 
-		// RENDER
-		if (!render) return null;
 		return (
 			<Component
-				ref={ref}
 				variant={variant}
-				disabled={disabled}
 				toggle={toggle}
 				selected={selected}
+				disabled={disabled}
 				onClick={handleClick}
-				{...eventHandlers}
 				{...restProps}
 			>
-				<InteractionTemplate elevation="level0" state={interactionState} stateLayerColor={contentColor}>
-					{buttonIcon}
-				</InteractionTemplate>
+				<StateLayer stateLayerColor={contentColor} />
+				<ContentLayer>
+					<Icon color={contentColor} variant={iconVariant}>
+						{icon}
+					</Icon>
+				</ContentLayer>
 			</Component>
 		);
 	}
 );
 
-IconButton.displayName = "IconButton";
-
 IconButton.propTypes = {
-	icon: PropType.element.isRequired,
-	render: PropType.bool,
+	icon: PropType.string,
 	variant: PropType.oneOf(iconButtonVariant),
 	toggle: PropType.bool,
 	selected: PropType.bool,

@@ -1,13 +1,8 @@
-// IMPORTS
-// 3rd party packages
 import React from "react";
 import PropTypes from "prop-types";
-// Types
 import { DensityInRemsType, densityType, DensityType, SegButtonComposition, SegButtonProps } from "./SegButton.types";
-// Hooks and Utils
 import { SegButtonContext } from "./SegButtonContext";
 import { useUniqueID } from "../../utils/useUniqueID";
-// Custom Components and Styles
 import Input from "./Input";
 import Label from "./Label";
 import { StyledSegButton } from "./SegButton.styles";
@@ -43,5 +38,4 @@ SegButton.propTypes = {
 	density: PropTypes.oneOf(densityType).isRequired,
 };
 
-// EXPORTS
 export default SegButton;

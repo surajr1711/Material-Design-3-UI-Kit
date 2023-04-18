@@ -3,7 +3,6 @@ import PropType from "prop-types";
 import { ButtonProps, buttonVariant, ButtonVariant } from "./Button.types";
 import {
 	buttonColors,
-	ButtonContent,
 	buttonLayouts,
 	buttonStateElevations,
 	ElevatedButton,
@@ -63,18 +62,18 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 				{variant === "elevated" && <TintLayer elevation={elevation} />}
 				<StateLayer stateLayerColor={contentColor} />
 				<ContentLayer>
-					<ButtonContent>
-						{icon && (
-							<Icon color={contentColor} sizeInRems={buttonLayouts.contained.iconSize}>
-								{icon}
-							</Icon>
-						)}
-						<Text color={contentColor} typescale={buttonLayouts.contained.labelTypescale}>
-							{label}
-						</Text>
-						{/* {icon}
+					{/* <ButtonContent> */}
+					{icon && (
+						<Icon color={contentColor} sizeInRems={buttonLayouts.contained.iconSize}>
+							{icon}
+						</Icon>
+					)}
+					<Text color={contentColor} typescale={buttonLayouts.contained.labelTypescale}>
+						{label}
+					</Text>
+					{/* {icon}
 					{label} */}
-					</ButtonContent>
+					{/* </ButtonContent> */}
 				</ContentLayer>
 			</Component>
 		);

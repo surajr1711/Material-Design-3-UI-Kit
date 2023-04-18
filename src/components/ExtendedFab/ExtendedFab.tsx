@@ -1,79 +1,47 @@
 import React from "react";
 import PropType from "prop-types";
-import { fabColor } from "../FAB/Fab.types";
+import { fabColor } from "../Fab/Fab.types";
 import { ExtendedFabProps, extFabWidthKeys } from "./ExtendedFab.types";
-import { useInteractionHandlers } from "../InteractionTemplate/useInteractionHandlers";
-import InteractionTemplate from "../InteractionTemplate/InteractionTemplate";
-import { ExtendedFabContent, extFabLayout, StyledExtendedFab } from "./ExtendedFab.styles";
-import { fabColors, fabStateElevations } from "../FAB/Fab.styles";
+import { extFabLayout, StyledExtendedFab } from "./ExtendedFab.styles";
+import { fabColors, fabStateElevations } from "../Fab/Fab.styles";
 import Icon from "../Icon";
 import Text from "../Text";
+import { ContentLayer, StateLayer, TintLayer } from "../InteractionLayers";
 
 // COMPNENT DEFINITION
 const ExtendedFab = React.forwardRef<HTMLButtonElement, ExtendedFabProps>(
 	(
 		{
-			icon = (
-				<Icon color="onPrimaryContainer" sizeInRems={1.5}>
-					edit
-				</Icon>
-			),
-			label = (
-				<Text typescale="labelLarge" color="onPrimaryContainer">
-					Start composing
-				</Text>
-			),
-			render = true,
+			icon = "edit",
+			label = "Start composing",
 			color = "primary",
 			tooltip = "",
 			width = "fixed",
+			withIcon = true,
 			disabled, // Fab should never be disabled
 			draggable, // Fab should never be draggable
-			onMouseEnter,
-			onMouseLeave,
-			onMouseDown,
-			onMouseUp,
-			onFocus,
 			...restProps
 		},
 		ref
 	) => {
-		const { interactionState, eventHandlers } = useInteractionHandlers("enabled", {
-			onMouseEnter,
-			onMouseLeave,
-			onMouseDown,
-			onMouseUp,
-			onFocus,
-		});
-
-		// STYLES
-		// Interaction template needs elevation and statelayercolor
-		const elevation = fabStateElevations[interactionState];
+		const renderTintLayer = color === "surface";
+		const elevation = fabStateElevations.enabled;
 		const contentColor = fabColors[color!].content;
 
-		// Styling defaults. Overrides supplied icon and label elements' props
-		const fabIcon = React.cloneElement(icon, { color: contentColor, sizeInRems: extFabLayout.iconSizeInRems });
-
-		const fabLabel = React.cloneElement(label, { color: contentColor, typescale: "labelLarge" });
-
-		// RENDER
-		if (!render) return null;
 		return (
-			<StyledExtendedFab
-				ref={ref}
-				color={color}
-				width={width}
-				elevation={elevation}
-				tooltip={tooltip}
-				{...eventHandlers}
-				{...restProps}
-			>
-				<InteractionTemplate elevation={elevation} state={interactionState} stateLayerColor={contentColor}>
-					<ExtendedFabContent>
-						{fabIcon}
-						{fabLabel}
-					</ExtendedFabContent>
-				</InteractionTemplate>
+			<StyledExtendedFab ref={ref} color={color} width={width} tooltip={tooltip} {...restProps}>
+				{renderTintLayer && <TintLayer elevation={elevation} />}
+				<StateLayer stateLayerColor={contentColor} />
+				<ContentLayer>
+					{withIcon && (
+						<Icon color={contentColor} sizeInRems={extFabLayout.iconSizeInRems}>
+							{icon}
+						</Icon>
+					)}
+					<Text color={contentColor} typescale="labelLarge">
+						{label}
+					</Text>
+				</ContentLayer>
 			</StyledExtendedFab>
 		);
 	}
@@ -81,12 +49,12 @@ const ExtendedFab = React.forwardRef<HTMLButtonElement, ExtendedFabProps>(
 
 // PROPTYPES
 ExtendedFab.propTypes = {
-	icon: PropType.element.isRequired,
-	label: PropType.element.isRequired,
-	render: PropType.bool,
+	icon: PropType.string,
+	label: PropType.string,
 	color: PropType.oneOf(fabColor),
 	width: PropType.oneOf(extFabWidthKeys),
 	tooltip: PropType.string,
+	withIcon: PropType.bool,
 };
 
 export default ExtendedFab;

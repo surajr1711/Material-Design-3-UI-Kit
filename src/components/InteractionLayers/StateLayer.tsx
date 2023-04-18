@@ -23,7 +23,7 @@ export const StateLayer = styled.div.attrs<StateLayerProps>(() => ({
 		background-color: ${theme.color[stateLayerColor!]};
 		opacity: ${theme.stateOpacity.stateLayer.enabled};
 		pointer-events: none;
-		transition: all ${theme.motion.duration.medium1} ${theme.motion.easing.emphasized};
+		transition: all ${theme.motion.duration.short1} ${theme.motion.easing.emphasized};
 	`
 );
 

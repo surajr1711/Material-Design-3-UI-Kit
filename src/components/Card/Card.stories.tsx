@@ -8,7 +8,6 @@ import { CardImage } from "./Card.stubs";
 import { shape } from "../../styles/shape";
 import { cardType } from "./Card.types";
 import IconButton from "../IconButton";
-import Icon from "../Icon";
 
 export default {
 	title: "Components/Card",
@@ -89,7 +88,7 @@ FilledCard.args = {
 						<Button>Get Tickets</Button>
 						<Button variant="outlined">LearnMore</Button>
 					</Inline>
-					<IconButton icon={<Icon children="edit" />} />
+					<IconButton icon="edit" />
 				</Inline>
 			</Stack>
 		</PadBox>
@@ -103,7 +102,7 @@ OutlinedCard.args = {
 			<Stack gutter="1rem">
 				{/* Actions */}
 				<Inline stretch="start">
-					<IconButton icon={<Icon children="edit" />} />
+					<IconButton icon="edit" />
 					<Inline gutter="0.5rem">
 						<Button variant="outlined">Favorite</Button>
 						<Button variant="outlined">Mark Date</Button>
@@ -133,8 +132,8 @@ OutlinedCard.args = {
 					</Inline>
 					{/* Quick Actions */}
 					<Inline gutter="0.5rem">
-						<IconButton variant="standard" icon={<Icon children="face" />} />
-						<IconButton variant="standard" icon={<Icon children="phone" />} />
+						<IconButton variant="standard" icon="face" />
+						<IconButton variant="standard" icon="phone" />
 					</Inline>
 				</Inline>
 

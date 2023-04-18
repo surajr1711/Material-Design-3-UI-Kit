@@ -1,5 +1,5 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import Icon from "../Icon";
+// import Icon from "../Icon";
 import Fab from "./Fab";
 // import { fabIconProps, fabLabelProps } from "./Fab.styles";
 
@@ -10,12 +10,7 @@ export default {
 		layout: "centered",
 	},
 	args: {
-		// onMouseEnter: (e) => console.log(e.target, e.type),
-		// onMouseLeave: (e) => console.log(e.target, e.type),
-		// onMouseDown: (e) => console.log(e.target, e.type),
-		// onMouseUp: (e) => console.log(e.target, e.type),
-		// onClick: (e) => console.log(e.target, e.type),
-		// onFocus: (e) => console.log(e.target, e.type),
+		onClick: () => alert("clicked fab"),
 	},
 	argTypes: {
 		disabled: { table: { disable: true } },
@@ -34,12 +29,12 @@ export const SmallTertiary = Template.bind({});
 SmallTertiary.args = {
 	color: "tertiary",
 	size: "smallFab",
-	icon: <Icon>phone</Icon>,
+	icon: "phone",
 };
 
 export const LargeSurface = Template.bind({});
 LargeSurface.args = {
-	icon: <Icon>message</Icon>,
+	icon: "message",
 	color: "surface",
 	size: "largeFab",
 };

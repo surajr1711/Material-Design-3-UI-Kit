@@ -1,11 +1,12 @@
-import styled, { css } from "styled-components";
-import { setAlphaOnHex } from "../../utils/setAlphaOnHex";
 import {
 	IconButtonContainerColor,
 	IconButtonContentColor,
 	IconButtonProps,
 	IconButtonVariant,
 } from "./IconButton.types";
+import styled, { css } from "styled-components";
+import { setAlphaOnHex } from "../../utils/setAlphaOnHex";
+import { interactionLayersCSS } from "../InteractionLayers";
 
 export const iconButtonLayout = {
 	height: 2.5,
@@ -79,50 +80,65 @@ export const iconButtonColors: {
 	},
 };
 
-interface StyledIconButtonProps extends Omit<IconButtonProps, "icon"> {}
-
-export const StyledIconButton = styled.button<StyledIconButtonProps>(
+export const StyledIconButton = styled.button<IconButtonProps>(
 	({ theme, variant, toggle, selected }) => css`
 		display: inline-block;
-		height: 2.5rem;
-		width: 2.5rem;
-		border-radius: ${theme.shape.rounded.full};
+		height: ${iconButtonLayout.height}rem;
+		width: ${iconButtonLayout.width}rem;
+		border-radius: ${theme.shape[iconButtonLayout.shapeFamily][iconButtonLayout.shapeScale]};
 		border: none;
 		overflow: hidden;
 		position: relative;
-		transition: all ${theme.motion.duration.medium4} ${theme.motion.easing.emphasized};
 
-		background-color: ${!toggle
+		${interactionLayersCSS}
+	`
+);
+
+export const FilledIconButton = styled(StyledIconButton)(
+	({ theme, variant, toggle, selected }) => css`
+		background-color: ${!toggle || selected
 			? theme.color[iconButtonColors[variant!].container.noToggle]
-			: !selected
-			? theme.color[iconButtonColors[variant!].container.unselected]
-			: theme.color[iconButtonColors[variant!].container.selected]};
-		* {
-			pointer-events: none;
-		}
+			: theme.color[iconButtonColors[variant!].container.unselected]};
 
-		// Disabled
 		&:disabled {
 			background-color: ${setAlphaOnHex(theme.color.onSurface, theme.stateOpacity.container.disabled)};
 		}
 	`
 );
 
-export const FilledIconButton = styled(StyledIconButton)(({ theme }) => css``);
-export const TonalIconButton = styled(StyledIconButton)(({ theme }) => css``);
-export const OutlinedIconButton = styled(StyledIconButton)(
-	({ theme, toggle, selected }) => css`
-		border: 1px solid ${!toggle || !selected ? theme.color.outline : theme.color.none};
-		// Disabled
+export const TonalIconButton = styled(StyledIconButton)(
+	({ theme, variant, toggle, selected }) => css`
+		background-color: ${!toggle || selected
+			? theme.color[iconButtonColors[variant!].container.noToggle]
+			: theme.color[iconButtonColors[variant!].container.unselected]};
+
 		&:disabled {
-			border-color: ${setAlphaOnHex(theme.color.onSurface, theme.stateOpacity.outline.disabled)};
+			background-color: ${setAlphaOnHex(theme.color.onSurface, theme.stateOpacity.container.disabled)};
 		}
 	`
 );
-export const StandardIconButton = styled(StyledIconButton)(
-	({ theme }) => css`
+
+export const OutlinedIconButton = styled(StyledIconButton)(
+	({ theme, variant, toggle, selected }) => css`
+		background-color: ${!toggle || !selected
+			? theme.color[iconButtonColors[variant!].container.noToggle]
+			: theme.color[iconButtonColors[variant!].container.selected]};
+		border: ${!toggle || !selected ? `1px solid ${theme.color.outline}` : `none`};
+
 		&:disabled {
-			background-color: ${theme.color.none};
+			background-color: ${!toggle || !selected
+				? theme.color.none
+				: setAlphaOnHex(theme.color.onSurface, theme.stateOpacity.container.disabled)};
+			${(!toggle || !selected) &&
+			`
+				border-color: ${setAlphaOnHex(theme.color.onSurface, theme.stateOpacity.outline.disabled)};
+			`}
 		}
+	`
+);
+
+export const StandardIconButton = styled(StyledIconButton)(
+	({ theme, toggle, selected }) => css`
+		background-color: ${theme.color.none};
 	`
 );

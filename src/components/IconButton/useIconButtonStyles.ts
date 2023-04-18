@@ -1,15 +1,13 @@
-import React from "react";
 import { IconVariant } from "../Icon";
+import { IconButtonContentColor, IconButtonVariant } from "./IconButton.types";
 import {
 	FilledIconButton,
-	iconButtonColors,
-	iconButtonLayout,
 	OutlinedIconButton,
 	StandardIconButton,
 	StyledIconButton,
 	TonalIconButton,
+	iconButtonColors,
 } from "./IconButton.styles";
-import { IconButtonContentColor, IconButtonVariant } from "./IconButton.types";
 
 const componentMap: { [T in IconButtonVariant]: typeof StyledIconButton } = {
 	filled: FilledIconButton,
@@ -20,14 +18,15 @@ const componentMap: { [T in IconButtonVariant]: typeof StyledIconButton } = {
 
 export const useIconButtonStyles = (
 	variant: IconButtonVariant,
-	disabled: boolean,
 	toggle: boolean,
 	selected: boolean,
-	icon: React.ReactElement
+	disabled: boolean
+	// icon: React.ReactElement
 ): {
 	Component: typeof StyledIconButton;
 	contentColor: IconButtonContentColor;
-	buttonIcon: React.ReactElement;
+	iconVariant: IconVariant;
+	// buttonIcon: React.ReactElement;
 } => {
 	// Button Variant
 	const Component = componentMap[variant];
@@ -44,16 +43,17 @@ export const useIconButtonStyles = (
 	// Icon Variant. If iconbutton is neither a toggle type nor unselected/toggledOn then icon variant is outlined else filled.
 	const iconVariant: IconVariant = !toggle || !selected ? "outlined" : "filled";
 
-	// Style the icon according to IconButton spec. Overrides props passed by user
-	const buttonIcon = React.cloneElement(icon, {
-		color: contentColor,
-		sizeInRems: iconButtonLayout.iconSizeinRems,
-		variant: iconVariant,
-	});
+	// // Style the icon according to IconButton spec. Overrides props passed by user
+	// const buttonIcon = React.cloneElement(icon, {
+	// 	color: contentColor,
+	// 	sizeInRems: iconButtonLayout.iconSizeinRems,
+	// 	variant: iconVariant,
+	// });
 
 	return {
 		Component,
 		contentColor,
-		buttonIcon,
+		iconVariant,
+		// buttonIcon,
 	};
 };

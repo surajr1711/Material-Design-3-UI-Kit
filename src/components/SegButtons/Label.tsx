@@ -1,9 +1,5 @@
-// IMPORTS
-// 3rd party packages
 import React, { useContext } from "react";
-// Types
 import { LabelProps } from "./SegButton.types";
-// Hooks and utils
 import { SegButtonContext } from "./SegButtonContext";
 
 // COMPONENT DEFINITION

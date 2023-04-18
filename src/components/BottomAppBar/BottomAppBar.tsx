@@ -5,7 +5,7 @@ import uuid from "react-uuid";
 import IconButton from "../IconButton";
 import { StyledBottomAppBar, StyledIconsBar } from "./BottomAppBar.styles";
 import { twoIconButtons } from "./bottomAppBarStubs";
-import FAB from "../FAB/Fab";
+import FAB from "../Fab/Fab";
 
 interface BottomAppBarProps {
 	iconButtons: string[]; // min2 max4 iconbuttons data

@@ -1,7 +1,4 @@
-// IMPORTS
-// 3rd party packages
 import React, { useContext } from "react";
-// Types
 import { SegButtonContext } from "./SegButtonContext";
 
 // TYPES

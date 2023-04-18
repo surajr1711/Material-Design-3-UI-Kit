@@ -21,6 +21,7 @@ export const TintLayer = styled.div.attrs<TintLayerProps>(() => ({
 		background-color: ${theme.color.primary};
 		opacity: ${theme.elevation.surfaceTintOpacity[elevation!]};
 		pointer-events: none;
+		transition: all ${theme.motion.duration.short1} ${theme.motion.easing.emphasized};
 	`
 );
 
