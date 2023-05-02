@@ -25,7 +25,7 @@ export const ContentLayer = styled.div.attrs<ContentLayerProps>(() => ({
 
 // PROPTYPES
 ContentLayer.propTypes = {
-	children: PropTypes.element,
+	// children: PropTypes.element, // proptypes.element forces only single child. cannot be 0 or more than 1 elements.
 };
 
 export default ContentLayer;

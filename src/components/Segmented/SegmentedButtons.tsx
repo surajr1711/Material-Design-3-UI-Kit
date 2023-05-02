@@ -1,23 +1,39 @@
-import React, { createContext } from "react";
+import React, { ChangeEventHandler, createContext, useState } from "react";
 import PropType from "prop-types";
 import SegmentedButton, { SegmentedButtonProps } from "./SegmentedButton";
 import styled, { css } from "styled-components";
 import { useUniqueID } from "../../utils/useUniqueID";
 
-export type OptionData = Omit<SegmentedButtonProps, "name" | "inputType">;
+export type OptionData = Omit<SegmentedButtonProps, "handleChange">;
+// export interface OptionData extends Pick<SegmentedButtonProps, "id" | "label" | "icon" | 'checked'> {
+// defaultChecked?: boolean; // if user wants to set initial value of label as checked
+// }
 
 export const optionsStub: OptionData[] = [
 	{
-		// id: "option1",
-		label: "Option 1",
+		id: "option1",
+		label: "Some long name options",
 		icon: "star_outline",
 	},
-	{ id: "option2", label: "Option 2", icon: "square", defaultChecked: true },
-	{ id: "option3", label: "Option 3", icon: "circle", defaultChecked: true },
 	{
-		// id: "option4",
+		id: "option2",
+		label: "Option 2",
+		icon: "square",
+		// defaultChecked: true,
+		checked: true,
+	},
+	{
+		id: "option3",
+		// label: "Option 3",
+		icon: "circle",
+		//  defaultChecked: true,
+		checked: true,
+	},
+	{
+		id: "option4",
 		label: "Option 4",
 		icon: "change_history",
+		// handleChange: () => console.log("Hello! from user-provided 'handlechange()' for item-id 'option4' of 'options' array.")
 	},
 ];
 
@@ -69,7 +85,7 @@ export const SegButtonsContext = createContext<SegButtonsContextObj | undefined>
 
 const SegmentedButtons = React.forwardRef<HTMLDivElement, SegmentedButtonsProps>(
 	({ buttonsType = "singleSelect", name, options = optionsStub, density = 0, ...restProps }, ref) => {
-		// CONTEXT
+		// CONTEXT for groupName and inputType
 		// Determine if input type is radio or checkbox
 		const inputType = buttonsType === "singleSelect" ? "radio" : ("checkbox" as SegButtonsContextObj["inputType"]);
 		// if user doesnt provide a group name, then generate one
@@ -80,11 +96,52 @@ const SegmentedButtons = React.forwardRef<HTMLDivElement, SegmentedButtonsProps>
 			inputType,
 		};
 
+		// INITIAL checked buttons state
+		// make an array of checked button ids. both the id and defaultchecked must be provided by user. set those ids as initial state.
+		let initialState: string[] = options
+			.map((option) => option.checked && option.id)
+			.filter((id) => id !== undefined && id !== false) as string[];
+		// if no default checked was provided, ie if initial state array is empty then set the first option id as checked.
+		if (initialState.length === 0) initialState = [options[0].id];
+		// if button type is radio, then initial state is only first value of array
+		if (buttonsType === "singleSelect") initialState = [initialState[0]];
+
+		// CREATE STATE
+		const [checkedButtons, setCheckedButtons] = useState<string[]>(initialState);
+		// function to set button as checked if its id is present in the checkedbuttons state array
+		const isButtonChecked = (id: string): boolean => checkedButtons.includes(id);
+
+		// EVENT HANDLERS
+		// when a button is clicked  update the state
+		const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+			// console.dir(e.currentTarget);
+			if (buttonsType === "singleSelect") {
+				// if clicked button id is not in state array then set the id as the state array
+				checkedButtons[0] !== e.currentTarget.id && setCheckedButtons([e.currentTarget.id]);
+			} else {
+				// in the case of multiselect
+				// if the clicked button ID is in state array then remove it otherwise add it
+				if (checkedButtons.includes(e.currentTarget.id)) {
+					// and atleast 1 item should be checked always ie state array length min2, then you can remove
+					checkedButtons.length >= 2 && setCheckedButtons(checkedButtons.filter((id) => e.currentTarget.id !== id));
+				} else {
+					setCheckedButtons([...checkedButtons, e.currentTarget.id]);
+				}
+			}
+		};
+
 		return (
 			<SegButtonsContext.Provider value={contextValue}>
 				<StyledSegmentedButtons ref={ref} options={options} density={density} {...restProps}>
 					{options.map((option, index) => {
-						return <SegmentedButton key={index} {...option} />;
+						return (
+							<SegmentedButton
+								key={index}
+								handleChange={handleChange}
+								{...option}
+								checked={isButtonChecked(option.id)}
+							/>
+						);
 					})}
 				</StyledSegmentedButtons>
 			</SegButtonsContext.Provider>

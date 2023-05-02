@@ -33,6 +33,8 @@ export const SegLabel = styled(Label)(
 		&:last-child {
 			border-radius: 0 ${theme.shape.rounded.full} ${theme.shape.rounded.full} 0;
 		}
+		// dont let layers overflow out of border radius
+		overflow: hidden;
 		// do not allow selection span and icon inside label. Luckily it doesn't affect the input. Input can still be selected.
 		* {
 			pointer-events: none;
