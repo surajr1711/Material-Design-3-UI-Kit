@@ -1,19 +1,8 @@
-import React from "react";
 import styled, { css } from "styled-components";
 import { interactionLayersCSS } from "../InteractionLayers";
+import { Label } from "../Label";
 
-export interface LabelProps extends React.ComponentPropsWithRef<"label"> {}
-
-const Label = React.forwardRef<HTMLLabelElement, LabelProps>(({ children, ...restProps }, ref) => {
-	// const id= use
-	return (
-		<label ref={ref} {...restProps}>
-			{children}
-		</label>
-	);
-});
-
-export const SegLabel = styled(Label)(
+const SegLabel = styled(Label)(
 	({ theme }) => css`
 		position: relative;
 		// Segbuttons parent controls actual height according to density prop
@@ -53,4 +42,4 @@ export const SegLabel = styled(Label)(
 	`
 );
 
-export default Label;
+export default SegLabel;

@@ -16,4 +16,5 @@ export interface IconProps extends React.ComponentPropsWithRef<"span"> {
 	color?: IconContentColor;
 	variant?: IconVariant;
 	sizeInRems?: number;
+	visibility?: boolean; // show or hidden. used to take up space even if icon is not visible. Ex: used in segmented buttons when check icon should take space but not be visible unless button is selected
 }
