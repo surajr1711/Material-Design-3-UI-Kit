@@ -1,59 +1,40 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-
 import SegmentedButtons from "./SegmentedButtons";
-import { options3Stub, options4Stub } from "./segmentedButtons.stubs";
+import { densityKeys } from "./SegmentedButtons.types";
+import { calendarOptions, commuteOptions, multiOptions } from "./segmentedButtons.stubs";
 
 export default {
 	title: "Components/SegmentedButtons",
 	component: SegmentedButtons,
+	// subcomponents: { input: SegButton.Input, label: SegButton.Label },
 	parameters: {
 		layout: "centered",
+	},
+	argTypes: {
+		density: { control: "radio", options: densityKeys },
+		options: { table: { disable: true } },
 	},
 } as ComponentMeta<typeof SegmentedButtons>;
 
 const Template: ComponentStory<typeof SegmentedButtons> = (args) => <SegmentedButtons {...args} />;
 
 export const Default = Template.bind({});
-Default.args = {
-	buttonsType: "singleSelect",
-	options: options4Stub,
-};
+Default.args = {};
 
-export const WithIcons = Template.bind({});
-WithIcons.args = {
+export const MultiSelect = Template.bind({});
+MultiSelect.args = {
 	buttonsType: "multiSelect",
-	options: options3Stub,
-	showIconWithText: true,
-};
-/*
-const StyledDiv = styled.div(
-	({ theme }) => css`
-		background-color: ${theme.color.error};
-		height: 2.5rem;
-		padding-inline: 1rem;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		border-radius: 5rem;
-	`
-);
-export const LessOrMoreOptions: ComponentStory<typeof SegmentedButtons> = (args) => (
-	<StyledDiv>
-		<SegmentedButtons {...args} />
-	</StyledDiv>
-);
-LessOrMoreOptions.args = {
-	name: "Options",
-	options: [{ id: "option1", label: "Option 1" }],
+	options: multiOptions,
 };
 
-export const DefaultCheckedSingleSelect = Template.bind({});
-DefaultCheckedSingleSelect.args = {
-	options: optionsWithDefaultChecked,
+export const OnlyLabel = Template.bind({});
+OnlyLabel.args = {
+	showIconOrLabel: "onlyLabel",
+	options: calendarOptions,
 };
 
-export const DefaultCheckedMultiSelect = Template.bind({});
-DefaultCheckedMultiSelect.args = {
-	buttonsType: "multiSelect",
-	options: optionsWithDefaultChecked,
-}; */
+export const OnlyIcon = Template.bind({});
+OnlyIcon.args = {
+	showIconOrLabel: "onlyIcon",
+	options: commuteOptions,
+};

@@ -1,27 +1,29 @@
 import styled, { css } from "styled-components";
+import { SegmentedButtonsProps } from "./SegmentedButtons.types";
 
-export type DensityInRemsType = 0 | 0.25 | 0.5 | 0.75;
-// export type DensityInRemsType = '2.5rem' | '2.25rem' | '2rem' | '1.75rem';
-export type OptionsNumType = 2 | 3 | 4 | 5;
+// export const segButtonLayout = {
+// 	minWidth: 3, // rems
+// 	height: 2.5, // rems
+// 	paddingInline: 0.75, //rems
+// 	iconLabelGap: 0.5, //rems
+// };
+export const densityHeightMap = {
+	"0": 2.5, // rems
+	"-1": 2.25, // rems
+	"-2": 2, // rems
+	"-3": 1.75, // rems
+} as const;
 
-interface StyledSegmentedButtonsProps {
-	optionsNum: OptionsNumType;
-	densityInRems?: DensityInRemsType;
-}
-
-export const StyledSegmentedButtons = styled.fieldset<StyledSegmentedButtonsProps>(
-	({ optionsNum, densityInRems }) => css`
-		height: ${densityInRems}rem;
+export const StyledSegmentedButtons = styled.div<Omit<SegmentedButtonsProps, "name">>(({ options, density }) => {
+	const optionsNum = options!.length;
+	const key = density!.toString() as keyof typeof densityHeightMap;
+	return css`
+		height: ${densityHeightMap[key]}rem;
 		display: inline-grid;
 		grid-template-columns: repeat(${optionsNum}, minmax(3rem, 1fr));
 		align-items: center;
 		border: none;
 		padding: 0;
 		overflow: hidden;
-	`
-);
-
-StyledSegmentedButtons.defaultProps = {
-	optionsNum: 2,
-	densityInRems: 0,
-};
+	`;
+});

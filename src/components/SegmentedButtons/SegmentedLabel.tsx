@@ -8,6 +8,8 @@ const SegLabel = styled(Label)(
 		// Segbuttons parent controls actual height according to density prop
 		height: 100%;
 		padding-inline: 0.75rem;
+		// Dont wrap any text
+		white-space: nowrap;
 		// set borders for all labels top bottom and left;seperators.
 		border-block: 1px solid ${theme.color.outline};
 		border-left: 1px solid ${theme.color.outline};
