@@ -1,0 +1,15 @@
+/* For card stories */
+
+/* Elevated Card */
+.elevatedCardActions {
+	justify-content: flex-end;
+}
+
+/* Filled Card */
+.filledCardContent {
+	padding: 1rem;
+	max-width: 24rem;
+}
+.filledCardActions {
+	justify-content: flex-end;
+}

@@ -12,6 +12,7 @@ export const ContentLayer = styled.div.attrs<ContentLayerProps>(() => ({
 }))<ContentLayerProps>(
 	({ theme }) => css`
 		position: relative; // not absolute because when it's out of document flow, card doesnt have any size. Example: Card size is determined by children therefor contentlayer must be relative.
+		isolation: isolate;
 		z-index: 3;
 		opacity: ${theme.stateOpacity.content.enabled};
 		display: flex;

@@ -6,30 +6,75 @@ import ContentLayer from "./ContentLayer";
 export const interactionLayersCSS = css(
 	({ theme }) => `
 		// TINT LAYER
-		&:disabled ${TintLayer} {
+		&:disabled > ${TintLayer} {
 				opacity: ${theme.stateOpacity.surfaceTint.disabled};
 		}
 
 		// STATE LAYER
-		&:hover ${StateLayer} {
+		&:hover > ${StateLayer} {
 			opacity: ${theme.stateOpacity.stateLayer.hover};
 		}
-		&:focus-visible ${StateLayer} {
+		&:focus-visible > ${StateLayer} {
 			opacity: ${theme.stateOpacity.stateLayer.focus};
 		}
-		&:active ${StateLayer} {
+		&:active > ${StateLayer} {
 			opacity: ${theme.stateOpacity.stateLayer.pressed};
 		}
-		&:disabled ${StateLayer} {
+		&:disabled > ${StateLayer} {
 				opacity: ${theme.stateOpacity.stateLayer.disabled};
 		}
 
 		// CONTENT LAYER
-		&:disabled ${ContentLayer} {
+		&:disabled > ${ContentLayer} {
 				opacity: ${theme.stateOpacity.content.disabled};
-		}
-	`
+			}
+			`
 );
+
+export const useInteractionLayersCSS = (disabled?: boolean) => {
+	return css(
+		({ theme }) => `
+		// TINT LAYER
+		&:disabled > ${TintLayer} {
+				opacity: ${theme.stateOpacity.surfaceTint.disabled};
+		}
+
+		// STATE LAYER
+		&:hover > ${StateLayer} {
+			opacity: ${theme.stateOpacity.stateLayer.hover};
+		}
+		&:focus-visible > ${StateLayer} {
+			opacity: ${theme.stateOpacity.stateLayer.focus};
+		}
+		&:active > ${StateLayer} {
+			opacity: ${theme.stateOpacity.stateLayer.pressed};
+		}
+		&:disabled > ${StateLayer} {
+				opacity: ${theme.stateOpacity.stateLayer.disabled};
+		}
+
+		// CONTENT LAYER
+		&:disabled > ${ContentLayer} {
+			opacity: ${theme.stateOpacity.content.disabled};
+		}
+
+		${
+			disabled &&
+			`
+				& > ${TintLayer} {
+					opacity: ${theme.stateOpacity.surfaceTint.disabled};
+				}
+				& > ${StateLayer} {
+					opacity: ${theme.stateOpacity.stateLayer.disabled};
+			}
+				& > ${ContentLayer} {
+					opacity: ${theme.stateOpacity.content.disabled};
+				}
+			`
+		}
+		`
+	);
+};
 
 // export default interactionLayersCSS
 // DISABLED

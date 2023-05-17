@@ -127,6 +127,7 @@ export const StyledButton = styled.button<ButtonProps>(({ theme, variant, icon }
 		border: none;
 		border-radius: ${theme.shape[buttonLayouts[layoutType].shapeFamily][buttonLayouts[layoutType].shapeScale]};
 		position: relative;
+		isolation: isolate;
 		overflow: hidden;
 		height: ${buttonLayouts[layoutType].height}rem;
 		padding-inline-start: ${icon
