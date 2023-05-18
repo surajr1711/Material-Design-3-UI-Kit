@@ -6,7 +6,7 @@ import {
 } from "./IconButton.types";
 import styled, { css } from "styled-components";
 import { setAlphaOnHex } from "../../utils/setAlphaOnHex";
-import { interactionLayersCSS } from "../InteractionLayers";
+import { useInteractionLayersCSS } from "../InteractionLayers";
 
 export const iconButtonLayout = {
 	height: 2.5,
@@ -89,8 +89,9 @@ export const StyledIconButton = styled.button<IconButtonProps>(
 		border: none;
 		overflow: hidden;
 		position: relative;
+		isolation: isolate;
 
-		${interactionLayersCSS}
+		${useInteractionLayersCSS()}
 	`
 );
 

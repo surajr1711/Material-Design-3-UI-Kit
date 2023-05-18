@@ -4,6 +4,7 @@ import { Elevation } from "../../styles/elevation";
 import { State } from "../../styles/interactionStates";
 import { setAlphaOnHex } from "../../utils/setAlphaOnHex";
 import { CardColor, CardProps, CardType } from "./Card.types";
+import { useInteractionLayersCSS } from "../InteractionLayers";
 
 export const cardColors: {
 	[T in CardType]: {
@@ -55,23 +56,27 @@ export const cardStateElevations: {
 	},
 };
 
-export interface StyledCardProps extends CardProps {
-	state: State;
-}
+export interface StyledCardProps extends CardProps {}
 
-export const StyledCard = styled.div<StyledCardProps>(({ theme, type, state }) => {
+export const StyledCard = styled.div<StyledCardProps>(({ theme, type, disabled }) => {
 	return css`
 		position: relative;
+		isolation: isolate;
 		border-radius: ${theme.shape.rounded.medium};
 		overflow: hidden;
 		background-color: ${theme.color[cardColors[type!].container]};
 		transition: all ${theme.motion.duration.medium4} ${theme.motion.easing.emphasized};
-
-		// box shadow disabled state managed directly here
-		box-shadow: ${theme.elevation.boxShadow[cardStateElevations[type!][state!]]};
-
-		// disabled
-		${state === "disabled" &&
+		box-shadow: ${theme.elevation.boxShadow[cardStateElevations[type!].enabled]};
+		&:hover {
+			box-shadow: ${theme.elevation.boxShadow[cardStateElevations[type!].hover]};
+		}
+		&:focus-visible {
+			box-shadow: ${theme.elevation.boxShadow[cardStateElevations[type!].focus]};
+		}
+		&:active {
+			box-shadow: ${theme.elevation.boxShadow[cardStateElevations[type!].pressed]};
+		}
+		${disabled &&
 		css`
 			pointer-events: none;
 			background-color: ${setAlphaOnHex(
@@ -79,6 +84,8 @@ export const StyledCard = styled.div<StyledCardProps>(({ theme, type, state }) =
 				theme.stateOpacity.container.disabled
 			)};
 		`}
+
+		${useInteractionLayersCSS(disabled)}
 	`;
 });
 
@@ -86,11 +93,11 @@ export const ElevatedCard = styled(StyledCard)<StyledCardProps>``;
 
 export const FilledCard = styled(StyledCard)<StyledCardProps>``;
 
-export const OutlinedCard = styled(StyledCard)<StyledCardProps>(({ theme, state }) => {
+export const OutlinedCard = styled(StyledCard)<StyledCardProps>(({ theme, disabled }) => {
 	return css`
 		border: 1px solid ${theme.color.outline};
 		// disabled css
-		${state === "disabled" &&
+		${disabled &&
 		css`
 			border-color: ${setAlphaOnHex(theme.color.outline, theme.stateOpacity.outline.disabled)};
 		`}

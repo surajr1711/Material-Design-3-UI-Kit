@@ -1,17 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import PropType from "prop-types";
 import { CardProps, CardType, cardType } from "./Card.types";
-import InteractionTemplate from "../InteractionTemplate/InteractionTemplate";
-import {
-	cardColors,
-	cardStateElevations,
-	ElevatedCard,
-	FilledCard,
-	OutlinedCard,
-	StyledCardProps,
-} from "./Card.styles";
-import { useInteractionHandlers } from "../InteractionTemplate/useInteractionHandlers";
+import { cardColors, ElevatedCard, FilledCard, OutlinedCard, StyledCardProps } from "./Card.styles";
 import { placeholder } from "./Card.stubs";
+import { ContentLayer, StateLayer } from "../InteractionLayers";
 
 // COMPONENT DEFINITION
 const componentMap: { [T in CardType]: React.FC<StyledCardProps> } = {
@@ -26,51 +18,46 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
 			children = placeholder,
 			type = "elevated",
 			disabled = false,
-			onMouseEnter,
-			onMouseLeave,
-			onMouseDown,
-			onMouseUp,
-			onFocus,
+			stateLayer = true,
 			onDragStart,
 			onDragEnd,
-			onClick,
 			...restProps
 		},
 		ref
 	) => {
-		const { interactionState, setInteractionState, eventHandlers } = useInteractionHandlers(
-			disabled ? "disabled" : "enabled",
-			{
-				onMouseEnter,
-				onMouseLeave,
-				onMouseDown,
-				onMouseUp,
-				onFocus,
-				onDragStart,
-				onDragEnd,
-			}
-		);
-
-		useEffect(() => {
-			disabled ? setInteractionState("disabled") : setInteractionState("enabled");
-			// console.log("state changed");
-		}, [disabled, setInteractionState]);
-
-		const handleClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
-			if (disabled) return;
-			if (onClick) onClick(e);
-		};
-
 		// CARD STYLING
 		const Component = componentMap[type];
-		const elevation = cardStateElevations[type][interactionState];
 		const stateLayerColor = cardColors[type].stateLayer;
 
+		const handleDragStart: React.DragEventHandler<HTMLDivElement> = (e) => {
+			// if disabled dont do anything
+			if (disabled) return;
+			// add a dragStart data attribute
+			e.currentTarget.setAttribute("data-dragging", "dragStarted");
+			// if user provides drag handler run it
+			if (onDragStart) onDragStart(e);
+		};
+
+		const handleDragEnd: React.DragEventHandler<HTMLDivElement> = (e) => {
+			// if disabled dont do anything
+			if (disabled) return;
+			// add a dragEnd data attribute
+			e.currentTarget.setAttribute("data-dragging", "dragEnded");
+			// if user provides drag handler run it
+			if (onDragEnd) onDragEnd(e);
+		};
+
 		return (
-			<Component ref={ref} type={type} state={interactionState} onClick={handleClick} {...eventHandlers} {...restProps}>
-				<InteractionTemplate elevation={elevation} state={interactionState} stateLayerColor={stateLayerColor}>
-					{children}
-				</InteractionTemplate>
+			<Component
+				ref={ref}
+				type={type}
+				disabled={disabled}
+				onDragStart={handleDragStart}
+				onDragEnd={handleDragEnd}
+				{...restProps}
+			>
+				<>{(stateLayer || restProps.draggable) && <StateLayer stateLayerColor={stateLayerColor} />}</>
+				<ContentLayer>{children}</ContentLayer>
 			</Component>
 		);
 	}
@@ -80,6 +67,8 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
 Card.propTypes = {
 	children: PropType.element,
 	type: PropType.oneOf(cardType),
+	disabled: PropType.bool,
+	stateLayer: PropType.bool,
 };
 
 export default Card;

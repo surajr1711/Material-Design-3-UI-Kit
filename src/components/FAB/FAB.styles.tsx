@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 import { Elevation } from "../../styles/elevation";
 import { State } from "../../styles/interactionStates";
 import { FabColor, FabProps, FabSize, FabLayout, FabContainerColor, FabContentColor } from "./Fab.types";
-import { interactionLayersCSS } from "../InteractionLayers";
+import { useInteractionLayersCSS } from "../InteractionLayers";
 
 // FAB LAYOUTS
 export const fabLayouts: { [T in FabSize]: FabLayout } = {
@@ -77,6 +77,7 @@ export const StyledFab = styled.button.attrs<StyledFabProps>(({ tooltip }) => ({
 		background-color: ${theme.color[fabColors[color!].container]};
 		overflow: hidden;
 		position: relative;
+		isolation: isolate;
 		box-shadow: ${theme.elevation.boxShadow[fabStateElevations.enabled]};
 		transition: all ${theme.motion.duration.medium4} ${theme.motion.easing.emphasized};
 		* {
@@ -95,6 +96,6 @@ export const StyledFab = styled.button.attrs<StyledFabProps>(({ tooltip }) => ({
 		}
 
 		// TINT, STATE, CONTENT LAYERS STATES
-		${interactionLayersCSS}
+		${useInteractionLayersCSS()}
 	`;
 });

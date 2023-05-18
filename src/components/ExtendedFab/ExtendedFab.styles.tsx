@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 import { fabColors, fabStateElevations } from "../Fab/Fab.styles";
 import { ExtFabLayout, ExtendedFabProps } from "./ExtendedFab.types";
-import { interactionLayersCSS } from "../InteractionLayers";
+import { useInteractionLayersCSS } from "../InteractionLayers";
 
 export const extFabLayout: ExtFabLayout = {
 	height: 3.5,
@@ -28,6 +28,7 @@ export const StyledExtendedFab = styled.button.attrs<StyledExtendedFabProps>(({ 
 		background-color: ${theme.color[fabColors[color!].container]};
 		overflow: hidden;
 		position: relative;
+		isolation: isolate;
 		box-shadow: ${theme.elevation.boxShadow[fabStateElevations.enabled]};
 		transition: all ${theme.motion.duration.medium4} ${theme.motion.easing.emphasized};
 		* {
@@ -46,6 +47,6 @@ export const StyledExtendedFab = styled.button.attrs<StyledExtendedFabProps>(({ 
 		}
 
 		// TINT, STATE, CONTENT LAYERS STATES
-		${interactionLayersCSS}
+		${useInteractionLayersCSS()}
 	`;
 });

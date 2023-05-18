@@ -29,11 +29,16 @@ export default {
 const Template: ComponentStory<typeof Card> = (args) => <Card {...args} />;
 
 export const Default = Template.bind({});
-Default.args = {};
+Default.args = {
+	draggable: true,
+	onDragStart: () => console.log("drag started"),
+	onDragEnd: () => console.log("drag ended"),
+};
 
 export const ElevatedCard = Template.bind({});
 ElevatedCard.args = {
 	type: "elevated",
+	stateLayer: false,
 	children: (
 		<Stack>
 			{/* Media block */}
@@ -68,13 +73,14 @@ ElevatedCard.args = {
 export const FilledCard = Template.bind({});
 FilledCard.args = {
 	type: "filled",
+	stateLayer: false,
 	children: (
-		<PadBox padding="1rem">
-			<Stack>
+		<PadBox padding={["1rem", "1rem", "1.5rem"]}>
+			<Stack gutter="1rem">
 				{/* Text block */}
-				<Text typescale="displaySmall">Live music coming soon to The Hideout</Text>
+				<Text typescale="displaySmall">Performances at The Hideout</Text>
 				{/* Media block */}
-				<Stack>
+				<Stack gutter="1rem">
 					<Frame ratio="16/9">
 						<CardImage />
 					</Frame>
@@ -83,12 +89,14 @@ FilledCard.args = {
 					</Text>
 				</Stack>
 				{/* Actions */}
-				<Inline>
-					<Inline>
-						<Button>Get Tickets</Button>
-						<Button variant="outlined">LearnMore</Button>
+				<Inline stretch="start">
+					<Inline gutter="0.5rem">
+						<Button label="Get tickets" />
+						<Button variant="outlined" label="Learn more" />
 					</Inline>
-					<IconButton icon="edit" />
+					<Inline justify="end">
+						<IconButton variant="standard" icon="more_vert" />
+					</Inline>
 				</Inline>
 			</Stack>
 		</PadBox>
@@ -97,15 +105,19 @@ FilledCard.args = {
 
 export const OutlinedCard = Template.bind({});
 OutlinedCard.args = {
+	type: "outlined",
+	stateLayer: false,
 	children: (
 		<PadBox padding="1rem">
 			<Stack gutter="1rem">
 				{/* Actions */}
 				<Inline stretch="start">
-					<IconButton icon="edit" />
+					<Inline justify="start">
+						<IconButton icon="face" />
+					</Inline>
 					<Inline gutter="0.5rem">
-						<Button variant="outlined">Favorite</Button>
-						<Button variant="outlined">Mark Date</Button>
+						<Button variant="outlined" icon="favorite" label="Favorite" />
+						<Button variant="outlined" icon="event" label="Mark Date" />
 					</Inline>
 				</Inline>
 				<Stack />
@@ -127,13 +139,13 @@ OutlinedCard.args = {
 				<Inline stretch="start">
 					{/* Primary Buttons */}
 					<Inline gutter="0.5rem">
-						<Button variant="tonal">Favorite</Button>
-						<Button variant="tonal">Mark Date</Button>
+						<Button variant="tonal" label="Listen" />
+						<Button variant="tonal" label="Save" />
 					</Inline>
 					{/* Quick Actions */}
 					<Inline gutter="0.5rem">
-						<IconButton variant="standard" icon="face" />
 						<IconButton variant="standard" icon="phone" />
+						<IconButton variant="standard" icon="chat" />
 					</Inline>
 				</Inline>
 

@@ -1,10 +1,11 @@
 import styled, { css } from "styled-components";
-import { interactionLayersCSS } from "../InteractionLayers";
+import { useInteractionLayersCSS } from "../InteractionLayers";
 import { Label } from "../Label";
 
 const SegLabel = styled(Label)(
 	({ theme }) => css`
 		position: relative;
+		isolation: isolate;
 		// Segbuttons parent controls actual height according to density prop
 		height: 100%;
 		padding-inline: 0.75rem;
@@ -30,10 +31,6 @@ const SegLabel = styled(Label)(
 		* {
 			pointer-events: none;
 		}
-
-		// STATES
-		${interactionLayersCSS}
-
 		// style label if the contained input is checked
 		&:has(input:checked) {
 			background-color: ${theme.color.secondaryContainer};
@@ -41,6 +38,9 @@ const SegLabel = styled(Label)(
 				color: ${theme.color.onSecondaryContainer};
 			}
 		}
+
+		// STATES
+		${useInteractionLayersCSS()}
 	`
 );
 

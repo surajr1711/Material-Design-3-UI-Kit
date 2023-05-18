@@ -1,17 +1,17 @@
 import styled from "styled-components";
 import { Stack, Frame, PadBox, Inline } from "@bedrock-layout/primitives";
-import { shape } from "../../styles/shape";
 import Text from "../Text";
 import Button from "../Button";
 
 export const CardImage = styled.div`
-	background-color: ${(props) => props.theme.color.primaryContainer};
+	background-color: ${(props) => props.theme.color.primary};
+	border-radius: ${(props) => props.theme.shape.rounded.medium};
 `;
 
 export const placeholder = (
 	<Stack>
 		{/* Media block */}
-		<Frame ratio="16/9" style={{ borderRadius: `${shape.rounded.medium}` }}>
+		<Frame ratio="16/9">
 			<CardImage />
 		</Frame>
 		<PadBox padding="1rem">
@@ -22,9 +22,9 @@ export const placeholder = (
 					<Text typescale="bodySmall">From your recent favorites</Text>
 				</Stack>
 				{/* Actions block */}
-				<Inline>
-					<Button>Buy Tickets</Button>
-				</Inline>
+				{/* <Inline>
+					<Button label="Buy Tickets" />
+				</Inline> */}
 			</Stack>
 		</PadBox>
 	</Stack>

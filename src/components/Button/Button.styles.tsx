@@ -5,7 +5,7 @@ import { State } from "../../styles/interactionStates";
 import { ShapeFamily, ShapeScale } from "../../styles/shape";
 import { setAlphaOnHex } from "../../utils/setAlphaOnHex";
 import { ButtonProps, ButtonVariant } from "./Button.types";
-import { interactionLayersCSS } from "../InteractionLayers";
+import { useInteractionLayersCSS } from "../InteractionLayers";
 
 // BUTTON LAYOUTS (size, shape, radius)
 type ButtonLayout = {
@@ -156,7 +156,7 @@ export const StyledButton = styled.button<ButtonProps>(({ theme, variant, icon }
 			box-shadow: ${theme.elevation.boxShadow[buttonStateElevations[variant!].disabled]};
 		}
 
-		${interactionLayersCSS}
+		${useInteractionLayersCSS()}
 	`;
 });
 
