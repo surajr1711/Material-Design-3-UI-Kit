@@ -4,12 +4,12 @@ import {
 	// PolymorphicRef,
 	// Props,
 	// TextProps,
-	textColorKeys,
 	TextProps,
 	textTag,
 } from "./Text.types";
 import { typescaleKeys } from "../../styles/typescale";
 import { StyledText } from "./Text.styles";
+import { colorKeys } from "../../styles/colors";
 
 const Text: React.FC<TextProps> = ({
 	children = "Default Text",
@@ -32,7 +32,7 @@ Text.propTypes = {
 	children: PropType.oneOfType([PropType.string, PropType.number]),
 	tag: PropType.oneOf(textTag),
 	typescale: PropType.oneOf(typescaleKeys),
-	color: PropType.oneOf(textColorKeys),
+	color: PropType.oneOf(colorKeys),
 };
 
 export default Text;

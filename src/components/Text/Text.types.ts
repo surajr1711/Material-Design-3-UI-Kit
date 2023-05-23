@@ -1,16 +1,16 @@
-import { baseColorKeys, onBaseColorKeys, onContainerColorKeys, onNeutralColorKeys } from "../../styles/colors";
+import { Color, baseColorKeys, onBaseColorKeys, onContainerColorKeys, onNeutralColorKeys } from "../../styles/colors";
 import { Typescale } from "../../styles/typescale";
 
-export const textTag = ["p", "h1", "h2", "h3", "h4", "h5", "h6", "span", "label"] as const;
+export const textTag = ["p", "h1", "h2", "h3", "h4", "h5", "h6", "span"] as const;
 export type TextTag = typeof textTag[number];
 
-export const textColorKeys = [
-	...baseColorKeys,
-	...onBaseColorKeys,
-	...onContainerColorKeys,
-	...onNeutralColorKeys,
-] as const;
-export type TextColor = typeof textColorKeys[number];
+// export const textColorKeys = [
+// 	...baseColorKeys,
+// 	...onBaseColorKeys,
+// 	...onContainerColorKeys,
+// 	...onNeutralColorKeys,
+// ] as const;
+// export type TextColor = typeof textColorKeys[number];
 
 // export type TextColor = BaseColor | OnBaseColor | OnContainerColor | OnNeutralColor;
 // export const textColorKeys: TextColor[] = [
@@ -23,7 +23,8 @@ export type TextColor = typeof textColorKeys[number];
 export interface TextProps {
 	children?: string | number;
 	typescale?: Typescale;
-	color?: TextColor;
+	// color?: TextColor;
+	color?: Color;
 	tag?: TextTag;
 }
 

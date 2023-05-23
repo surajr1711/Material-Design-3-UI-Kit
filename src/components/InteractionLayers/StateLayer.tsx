@@ -1,13 +1,14 @@
 import React from "react";
 import PropType from "prop-types";
 import styled, { css } from "styled-components";
-import { onColorKeys } from "../../styles/colors";
+import { Color, colorKeys, onColorKeys } from "../../styles/colors";
 
 // TYPES
-export const stateLayerColors = ["primary", ...onColorKeys] as const;
-export type StateLayerColor = typeof stateLayerColors[number];
+// export const stateLayerColors = ["primary", "error", ...onColorKeys] as const;
+// export type StateLayerColor = typeof stateLayerColors[number];
 export interface StateLayerProps extends React.ComponentPropsWithRef<"div"> {
-	stateLayerColor: StateLayerColor;
+	// stateLayerColor: StateLayerColor;
+	stateLayerColor: Color;
 }
 
 // STYLES
@@ -29,7 +30,8 @@ export const StateLayer = styled.div.attrs<StateLayerProps>(() => ({
 
 // PROPTYPES
 StateLayer.propTypes = {
-	stateLayerColor: PropType.oneOf(stateLayerColors).isRequired,
+	// stateLayerColor: PropType.oneOf(stateLayerColors).isRequired,
+	stateLayerColor: PropType.oneOf(colorKeys).isRequired,
 };
 
 export default StateLayer;

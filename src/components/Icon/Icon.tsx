@@ -1,7 +1,8 @@
 import React from "react";
 import PropType from "prop-types";
-import { iconContentColor, IconProps, iconVariant } from "./Icon.types";
+import { IconProps, iconVariant } from "./Icon.types";
 import styled, { css } from "styled-components";
+import { colorKeys } from "../../styles/colors";
 
 // STYLES
 const StyledIcon = styled.span.attrs<IconProps>(({ variant }) => ({
@@ -42,7 +43,8 @@ Icon.displayName = "Icon";
 // PROPTYPES
 Icon.propTypes = {
 	children: PropType.string,
-	color: PropType.oneOf(iconContentColor),
+	// color: PropType.oneOf(iconColor),
+	color: PropType.oneOf(colorKeys),
 	variant: PropType.oneOf(iconVariant),
 	sizeInRems: PropType.number,
 	visibility: PropType.bool,
