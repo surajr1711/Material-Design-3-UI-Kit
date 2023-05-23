@@ -22,7 +22,7 @@ export const defaultOptions: OptionData[] = [
 		id: "option4",
 		label: "Option 4",
 		icon: "change_history",
-		// handleChange: () => console.log("Hello! from user-provided 'handlechange()' for item-id 'option4' of 'options' array.")
+		onChange: () => console.log("Hello from option4"),
 	},
 ];
 
@@ -37,6 +37,7 @@ export const multiOptions: OptionData[] = [
 		label: "Casual",
 		icon: "looks_two",
 		checked: true,
+		disabled: true,
 	},
 	{
 		id: "enthusiast",

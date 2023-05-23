@@ -1,12 +1,12 @@
 import React, { ChangeEventHandler, useState } from "react";
 import SegmentedButton from "./SegmentedButton";
 import { useUniqueID } from "../../utils/useUniqueID";
-import { SegmentedButtonsProps } from "./SegmentedButtons.types";
+import { SegmentedButtonsGroupProps } from "./SegmentedButtons.types";
 import { defaultOptions } from "./segmentedButtons.stubs";
 import { SegButtonsContext, SegButtonsContextObj } from "./useSegButtonsContext";
 import { StyledSegmentedButtons } from "./SegmentedButtons.styles";
 
-const SegmentedButtons = React.forwardRef<HTMLDivElement, SegmentedButtonsProps>(
+const SegmentedButtons = React.forwardRef<HTMLDivElement, SegmentedButtonsGroupProps>(
 	(
 		{
 			buttonsType = "singleSelect",
@@ -70,11 +70,16 @@ const SegmentedButtons = React.forwardRef<HTMLDivElement, SegmentedButtonsProps>
 		return (
 			<SegButtonsContext.Provider value={contextValue}>
 				<StyledSegmentedButtons ref={ref} options={options} density={density} {...restProps}>
-					{options.map((option, index) => {
+					{options.map(({ onChange, ...option }, index) => {
+						// if user provides onchange, it must be executed after internal handlechange.
+						const segButtonChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+							handleChange(e);
+							if (onChange) onChange(e);
+						};
 						return (
 							<SegmentedButton
 								key={index}
-								handleChange={handleChange}
+								onChange={segButtonChange}
 								{...option}
 								checked={isButtonChecked(option.id)}
 							/>

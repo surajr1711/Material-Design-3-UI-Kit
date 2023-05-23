@@ -1,9 +1,10 @@
 import styled, { css } from "styled-components";
 import { useInteractionLayersCSS } from "../InteractionLayers";
-import { Label } from "../Label";
+import { setAlphaOnHex } from "../../utils/setAlphaOnHex";
+import { SegmentedLabelProps } from "./SegmentedButtons.types";
 
-const SegLabel = styled(Label)(
-	({ theme }) => css`
+const SegmentedLabel = styled.label<SegmentedLabelProps>(
+	({ theme, disabled }) => css`
 		position: relative;
 		isolation: isolate;
 		// Segbuttons parent controls actual height according to density prop
@@ -39,9 +40,15 @@ const SegLabel = styled(Label)(
 			}
 		}
 
+		// set border color to disabled opacity 12%
+		&:has(input:disabled) {
+			pointer-events: none;
+			border-color: ${setAlphaOnHex(theme.color.outline, 0.12)};
+		}
+
 		// STATES
-		${useInteractionLayersCSS()}
+		${useInteractionLayersCSS(disabled)}
 	`
 );
 
-export default SegLabel;
+export default SegmentedLabel;

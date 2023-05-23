@@ -2,8 +2,8 @@ import React from "react";
 import { ContentLayer, StateLayer } from "../InteractionLayers";
 import Icon from "../Icon";
 import Text from "../Text";
-import SegLabel from "./SegmentedLabel";
-import SegInput from "./SegmentedInput";
+import SegmentedLabel from "./SegmentedLabel";
+import SegmentedInput from "./SegmentedInput";
 import { SegmentedButtonProps, ShowIconOrLabel } from "./SegmentedButtons.types";
 import { useSegButtonsContext } from "./useSegButtonsContext";
 import styled from "styled-components";
@@ -23,101 +23,111 @@ const ContentWrapper = styled.div`
 	gap: 0.5rem;
 `;
 
-const SegmentedButton: React.FC<SegmentedButtonProps> = ({
-	id, // user must provide an id
-	label = "Option",
-	icon = "circle",
-	checked,
-	handleChange,
-}) => {
-	// const { groupName, inputType } = useContext(SegButtonsContext) as SegButtonsContextObj;
-	const { groupName, inputType, showIconOrLabel } = useSegButtonsContext();
+const SegmentedButton = React.forwardRef<HTMLInputElement, SegmentedButtonProps>(
+	(
+		{
+			id, // user must provide an id
+			label = "Option",
+			icon = "circle",
+			checked,
+			disabled,
+			// handleChange,
+			onChange,
+			...restProps
+		},
+		ref
+	) => {
+		const { groupName, inputType, showIconOrLabel } = useSegButtonsContext();
 
-	// // if user doesnt provide an id then generate one.
-	// const generatedID = useUniqueID();
-	// const ID = id || generatedID;
-
-	// Type of content icon, label or both
-	const bothIconAndLabel = (
-		<>
-			<SpaceAllocator>
-				<Icon color="onSurface" sizeInRems={1.125} variant="outlined" visibility={false}>
-					check
-				</Icon>
-				<Text tag="span" typescale="labelLarge" color="onSurface">
-					{label}
-				</Text>
-			</SpaceAllocator>
-			<ContentWrapper>
-				<Icon color="onSurface" sizeInRems={1.125} variant="outlined">
-					{checked ? "check" : icon}
-				</Icon>
-				<Text tag="span" typescale="labelLarge" color="onSurface">
-					{label}
-				</Text>
-			</ContentWrapper>
-		</>
-	);
-
-	const onlyIcon = (
-		<>
-			<SpaceAllocator>
-				<Icon color="onSurface" sizeInRems={1.125} variant="outlined" visibility={false}>
-					check
-				</Icon>
-				<Icon color="onSurface" sizeInRems={1.125} variant="outlined" visibility={false}>
-					{icon}
-				</Icon>
-			</SpaceAllocator>
-			<ContentWrapper>
-				{checked && (
-					<Icon color="onSurface" sizeInRems={1.125} variant="outlined">
+		// Type of content icon, label or both
+		const bothIconAndLabel = (
+			<>
+				<SpaceAllocator>
+					<Icon color="onSurface" sizeInRems={1.125} variant="outlined" visibility={false}>
 						check
 					</Icon>
-				)}
-				<Icon color="onSurface" sizeInRems={1.125} variant="outlined">
-					{icon}
-				</Icon>
-			</ContentWrapper>
-		</>
-	);
-
-	const onlyLabel = (
-		<>
-			<SpaceAllocator>
-				<Icon color="onSurface" sizeInRems={1.125} variant="outlined" visibility={false}>
-					check
-				</Icon>
-				<Text tag="span" typescale="labelLarge" color="onSurface">
-					{label}
-				</Text>
-			</SpaceAllocator>
-			<ContentWrapper>
-				{checked && (
+					<Text tag="span" typescale="labelLarge" color="onSurface">
+						{label}
+					</Text>
+				</SpaceAllocator>
+				<ContentWrapper>
 					<Icon color="onSurface" sizeInRems={1.125} variant="outlined">
+						{checked ? "check" : icon}
+					</Icon>
+					<Text tag="span" typescale="labelLarge" color="onSurface">
+						{label}
+					</Text>
+				</ContentWrapper>
+			</>
+		);
+
+		const onlyIcon = (
+			<>
+				<SpaceAllocator>
+					<Icon color="onSurface" sizeInRems={1.125} variant="outlined" visibility={false}>
 						check
 					</Icon>
-				)}
-				<Text tag="span" typescale="labelLarge" color="onSurface">
-					{label}
-				</Text>
-			</ContentWrapper>
-		</>
-	);
+					<Icon color="onSurface" sizeInRems={1.125} variant="outlined" visibility={false}>
+						{icon}
+					</Icon>
+				</SpaceAllocator>
+				<ContentWrapper>
+					{checked && (
+						<Icon color="onSurface" sizeInRems={1.125} variant="outlined">
+							check
+						</Icon>
+					)}
+					<Icon color="onSurface" sizeInRems={1.125} variant="outlined">
+						{icon}
+					</Icon>
+				</ContentWrapper>
+			</>
+		);
 
-	const contentMap: { [T in ShowIconOrLabel]: React.ReactNode } = {
-		bothIconAndLabel: bothIconAndLabel,
-		onlyIcon: onlyIcon,
-		onlyLabel: onlyLabel,
-	};
+		const onlyLabel = (
+			<>
+				<SpaceAllocator>
+					<Icon color="onSurface" sizeInRems={1.125} variant="outlined" visibility={false}>
+						check
+					</Icon>
+					<Text tag="span" typescale="labelLarge" color="onSurface">
+						{label}
+					</Text>
+				</SpaceAllocator>
+				<ContentWrapper>
+					{checked && (
+						<Icon color="onSurface" sizeInRems={1.125} variant="outlined">
+							check
+						</Icon>
+					)}
+					<Text tag="span" typescale="labelLarge" color="onSurface">
+						{label}
+					</Text>
+				</ContentWrapper>
+			</>
+		);
 
-	return (
-		<SegLabel htmlFor={id}>
-			<SegInput type={inputType} id={id} checked={checked} name={groupName} onChange={handleChange} />
-			<StateLayer stateLayerColor="onSecondaryContainer" />
-			<ContentLayer>{contentMap[showIconOrLabel]}</ContentLayer>
-		</SegLabel>
-	);
-};
+		const contentMap: { [T in ShowIconOrLabel]: React.ReactNode } = {
+			bothIconAndLabel: bothIconAndLabel,
+			onlyIcon: onlyIcon,
+			onlyLabel: onlyLabel,
+		};
+
+		return (
+			<SegmentedLabel htmlFor={id} disabled={disabled}>
+				<SegmentedInput
+					type={inputType}
+					id={id}
+					checked={checked}
+					disabled={disabled}
+					name={groupName}
+					onChange={onChange}
+				/>
+				<StateLayer stateLayerColor="onSecondaryContainer" />
+				<ContentLayer>{contentMap[showIconOrLabel]}</ContentLayer>
+			</SegmentedLabel>
+		);
+	}
+);
 
 export default SegmentedButton;

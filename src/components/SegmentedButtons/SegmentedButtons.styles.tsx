@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { SegmentedButtonsProps } from "./SegmentedButtons.types";
+import { SegmentedButtonsGroupProps } from "./SegmentedButtons.types";
 
 // export const segButtonLayout = {
 // 	minWidth: 3, // rems
@@ -14,7 +14,7 @@ export const densityHeightMap = {
 	"-3": 1.75, // rems
 } as const;
 
-export const StyledSegmentedButtons = styled.div<Omit<SegmentedButtonsProps, "name">>(({ options, density }) => {
+export const StyledSegmentedButtons = styled.div<Omit<SegmentedButtonsGroupProps, "name">>(({ options, density }) => {
 	const optionsNum = options!.length;
 	const key = density!.toString() as keyof typeof densityHeightMap;
 	return css`
