@@ -18,9 +18,13 @@ const Text: React.FC<TextProps> = ({
 	color = "onSurface",
 	...restProps
 }) => {
+	// if children is string trim whitespace from beginning and end
+	const trimmedText = typeof children === "string" ? children.trim() : children;
+	// if trimmedtext is empty use 'Default text'
+	const sanitizedText = !!trimmedText ? trimmedText : "Default Text";
 	return (
 		<StyledText typescale={typescale} as={tag} color={color} {...restProps}>
-			{children}
+			{sanitizedText}
 		</StyledText>
 	);
 };

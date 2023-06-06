@@ -1,5 +1,5 @@
 module.exports = {
-	// stories: ["../src/components/Segmented/*.stories.mdx", "../src/components/Segmented/*.stories.@(js|jsx|ts|tsx)"],
+	// stories: ["../src/components/Chip/*.stories.mdx", "../src/components/Chip/*.stories.@(js|jsx|ts|tsx)"],
 	stories: ["../src/**/*.stories.mdx", "../src/**/*.stories.@(js|jsx|ts|tsx)"],
 	staticDirs: ["../public"],
 	addons: [
