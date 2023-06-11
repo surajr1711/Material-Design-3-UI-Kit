@@ -3,14 +3,14 @@ export type ShapeFamily = typeof shapeFamilyKeys[number];
 
 export const shapeScaleKeys = [
 	"none",
-	"extraSmall",
-	"extraSmallTop",
-	"small",
-	"medium",
-	"large",
+	"extraSmall", // 4px
+	"extraSmallTop", // 4px
+	"small", // 8px
+	"medium", // 12px
+	"large", // 16px
 	"largeEnd",
 	"largeTop",
-	"extraLarge",
+	"extraLarge", // 28px
 	"extraLargeTop",
 	"full",
 ] as const;
