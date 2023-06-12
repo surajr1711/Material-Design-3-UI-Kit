@@ -1,12 +1,13 @@
 import React from "react";
 import { DialogBodyComposition, DialogBodyProps } from "./Dialog.types";
 import DialogSupportingText from "./DialogSupportingText";
+import { StyledDialogBody } from "./Dialog.style";
 
 const DialogBody = React.forwardRef<HTMLDivElement, DialogBodyProps>(({ children, ...restProps }, ref) => {
 	return (
-		<div ref={ref} {...restProps}>
+		<StyledDialogBody ref={ref} {...restProps}>
 			{children}
-		</div>
+		</StyledDialogBody>
 	);
 }) as DialogBodyComposition;
 

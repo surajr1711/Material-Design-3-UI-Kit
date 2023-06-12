@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { DialogProps } from "./Dialog.types";
+import { DialogActionsProps, DialogBodyProps, DialogHeaderProps, DialogProps } from "./Dialog.types";
 import { ShapeFamily } from "../../styles/shape";
 import { ShapeScale } from "../../styles/shape";
 import { Color } from "../../styles/colors";
@@ -15,6 +15,9 @@ type DialogLayout = {
 	headline: Typescale;
 	iconTitleGap: 1; // rems, 16px
 	supportingText: Typescale;
+	titleBodyGap: 1; // rems, 16px
+	bodyActionsGap: 1.75; // rems, 24px
+	buttonsGap: 0.5; // rems, 8px
 };
 
 export const dialogLayout: DialogLayout = {
@@ -27,6 +30,9 @@ export const dialogLayout: DialogLayout = {
 	headline: "headlineSmall",
 	iconTitleGap: 1,
 	supportingText: "bodyMedium",
+	titleBodyGap: 1,
+	bodyActionsGap: 1.75,
+	buttonsGap: 0.5,
 };
 
 type DialogColors = {
@@ -42,7 +48,8 @@ export const dialogColors: DialogColors = {
 	supportingText: "onSurfaceVariant",
 };
 
-export const StyledDialog = styled.dialog<DialogProps>(
+export interface StyledDialogProps extends Omit<DialogProps, "actions" | "closeModal"> {}
+export const StyledDialog = styled.dialog<StyledDialogProps>(
 	({ theme }) => css`
 		min-width: ${dialogLayout.minWidth}rem;
 		max-width: ${dialogLayout.maxWidth}rem;
@@ -54,3 +61,32 @@ export const StyledDialog = styled.dialog<DialogProps>(
 		border-radius: ${theme.shape[dialogLayout.shapeFamily][dialogLayout.shapeScale]};
 	`
 );
+
+export type StyledDialogHeaderProps = Omit<DialogHeaderProps, "iconName" | "headline"> & { centerAlign?: boolean };
+export const StyledDialogHeader = styled.div<StyledDialogHeaderProps>(({ theme, centerAlign }) => {
+	// if there is icon then center align
+	// const centerAlign = !!iconName;
+	return css`
+		display: grid;
+		gap: ${dialogLayout.iconTitleGap}rem;
+		text-align: ${centerAlign ? "center" : "start"};
+		padding-bottom: ${dialogLayout.titleBodyGap}rem;
+	`;
+});
+
+export const StyledDialogBody = styled.div<DialogBodyProps>(({ theme }) => {
+	return css`
+		padding-bottom: ${dialogLayout.bodyActionsGap}rem;
+	`;
+});
+
+export type StyledDialogActionsProps = Omit<DialogActionsProps, "confirmingButton" | "dismissingButton"> & {
+	twoButtons: boolean;
+};
+export const StyledDialogActions = styled.div<StyledDialogActionsProps>(({ theme, twoButtons }) => {
+	return css`
+		display: flex;
+		justify-content: right;
+		gap: ${dialogLayout.buttonsGap}rem;
+	`;
+});

@@ -5,23 +5,28 @@ import { DialogProps, dialogType } from "./Dialog.types";
 import IconButton from "../IconButton/IconButton";
 import { StyledDialog } from "./Dialog.style";
 import DialogHeader from "./DialogHeader";
+import { DialogContext, DialogContextObj } from "./useDialogContext";
 
 const Dialog = React.forwardRef<HTMLDialogElement, DialogProps>(
-	({ header, body, idOfPortalElement = "modal", closeModal, ...restProps }, ref) => {
+	({ header, body, actions, idOfPortalElement = "modal", closeModal, ...restProps }, ref) => {
+		// CONTEXT to pass closemodal and cancelmodal to confirmingButton and dismissingButton respectively
+		const contextValue: DialogContextObj = {
+			closeModal: closeModal,
+		};
+
 		const showHeader = !!header;
 		const showBody = !!body;
 
 		return createPortal(
-			<StyledDialog ref={ref} {...restProps}>
-				{header}
-				{body}
+			<DialogContext.Provider value={contextValue}>
+				<StyledDialog ref={ref} {...restProps}>
+					{showHeader && header}
+					{showBody && body}
+					{actions}
 
-				{/*
-				{showHeader && header}
-				{showBody && body} */}
-
-				<IconButton icon="close" onClick={closeModal} />
-			</StyledDialog>,
+					<IconButton icon="close" onClick={closeModal} />
+				</StyledDialog>
+			</DialogContext.Provider>,
 			document.getElementById(idOfPortalElement) as HTMLDivElement
 		);
 	}
@@ -32,7 +37,7 @@ Dialog.propTypes = {
 	idOfPortalElement: Proptype.string,
 	header: Proptype.element,
 	body: Proptype.element,
-	actions: Proptype.element,
+	actions: Proptype.element.isRequired,
 };
 
 export default Dialog;

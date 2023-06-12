@@ -4,19 +4,22 @@ import React, { MouseEventHandler, useRef, useState } from "react";
 import Button from "../Button/Button";
 import DialogHeader from "./DialogHeader";
 import DialogBody from "./DialogBody";
+import DialogActions from "./DialogActions";
+import DialogActionsButton from "./DialogActionsButton";
 
 // DECORATOR
 const useDialogDecorator: DecoratorFn = (StoryFn, context) => {
 	const ref = useRef<HTMLDialogElement>(null);
 	const [dialogIsOpen, setDialogIsOpen] = useState<boolean>(false);
 
-	const openModal: MouseEventHandler = (e) => {
+	const openModal: MouseEventHandler<HTMLButtonElement> = (e) => {
 		ref.current?.showModal();
 		setDialogIsOpen(true);
 	};
 
-	const closeModal: MouseEventHandler = (e) => {
+	const closeModal: MouseEventHandler<HTMLButtonElement> = (e) => {
 		ref.current?.close();
+		console.log("closed");
 		setDialogIsOpen(false);
 	};
 
@@ -38,6 +41,7 @@ export default {
 	decorators: [useDialogDecorator],
 	argTypes: {
 		header: { table: { disable: true } },
+		body: { table: { disable: true } },
 	},
 } as ComponentMeta<typeof Dialog>;
 
@@ -55,4 +59,20 @@ Default.args = {
 			</DialogBody.SupportingText>
 		</DialogBody>
 	),
+	actions: <DialogActions confirmingButton={<DialogActionsButton label="Got it" />} />,
 };
+
+// // left aligned
+// export const WithoutIcon = Template.bind({})
+
+// // Without Header
+// export const WithoutHeader = Template.bind({})
+
+// // Custom Body
+// export const CustomBody = Template.bind({})
+
+// // Without Body
+// export const WithoutBody = Template.bind({})
+
+// // With Single Action
+// export const SingleAction = Template.bind({})
