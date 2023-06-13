@@ -4,6 +4,8 @@ import { ShapeFamily } from "../../styles/shape";
 import { ShapeScale } from "../../styles/shape";
 import { Color } from "../../styles/colors";
 import { Typescale } from "../../styles/typescale";
+import { ButtonVariant } from "../Button/Button.types";
+import { setAlphaOnHex } from "../../utils/setAlphaOnHex";
 
 type DialogLayout = {
 	shapeFamily: ShapeFamily;
@@ -18,6 +20,8 @@ type DialogLayout = {
 	titleBodyGap: 1; // rems, 16px
 	bodyActionsGap: 1.75; // rems, 24px
 	buttonsGap: 0.5; // rems, 8px
+	buttonVariant: ButtonVariant;
+	scrimOpacity: 0.5;
 };
 
 export const dialogLayout: DialogLayout = {
@@ -33,6 +37,8 @@ export const dialogLayout: DialogLayout = {
 	titleBodyGap: 1,
 	bodyActionsGap: 1.75,
 	buttonsGap: 0.5,
+	buttonVariant: "text",
+	scrimOpacity: 0.5,
 };
 
 type DialogColors = {
@@ -40,12 +46,14 @@ type DialogColors = {
 	icon: Color;
 	headline: Color;
 	supportingText: Color;
+	scrim: Color;
 };
 export const dialogColors: DialogColors = {
 	container: "surface",
 	icon: "secondary",
 	headline: "onSurface",
 	supportingText: "onSurfaceVariant",
+	scrim: "scrim",
 };
 
 export interface StyledDialogProps extends Omit<DialogProps, "actions" | "closeModal"> {}
@@ -59,10 +67,17 @@ export const StyledDialog = styled.dialog<StyledDialogProps>(
 		background-color: ${theme.color[dialogColors.container]};
 
 		border-radius: ${theme.shape[dialogLayout.shapeFamily][dialogLayout.shapeScale]};
+
+		// scrim
+		&::backdrop {
+			background-color: ${setAlphaOnHex(theme.color[dialogColors.scrim], dialogLayout.scrimOpacity)};
+		}
 	`
 );
 
-export type StyledDialogHeaderProps = Omit<DialogHeaderProps, "iconName" | "headline"> & { centerAlign?: boolean };
+export interface StyledDialogHeaderProps extends Omit<DialogHeaderProps, "iconName" | "headline"> {
+	centerAlign?: boolean;
+}
 export const StyledDialogHeader = styled.div<StyledDialogHeaderProps>(({ theme, centerAlign }) => {
 	// if there is icon then center align
 	// const centerAlign = !!iconName;
@@ -74,9 +89,13 @@ export const StyledDialogHeader = styled.div<StyledDialogHeaderProps>(({ theme, 
 	`;
 });
 
-export const StyledDialogBody = styled.div<DialogBodyProps>(({ theme }) => {
+export interface StyledDialogBodyProps extends DialogBodyProps {
+	centerAlign?: boolean;
+}
+export const StyledDialogBody = styled.div<StyledDialogBodyProps>(({ theme, centerAlign }) => {
 	return css`
 		padding-bottom: ${dialogLayout.bodyActionsGap}rem;
+		text-align: ${centerAlign ? "center" : "left"};
 	`;
 });
 

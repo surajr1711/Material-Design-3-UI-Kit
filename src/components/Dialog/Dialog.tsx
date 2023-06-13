@@ -9,9 +9,12 @@ import { DialogContext, DialogContextObj } from "./useDialogContext";
 
 const Dialog = React.forwardRef<HTMLDialogElement, DialogProps>(
 	({ header, body, actions, idOfPortalElement = "modal", closeModal, ...restProps }, ref) => {
-		// CONTEXT to pass closemodal and cancelmodal to confirmingButton and dismissingButton respectively
+		// center align if header's iconName prop is defined
+		const centerAlign = !!header?.props.iconName;
+		// CONTEXT to pass closemodal function to confirmingButton and dismissingButton, and to center align if header and body if header iconName prop is defined
 		const contextValue: DialogContextObj = {
-			closeModal: closeModal,
+			closeModal,
+			centerAlign,
 		};
 
 		const showHeader = !!header;
@@ -23,8 +26,6 @@ const Dialog = React.forwardRef<HTMLDialogElement, DialogProps>(
 					{showHeader && header}
 					{showBody && body}
 					{actions}
-
-					<IconButton icon="close" onClick={closeModal} />
 				</StyledDialog>
 			</DialogContext.Provider>,
 			document.getElementById(idOfPortalElement) as HTMLDivElement

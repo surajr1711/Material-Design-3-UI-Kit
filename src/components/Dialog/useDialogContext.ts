@@ -2,6 +2,7 @@ import { MouseEventHandler, createContext, useContext } from "react";
 
 export type DialogContextObj = {
 	closeModal: MouseEventHandler;
+	centerAlign: boolean;
 };
 
 export const DialogContext = createContext<DialogContextObj | null>(null);
