@@ -29,7 +29,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 	(
 		{
 			icon,
-			label = "Click me",
+			label = "Click",
 			// label = <Text>Click me</Text>,
 			variant = "filled",
 			disabled = false,
@@ -37,6 +37,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 		},
 		ref
 	) => {
+		const text = !!label ? label : "Click";
 		// STYLES
 		const Component = componentMap[variant!];
 		const contentColor = disabled ? buttonColors[variant].disabled : buttonColors[variant].content;
@@ -69,7 +70,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 						</Icon>
 					)}
 					<Text color={contentColor} typescale={buttonLayouts.contained.labelTypescale}>
-						{label}
+						{text}
 					</Text>
 					{/* {icon}
 					{label} */}

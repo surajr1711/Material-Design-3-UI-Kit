@@ -5,8 +5,9 @@ import { useDialogContext } from "./useDialogContext";
 import { dialogLayout } from "./Dialog.style";
 
 const DialogActionsButton = React.forwardRef<HTMLButtonElement, DialogActionsButtonProps>(
-	({ onClick, disabled, ...restProps }, ref) => {
+	({ onClick, disabled = false, label = "OK", ...restProps }, ref) => {
 		const { closeModal } = useDialogContext();
+		const text = !!label ? label : "OK";
 
 		const handleClick: MouseEventHandler<HTMLButtonElement> = (e) => {
 			if (disabled) return;
@@ -15,7 +16,14 @@ const DialogActionsButton = React.forwardRef<HTMLButtonElement, DialogActionsBut
 		};
 
 		return (
-			<Button ref={ref} variant={dialogLayout.buttonVariant} disabled={disabled} onClick={handleClick} {...restProps} />
+			<Button
+				ref={ref}
+				variant={dialogLayout.buttonVariant}
+				disabled={disabled}
+				onClick={handleClick}
+				label={text}
+				{...restProps}
+			/>
 		);
 	}
 );

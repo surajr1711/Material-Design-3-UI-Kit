@@ -4,7 +4,7 @@ import { StyledDialogActions } from "./Dialog.style";
 import DialogActionsButton from "./DialogActionsButton";
 
 const DialogActions = React.forwardRef<HTMLDivElement, DialogActionsProps>(
-	({ confirmingButton, dismissingButton, ...restProps }, ref) => {
+	({ confirmingButton = <DialogActionsButton />, dismissingButton, ...restProps }, ref) => {
 		const twoButtons = !!confirmingButton && !!dismissingButton;
 
 		return (
@@ -15,5 +15,7 @@ const DialogActions = React.forwardRef<HTMLDivElement, DialogActionsProps>(
 		);
 	}
 );
+
+DialogActions.displayName = "DialogActions";
 
 export default DialogActions;

@@ -8,10 +8,14 @@ const DialogBody = React.forwardRef<HTMLDivElement, DialogBodyProps>(({ children
 	const { centerAlign } = useDialogContext();
 	return (
 		<StyledDialogBody ref={ref} centerAlign={centerAlign} {...restProps}>
-			{children}
+			{!!children
+				? children
+				: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto nisi molestias exercitationem voluptates libero, sapiente quia odio nam placeat unde?"}
 		</StyledDialogBody>
 	);
 }) as DialogBodyComposition;
+
+DialogBody.displayName = "DialogBody";
 
 DialogBody.SupportingText = DialogSupportingText;
 

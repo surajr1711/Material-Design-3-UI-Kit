@@ -1,5 +1,4 @@
 import React, { MouseEventHandler } from "react";
-import DialogHeader from "./DialogHeader";
 import { TextProps } from "../Text";
 import DialogSupportingText from "./DialogSupportingText";
 import { ButtonProps } from "../Button/Button.types";
@@ -12,8 +11,8 @@ export interface DialogProps extends React.ComponentPropsWithRef<"dialog"> {
 	type?: DialogType;
 	idOfPortalElement?: string; // dialog will be rendered in a react.portal of this id
 	closeModal: MouseEventHandler;
-	header?: React.ReactElement<DialogHeaderProps>;
-	body?: React.ReactElement<DialogBodyProps>;
+	header: React.ReactElement<DialogHeaderProps>;
+	body: React.ReactElement<DialogBodyProps>;
 	actions: React.ReactElement<DialogActionsProps>;
 	// header?: typeof DialogHeader
 	// header?: JSX.Element;
@@ -24,7 +23,7 @@ export interface DialogProps extends React.ComponentPropsWithRef<"dialog"> {
 // DIALOG HEADER
 export interface DialogHeaderProps extends React.ComponentPropsWithRef<"div"> {
 	iconName?: string;
-	headline?: string;
+	headline: string;
 }
 
 // DIALOG BODY

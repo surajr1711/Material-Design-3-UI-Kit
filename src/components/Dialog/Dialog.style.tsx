@@ -56,7 +56,7 @@ export const dialogColors: DialogColors = {
 	scrim: "scrim",
 };
 
-export interface StyledDialogProps extends Omit<DialogProps, "actions" | "closeModal"> {}
+export interface StyledDialogProps extends Omit<DialogProps, "actions" | "closeModal" | "header" | "body"> {}
 export const StyledDialog = styled.dialog<StyledDialogProps>(
 	({ theme }) => css`
 		min-width: ${dialogLayout.minWidth}rem;
