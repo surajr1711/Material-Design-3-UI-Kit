@@ -1,11 +1,11 @@
 import { DialogSupportingTextProps } from "./Dialog.types";
 import Text from "../Text";
-import { dialogColors, dialogLayout } from "./Dialog.style";
+import { basicDialogColors, basicDialogLayout } from "./BasicDialog.styles";
 
 const DialogSupportingText = ({ tag = "span", children, ...restProps }: DialogSupportingTextProps) => (
 	<Text
-		color={dialogColors.supportingText}
-		typescale={dialogLayout.supportingText}
+		color={basicDialogColors.supportingText}
+		typescale={basicDialogLayout.supportingText}
 		children={children}
 		tag={tag}
 		{...restProps}

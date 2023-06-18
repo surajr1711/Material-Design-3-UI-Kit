@@ -6,6 +6,9 @@ import DialogBody from "./DialogBody";
 import DialogActions from "./DialogActions";
 import DialogActionsButton from "./DialogActionsButton";
 import { useDialogUtils } from "./useDialogUtils";
+// import BasicDialog from "./BasicDialog";
+
+const BasicDialog = Dialog("basic");
 
 // DECORATOR
 const useDialogDecorator: DecoratorFn = (StoryFn, context) => {
@@ -26,8 +29,8 @@ const useDialogDecorator: DecoratorFn = (StoryFn, context) => {
 
 // META
 export default {
-	title: "Components/Dialog",
-	component: Dialog,
+	title: "Components/Dialog/BasicDialog",
+	component: BasicDialog,
 	parameters: {
 		layout: "fullscreen",
 	},
@@ -38,9 +41,9 @@ export default {
 		actions: { table: { disable: true } },
 		idOfPortalElement: { table: { disable: true } },
 	},
-} as ComponentMeta<typeof Dialog>;
+} as ComponentMeta<typeof BasicDialog>;
 
-const Template: ComponentStory<typeof Dialog> = (args) => <Dialog {...args} />;
+const Template: ComponentStory<typeof BasicDialog> = (args) => <BasicDialog {...args} />;
 
 // STORIES
 export const Default = Template.bind({});
@@ -52,9 +55,7 @@ WithHeaderIcon.args = {
 	header: <DialogHeader iconName="phone" headline="" />,
 	body: (
 		<DialogBody>
-			<DialogBody.SupportingText>
-				Heading and Body are center-aligned when icon is not provided.
-			</DialogBody.SupportingText>
+			<DialogBody.SupportingText>Heading and Body are center-aligned when icon is provided.</DialogBody.SupportingText>
 		</DialogBody>
 	),
 };

@@ -1,6 +1,6 @@
 import React from "react";
 import { DialogActionsProps } from "./Dialog.types";
-import { StyledDialogActions } from "./Dialog.style";
+import { StyledDialogActions } from "./BasicDialog.styles";
 import DialogActionsButton from "./DialogActionsButton";
 
 const DialogActions = React.forwardRef<HTMLDivElement, DialogActionsProps>(

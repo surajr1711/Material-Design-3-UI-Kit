@@ -1,25 +1,34 @@
 import React from "react";
 import { DialogHeaderProps } from "./Dialog.types";
 import Icon from "../Icon/Icon";
-import { StyledDialogHeader, dialogColors, dialogLayout } from "./Dialog.style";
+import { StyledDialogHeader, basicDialogColors, basicDialogLayout } from "./BasicDialog.styles";
 import Text from "../Text/Text";
 import Proptype from "prop-types";
+import { useDialogContext } from "./useDialogContext";
 
 const DialogHeader = React.forwardRef<HTMLDivElement, DialogHeaderProps>(
 	({ iconName, headline, ...restProps }, ref) => {
-		// Don't allow empty string
+		// show icon only if iconName is not empty string or undefined
 		const showIcon = !!iconName;
-
+		// set default headline text if headline is empty string
 		const headlineText = !!headline ? headline : "Headline";
-		// const showHeadline = !!headline;
-
-		// if (!showIcon && !showHeadline) return null;
+		// get headlineID from context. used by parent dialog component for aria-labelledby.
+		const { headlineID } = useDialogContext();
 
 		return (
 			<StyledDialogHeader ref={ref} centerAlign={showIcon} {...restProps}>
-				{showIcon && <Icon color={dialogColors.icon} sizeInRems={dialogLayout.iconSize} children={iconName} />}
-				{/* {showHeadline && <Text color={dialogColors.headline} typescale={dialogLayout.headline} children={headline} />} */}
-				{<Text color={dialogColors.headline} typescale={dialogLayout.headline} children={headlineText} />}
+				{showIcon && (
+					<Icon color={basicDialogColors.icon} sizeInRems={basicDialogLayout.iconSize} children={iconName} />
+				)}
+				{/* {showHeadline && <Text color={basicDialogColors.headline} typescale={basicDialogLayout.headline} children={headline} />} */}
+				{
+					<Text
+						color={basicDialogColors.headline}
+						typescale={basicDialogLayout.headline}
+						id={headlineID}
+						children={headlineText}
+					/>
+				}
 			</StyledDialogHeader>
 		);
 	}

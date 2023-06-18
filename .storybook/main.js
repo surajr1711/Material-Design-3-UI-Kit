@@ -1,6 +1,6 @@
 module.exports = {
-	// stories: ["../src/components/Chip/*.stories.mdx", "../src/components/Chip/*.stories.@(js|jsx|ts|tsx)"],
-	stories: ["../src/**/*.stories.mdx", "../src/**/*.stories.@(js|jsx|ts|tsx)"],
+	stories: ["../src/components/Dialog/*.stories.mdx", "../src/components/Dialog/*.stories.@(js|jsx|ts|tsx)"],
+	// stories: ["../src/**/*.stories.mdx", "../src/**/*.stories.@(js|jsx|ts|tsx)"],
 	staticDirs: ["../public"],
 	addons: [
 		"@storybook/addon-links",

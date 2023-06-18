@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { DialogActionsProps, DialogBodyProps, DialogHeaderProps, DialogProps } from "./Dialog.types";
+import { DialogActionsProps, DialogBodyProps, DialogHeaderProps, BasicDialogProps } from "./Dialog.types";
 import { ShapeFamily } from "../../styles/shape";
 import { ShapeScale } from "../../styles/shape";
 import { Color } from "../../styles/colors";
@@ -7,7 +7,7 @@ import { Typescale } from "../../styles/typescale";
 import { ButtonVariant } from "../Button/Button.types";
 import { setAlphaOnHex } from "../../utils/setAlphaOnHex";
 
-type DialogLayout = {
+type BasicDialogLayout = {
 	shapeFamily: ShapeFamily;
 	shapeScale: ShapeScale;
 	minWidth: 17.5; // rems, 280px
@@ -24,7 +24,7 @@ type DialogLayout = {
 	scrimOpacity: 0.5;
 };
 
-export const dialogLayout: DialogLayout = {
+export const basicDialogLayout: BasicDialogLayout = {
 	shapeFamily: "rounded",
 	shapeScale: "extraLarge",
 	minWidth: 17.5,
@@ -41,14 +41,14 @@ export const dialogLayout: DialogLayout = {
 	scrimOpacity: 0.5,
 };
 
-type DialogColors = {
+type BasicDialogColors = {
 	container: Color;
 	icon: Color;
 	headline: Color;
 	supportingText: Color;
 	scrim: Color;
 };
-export const dialogColors: DialogColors = {
+export const basicDialogColors: BasicDialogColors = {
 	container: "surface",
 	icon: "secondary",
 	headline: "onSurface",
@@ -56,21 +56,21 @@ export const dialogColors: DialogColors = {
 	scrim: "scrim",
 };
 
-export interface StyledDialogProps extends Omit<DialogProps, "actions" | "closeModal" | "header" | "body"> {}
-export const StyledDialog = styled.dialog<StyledDialogProps>(
+export interface StyledBasicDialogProps extends Omit<BasicDialogProps, "actions" | "closeModal" | "header" | "body"> {}
+export const StyledBasicDialog = styled.dialog<StyledBasicDialogProps>(
 	({ theme }) => css`
-		min-width: ${dialogLayout.minWidth}rem;
-		max-width: ${dialogLayout.maxWidth}rem;
-		padding: ${dialogLayout.padding}rem;
+		min-width: ${basicDialogLayout.minWidth}rem;
+		max-width: ${basicDialogLayout.maxWidth}rem;
+		padding: ${basicDialogLayout.padding}rem;
 		margin: auto;
 
-		background-color: ${theme.color[dialogColors.container]};
+		background-color: ${theme.color[basicDialogColors.container]};
 
-		border-radius: ${theme.shape[dialogLayout.shapeFamily][dialogLayout.shapeScale]};
+		border-radius: ${theme.shape[basicDialogLayout.shapeFamily][basicDialogLayout.shapeScale]};
 
 		// scrim
 		&::backdrop {
-			background-color: ${setAlphaOnHex(theme.color[dialogColors.scrim], dialogLayout.scrimOpacity)};
+			background-color: ${setAlphaOnHex(theme.color[basicDialogColors.scrim], basicDialogLayout.scrimOpacity)};
 		}
 	`
 );
@@ -79,13 +79,11 @@ export interface StyledDialogHeaderProps extends Omit<DialogHeaderProps, "iconNa
 	centerAlign?: boolean;
 }
 export const StyledDialogHeader = styled.div<StyledDialogHeaderProps>(({ theme, centerAlign }) => {
-	// if there is icon then center align
-	// const centerAlign = !!iconName;
 	return css`
 		display: grid;
-		gap: ${dialogLayout.iconTitleGap}rem;
+		gap: ${basicDialogLayout.iconTitleGap}rem;
 		text-align: ${centerAlign ? "center" : "start"};
-		padding-bottom: ${dialogLayout.titleBodyGap}rem;
+		padding-bottom: ${basicDialogLayout.titleBodyGap}rem;
 	`;
 });
 
@@ -94,7 +92,7 @@ export interface StyledDialogBodyProps extends DialogBodyProps {
 }
 export const StyledDialogBody = styled.div<StyledDialogBodyProps>(({ theme, centerAlign }) => {
 	return css`
-		padding-bottom: ${dialogLayout.bodyActionsGap}rem;
+		padding-bottom: ${basicDialogLayout.bodyActionsGap}rem;
 		text-align: ${centerAlign ? "center" : "left"};
 	`;
 });
@@ -106,6 +104,6 @@ export const StyledDialogActions = styled.div<StyledDialogActionsProps>(({ theme
 	return css`
 		display: flex;
 		justify-content: right;
-		gap: ${dialogLayout.buttonsGap}rem;
+		gap: ${basicDialogLayout.buttonsGap}rem;
 	`;
 });

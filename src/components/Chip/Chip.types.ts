@@ -56,17 +56,3 @@ export interface ChipOverload {
 	(type: "input"): React.ForwardRefExoticComponent<InputChipProps & React.RefAttributes<HTMLButtonElement>>;
 	(type: "suggestion"): React.ForwardRefExoticComponent<SuggestionChipProps & React.RefAttributes<HTMLButtonElement>>;
 }
-
-// export interface ChipOverload {
-// 	(props: AssistChipProps): React.ForwardRefExoticComponent<AssistChipProps & React.RefAttributes<HTMLButtonElement>>;
-// 	(props: FilterChipProps): React.ForwardRefExoticComponent<FilterChipProps & React.RefAttributes<HTMLButtonElement>>;
-// 	(props: InputChipProps): React.ForwardRefExoticComponent<InputChipProps & React.RefAttributes<HTMLButtonElement>>;
-// 	(props: SuggestionChipProps): React.ForwardRefExoticComponent<SuggestionChipProps & React.RefAttributes<HTMLButtonElement>>;
-// }
-
-// export interface ChipOverload {
-// 	(props: AssistChipProps): JSX.Element;
-// 	(props: FilterChipProps): JSX.Element;
-// 	(props: InputChipProps): JSX.Element;
-// 	(props: SuggestionChipProps): JSX.Element;
-// }

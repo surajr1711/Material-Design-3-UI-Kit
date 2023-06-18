@@ -2,7 +2,7 @@ import React, { MouseEventHandler } from "react";
 import Button from "../Button/Button";
 import { DialogActionsButtonProps } from "./Dialog.types";
 import { useDialogContext } from "./useDialogContext";
-import { dialogLayout } from "./Dialog.style";
+import { basicDialogLayout } from "./BasicDialog.styles";
 
 const DialogActionsButton = React.forwardRef<HTMLButtonElement, DialogActionsButtonProps>(
 	({ onClick, disabled = false, label = "OK", ...restProps }, ref) => {
@@ -18,7 +18,7 @@ const DialogActionsButton = React.forwardRef<HTMLButtonElement, DialogActionsBut
 		return (
 			<Button
 				ref={ref}
-				variant={dialogLayout.buttonVariant}
+				variant={basicDialogLayout.buttonVariant}
 				disabled={disabled}
 				onClick={handleClick}
 				label={text}

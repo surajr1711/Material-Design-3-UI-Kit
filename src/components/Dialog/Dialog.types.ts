@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from "react";
+import React, { ComponentPropsWithRef, MouseEventHandler } from "react";
 import { TextProps } from "../Text";
 import DialogSupportingText from "./DialogSupportingText";
 import { ButtonProps } from "../Button/Button.types";
@@ -6,9 +6,22 @@ import { ButtonProps } from "../Button/Button.types";
 export const dialogType = ["basic", "fullscreen"] as const;
 export type DialogType = typeof dialogType[number];
 
-// DIALOG MAIN COMPONENT
-export interface DialogProps extends React.ComponentPropsWithRef<"dialog"> {
-	type?: DialogType;
+// FULLSCREEN DIALOG COMPONENT
+export interface FullscreenDialogProps extends React.ComponentPropsWithRef<"div"> {
+	closeModal: MouseEventHandler; // for close button
+	idOfPortalElement?: string; // dialog will be rendered in a react.portal of this id
+	header: React.ReactElement<FullscreenDialogHeaderProps>;
+	body: React.ReactElement<DialogBodyProps>;
+	actions: React.ReactElement<DialogActionsProps>;
+}
+export interface FullscreenDialogHeaderProps extends ComponentPropsWithRef<"div"> {
+	headline: string;
+	confirmingButtonLabel: string;
+}
+
+// BASIC DIALOG COMPONENT
+export interface BasicDialogProps extends React.ComponentPropsWithRef<"dialog"> {
+	// type?: DialogType;
 	idOfPortalElement?: string; // dialog will be rendered in a react.portal of this id
 	closeModal: MouseEventHandler;
 	header: React.ReactElement<DialogHeaderProps>;
@@ -20,7 +33,7 @@ export interface DialogProps extends React.ComponentPropsWithRef<"dialog"> {
 	// actions?: JSX.Element;
 }
 
-// DIALOG HEADER
+// BASIC DIALOG HEADER
 export interface DialogHeaderProps extends React.ComponentPropsWithRef<"div"> {
 	iconName?: string;
 	headline: string;
@@ -41,4 +54,10 @@ export interface DialogActionsButtonProps extends Omit<ButtonProps, "variant" | 
 export interface DialogActionsProps extends React.ComponentPropsWithRef<"div"> {
 	confirmingButton: React.ReactElement<DialogActionsButtonProps>;
 	dismissingButton?: React.ReactElement<DialogActionsButtonProps>;
+}
+
+// OVERLOAD
+export interface DialogOverload {
+	(type: "basic"): React.ForwardRefExoticComponent<BasicDialogProps & React.RefAttributes<HTMLDialogElement>>;
+	(type: "fullscreen"): React.ForwardRefExoticComponent<FullscreenDialogProps & React.RefAttributes<HTMLDivElement>>;
 }

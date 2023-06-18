@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ElementType } from "react";
 import PropType from "prop-types";
 import {
 	// PolymorphicRef,
@@ -11,7 +11,7 @@ import { typescaleKeys } from "../../styles/typescale";
 import { StyledText } from "./Text.styles";
 import { colorKeys } from "../../styles/colors";
 
-const Text: React.FC<TextProps> = ({
+const Text: React.FC<TextProps & React.ComponentPropsWithoutRef<ElementType<any>>> = ({
 	children = "Default Text",
 	typescale = "bodyLarge",
 	tag = "span",

@@ -1,11 +1,12 @@
 import React from "react";
 import { DialogBodyComposition, DialogBodyProps } from "./Dialog.types";
 import DialogSupportingText from "./DialogSupportingText";
-import { StyledDialogBody } from "./Dialog.style";
+import { StyledDialogBody } from "./BasicDialog.styles";
 import { useDialogContext } from "./useDialogContext";
 
 const DialogBody = React.forwardRef<HTMLDivElement, DialogBodyProps>(({ children, ...restProps }, ref) => {
-	const { centerAlign } = useDialogContext();
+	// const { centerAlign } = useDialogContext();
+	const centerAlign = true;
 	return (
 		<StyledDialogBody ref={ref} centerAlign={centerAlign} {...restProps}>
 			{!!children
