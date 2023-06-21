@@ -1,7 +1,7 @@
 import { MouseEventHandler, createContext, useContext } from "react";
 
 export type DialogContextObj = {
-	closeModal: MouseEventHandler;
+	closeDialog: MouseEventHandler;
 	centerAlign: boolean;
 	headlineID: string; // for aria-labelledby
 };

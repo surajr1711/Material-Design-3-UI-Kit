@@ -7,6 +7,11 @@ const FilterChip = Chip("filter");
 export default {
 	title: "Components/Chip/Filter",
 	component: FilterChip,
+	parameters: {
+		actions: {
+			handles: ["click"],
+		},
+	},
 	argTypes: {
 		label: { control: "text" },
 		elevation: { control: "radio", options: chipElevation },

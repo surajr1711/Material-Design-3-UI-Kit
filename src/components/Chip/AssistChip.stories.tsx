@@ -7,6 +7,11 @@ const AssistChip = Chip("assist");
 export default {
 	title: "Components/Chip/Assist",
 	component: AssistChip,
+	parameters: {
+		actions: {
+			handles: ["click"],
+		},
+	},
 	argTypes: {
 		label: { control: "text" },
 		elevation: { control: "radio", options: chipElevation },

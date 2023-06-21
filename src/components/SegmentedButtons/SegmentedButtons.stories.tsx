@@ -9,6 +9,9 @@ export default {
 	// subcomponents: { input: SegButton.Input, label: SegButton.Label },
 	parameters: {
 		layout: "centered",
+		actions: {
+			handles: ["click"],
+		},
 	},
 	argTypes: {
 		density: { control: "radio", options: densityKeys },

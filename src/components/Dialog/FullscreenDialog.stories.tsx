@@ -6,26 +6,8 @@ import DialogBody from "./DialogBody";
 import DialogActions from "./DialogActions";
 import DialogActionsButton from "./DialogActionsButton";
 import { useDialogUtils } from "./useDialogUtils";
-// import BasicDialog from "./BasicDialog";
 
 const FullscreenDialog = Dialog("fullscreen");
-
-// DECORATOR
-const useDialogDecorator: DecoratorFn = (StoryFn, context) => {
-	const {
-		ref,
-		// dialogIsOpen, setDialogIsOpen,
-		openModal,
-		closeModal,
-	} = useDialogUtils();
-
-	return (
-		<div style={{ display: "grid", justifyContent: "center", alignItems: "center", height: "100vh" }}>
-			<Button onClick={openModal}>Open Dialog</Button>
-			<StoryFn args={{ ref, closeModal, ...context.args }} />
-		</div>
-	);
-};
 
 // META
 export default {
@@ -34,20 +16,56 @@ export default {
 	parameters: {
 		layout: "fullscreen",
 	},
-	decorators: [useDialogDecorator],
 	argTypes: {
+		closeModal: { table: { disable: true } },
 		header: { table: { disable: true } },
 		body: { table: { disable: true } },
 		actions: { table: { disable: true } },
 		idOfPortalElement: { table: { disable: true } },
 	},
+	args: {
+		// dialogIsOpen: true,
+		// header: <DialogHeader headline="Hello" />,
+		// body: (
+		// 	<DialogBody>
+		// 		<DialogBody.SupportingText>
+		// 			Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consectetur illum adipisci dicta nulla impedit
+		// 			debitis deleniti voluptatum beatae. Consequuntur, nisi?
+		// 		</DialogBody.SupportingText>
+		// 	</DialogBody>
+		// ),
+		// actions: (
+		// 	<DialogActions
+		// 		confirmingButton={<DialogActionsButton label="Apply" form="test-form" type="submit" />}
+		// 		// dismissingButton={<DialogActionsButton label="Cancel" formMethod="dialog" form="test-form" />}
+		// 	/>
+		// ),
+	},
 } as ComponentMeta<typeof FullscreenDialog>;
 
-const Template: ComponentStory<typeof FullscreenDialog> = (args) => <FullscreenDialog {...args} />;
+const Template: ComponentStory<typeof FullscreenDialog> = (args) => {
+	const { ref, dialogIsOpen, openDialog, closeDialog } = useDialogUtils("fullscreen");
+
+	return (
+		<>
+			<div style={{ height: "100vh" }}>
+				<Button onClick={openDialog} label="Open Dialog" />
+				<FullscreenDialog ref={ref} {...args} dialogIsOpen={dialogIsOpen} closeDialog={closeDialog} />
+			</div>
+		</>
+	);
+};
 
 // STORIES
 export const Default = Template.bind({});
 Default.args = {};
+
+export const Mobile = Template.bind({});
+Mobile.parameters = {
+	viewport: {
+		defaultViewport: "Large Mobile",
+	},
+};
 
 // // center aligned with icon
 // export const WithHeaderIcon = Template.bind({});

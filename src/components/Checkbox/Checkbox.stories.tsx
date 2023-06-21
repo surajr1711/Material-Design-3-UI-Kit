@@ -5,6 +5,11 @@ import { checkboxState } from "./Checkbox.types";
 export default {
 	title: "Components/Checkbox",
 	component: Checkbox,
+	parameters: {
+		actions: {
+			handles: ["click"],
+		},
+	},
 	argTypes: {
 		checkboxState: { control: "radio", options: checkboxState },
 		disabled: { control: "boolean" },

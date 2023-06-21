@@ -8,12 +8,14 @@ export default {
 	component: Button,
 	parameters: {
 		layout: "centered",
+		actions: {
+			handles: ["click"],
+		},
 	},
 	argTypes: {
 		label: { control: "string" },
 		icon: { control: "string" },
 		disabled: { control: "boolean" },
-		onClick: {},
 	},
 } as ComponentMeta<typeof Button>;
 
@@ -48,10 +50,4 @@ Tonal.args = {
 	variant: "tonal",
 	icon: "phone",
 	label: "Call",
-};
-
-export const OnClick = Template.bind({});
-OnClick.args = {
-	variant: "outlined",
-	onClick: (e) => console.log("You clicked me", e.currentTarget),
 };

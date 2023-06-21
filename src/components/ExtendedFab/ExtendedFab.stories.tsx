@@ -8,13 +8,12 @@ import { extFabWidthKeys } from "./ExtendedFab.types";
 export default {
 	title: "Components/ExtendedFab",
 	component: ExtendedFab,
-	args: {
-		onClick: (e) => alert(`${e.target}, ${e.type}`),
-		// onMouseEnter: (e) => console.log(e.target, e.type),
-		// onMouseLeave: (e) => console.log(e.target, e.type),
-		// onClick: (e) => console.log(e.target, e.type),
-		// onFocus: (e) => console.log(e.target, e.type),
+	parameters: {
+		actions: {
+			handles: ["click"],
+		},
 	},
+	args: {},
 	argTypes: {
 		icon: { control: "string" },
 		label: { control: "string" },
@@ -28,8 +27,6 @@ export default {
 			options: extFabWidthKeys,
 			control: { type: "radio" },
 		},
-		// icon: { table: { disable: true } },
-		// label: { table: { disable: true } },
 	},
 } as ComponentMeta<typeof ExtendedFab>;
 

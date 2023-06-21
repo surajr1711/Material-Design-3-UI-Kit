@@ -15,14 +15,14 @@ const useDialogDecorator: DecoratorFn = (StoryFn, context) => {
 	const {
 		ref,
 		// dialogIsOpen, setDialogIsOpen,
-		openModal,
-		closeModal,
+		openDialog,
+		closeDialog,
 	} = useDialogUtils();
 
 	return (
 		<div style={{ display: "grid", justifyContent: "center", alignItems: "center", height: "100vh" }}>
-			<Button onClick={openModal}>Open Dialog</Button>
-			<StoryFn args={{ ref, closeModal, ...context.args }} />
+			<Button onClick={openDialog}>Open Dialog</Button>
+			<StoryFn args={{ ref, closeDialog, ...context.args }} />
 		</div>
 	);
 };
@@ -40,6 +40,23 @@ export default {
 		body: { table: { disable: true } },
 		actions: { table: { disable: true } },
 		idOfPortalElement: { table: { disable: true } },
+	},
+	args: {
+		header: <DialogHeader headline="Hello" />,
+		body: (
+			<DialogBody>
+				<DialogBody.SupportingText>
+					Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consectetur illum adipisci dicta nulla impedit
+					debitis deleniti voluptatum beatae. Consequuntur, nisi?
+				</DialogBody.SupportingText>
+			</DialogBody>
+		),
+		actions: (
+			<DialogActions
+				confirmingButton={<DialogActionsButton label="Apply" form="test-form" type="submit" />}
+				// dismissingButton={<DialogActionsButton label="Cancel" formMethod="dialog" form="test-form" />}
+			/>
+		),
 	},
 } as ComponentMeta<typeof BasicDialog>;
 

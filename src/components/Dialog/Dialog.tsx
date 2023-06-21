@@ -1,5 +1,10 @@
 import React from "react";
-import { BasicDialogProps, DialogType, FullscreenDialogProps, DialogOverload } from "./Dialog.types";
+import {
+	BasicDialogProps,
+	DialogType,
+	FullscreenDialogProps,
+	//  DialogOverload
+} from "./Dialog.types";
 import BasicDialog from "./BasicDialog";
 import FullscreenDialog from "./FullscreenDialog";
 

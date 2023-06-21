@@ -26,17 +26,7 @@ const componentMap: { [T in ButtonVariant]: typeof StyledButton } = {
 };
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-	(
-		{
-			icon,
-			label = "Click",
-			// label = <Text>Click me</Text>,
-			variant = "filled",
-			disabled = false,
-			...restProps
-		},
-		ref
-	) => {
+	({ icon, label = "Click", variant = "filled", disabled = false, ...restProps }, ref) => {
 		const text = !!label ? label : "Click";
 		// STYLES
 		const Component = componentMap[variant!];
@@ -63,7 +53,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 				{variant === "elevated" && <TintLayer elevation={elevation} />}
 				<StateLayer stateLayerColor={contentColor} />
 				<ContentLayer>
-					{/* <ButtonContent> */}
 					{icon && (
 						<Icon color={contentColor} sizeInRems={buttonLayouts.contained.iconSize}>
 							{icon}
@@ -72,9 +61,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 					<Text color={contentColor} typescale={buttonLayouts.contained.labelTypescale}>
 						{text}
 					</Text>
-					{/* {icon}
-					{label} */}
-					{/* </ButtonContent> */}
 				</ContentLayer>
 			</Component>
 		);
@@ -86,8 +72,6 @@ Button.propTypes = {
 	variant: PropType.oneOf(buttonVariant),
 	icon: PropType.string,
 	label: PropType.string,
-	// icon: PropType.element,
-	// label: PropType.element,
 };
 
 export default Button;

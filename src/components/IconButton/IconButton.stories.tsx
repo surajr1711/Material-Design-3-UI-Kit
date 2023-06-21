@@ -5,6 +5,11 @@ import { iconButtonVariant } from "./IconButton.types";
 export default {
 	title: "Components/IconBtn",
 	component: IconButton,
+	parameters: {
+		actions: {
+			handles: ["click"],
+		},
+	},
 	args: {
 		onClick: () => console.log("clicked"),
 	},

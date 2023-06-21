@@ -11,14 +11,13 @@ export const extFabLayout: ExtFabLayout = {
 	iconSizeInRems: 1.5,
 };
 
-// interface StyledExtendedFabProps extends Omit<ExtendedFabProps, "icon" | "label"> {
-// 	elevation: Elevation;
-// }
-interface StyledExtendedFabProps extends Pick<ExtendedFabProps, "tooltip" | "width" | "color"> {}
+// interface StyledExtendedFabProps extends ExtendedFabProps {}
+// interface StyledExtendedFabProps extends Omit<ExtendedFabProps, "icon" | "label"> {}
+// interface StyledExtendedFabProps extends Pick<ExtendedFabProps, "tooltip" | "width" | "color"> {}
 
-export const StyledExtendedFab = styled.button.attrs<StyledExtendedFabProps>(({ tooltip }) => ({
+export const StyledExtendedFab = styled.button.attrs<ExtendedFabProps>(({ tooltip }) => ({
 	title: tooltip,
-}))<StyledExtendedFabProps>(({ theme, color, width }) => {
+}))<ExtendedFabProps>(({ theme, color, width }) => {
 	return css`
 		height: ${extFabLayout.height}rem;
 		width: ${width === "fluid" ? "100%" : extFabLayout.width};
@@ -31,9 +30,9 @@ export const StyledExtendedFab = styled.button.attrs<StyledExtendedFabProps>(({ 
 		isolation: isolate;
 		box-shadow: ${theme.elevation.boxShadow[fabStateElevations.enabled]};
 		transition: all ${theme.motion.duration.medium4} ${theme.motion.easing.emphasized};
-		* {
+		/* * {
 			pointer-events: none;
-		}
+		} */
 
 		// STATES
 		&:hover {

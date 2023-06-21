@@ -8,10 +8,11 @@ export default {
 	component: Fab,
 	parameters: {
 		layout: "centered",
+		actions: {
+			handles: ["click"],
+		},
 	},
-	args: {
-		onClick: () => alert("clicked fab"),
-	},
+	args: {},
 	argTypes: {
 		disabled: { table: { disable: true } },
 		icon: { table: { disable: true } },
@@ -21,9 +22,7 @@ export default {
 const Template: ComponentStory<typeof Fab> = (args) => <Fab {...args} />;
 
 export const Default = Template.bind({});
-Default.args = {
-	// disabled: true,
-};
+Default.args = {};
 
 export const SmallTertiary = Template.bind({});
 SmallTertiary.args = {

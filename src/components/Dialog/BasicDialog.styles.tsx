@@ -56,13 +56,17 @@ export const basicDialogColors: BasicDialogColors = {
 	scrim: "scrim",
 };
 
-export interface StyledBasicDialogProps extends Omit<BasicDialogProps, "actions" | "closeModal" | "header" | "body"> {}
+export interface StyledBasicDialogProps
+	extends Omit<BasicDialogProps, "actions" | "closeDialog" | "header" | "body" | "dialogIsOpen"> {}
 export const StyledBasicDialog = styled.dialog<StyledBasicDialogProps>(
 	({ theme }) => css`
 		min-width: ${basicDialogLayout.minWidth}rem;
 		max-width: ${basicDialogLayout.maxWidth}rem;
 		padding: ${basicDialogLayout.padding}rem;
 		margin: auto;
+
+		position: relative;
+		z-index: 10;
 
 		background-color: ${theme.color[basicDialogColors.container]};
 

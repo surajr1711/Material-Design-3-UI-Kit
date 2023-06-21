@@ -7,6 +7,11 @@ const SuggestionChip = Chip("suggestion");
 export default {
 	title: "Components/Chip/SuggestionChip",
 	component: SuggestionChip,
+	parameters: {
+		actions: {
+			handles: ["click"],
+		},
+	},
 	args: {
 		selected: false,
 	},

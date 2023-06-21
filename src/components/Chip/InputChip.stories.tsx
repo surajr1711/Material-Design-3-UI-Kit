@@ -7,6 +7,11 @@ const InputChip = Chip("input");
 export default {
 	title: "Components/Chip/InputChip",
 	component: InputChip,
+	parameters: {
+		actions: {
+			handles: ["click"],
+		},
+	},
 	args: {
 		selected: false,
 		onDelete: () => console.log("deleted"),

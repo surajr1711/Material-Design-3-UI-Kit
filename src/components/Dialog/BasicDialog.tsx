@@ -13,11 +13,12 @@ import { useUniqueID } from "../../utils/useUniqueID";
 const BasicDialog = React.forwardRef<HTMLDialogElement, BasicDialogProps>(
 	(
 		{
+			// dialogIsOpen = false,
 			header = <DialogHeader headline="Headline" />,
 			body = <DialogBody />,
 			actions = <DialogActions confirmingButton={<DialogActionsButton />} />,
 			idOfPortalElement = "modal",
-			closeModal,
+			closeDialog,
 			...restProps
 		},
 		ref
@@ -29,11 +30,12 @@ const BasicDialog = React.forwardRef<HTMLDialogElement, BasicDialogProps>(
 		// const ariaLabelledBy: string = header.props.headline.id;
 		// CONTEXT to pass closemodal function to confirmingButton and dismissingButton, and to center align if header and body if header iconName prop is defined
 		const contextValue: DialogContextObj = {
-			closeModal,
+			closeDialog,
 			centerAlign,
 			headlineID,
 		};
 
+		// if (!dialogIsOpen) return null;
 		return createPortal(
 			<DialogContext.Provider value={contextValue}>
 				<StyledBasicDialog ref={ref} aria-labelledby={headlineID} role="Alert Dialog" {...restProps}>
@@ -50,6 +52,7 @@ const BasicDialog = React.forwardRef<HTMLDialogElement, BasicDialogProps>(
 BasicDialog.displayName = "BasicDialog";
 
 BasicDialog.propTypes = {
+	// dialogIsOpen: Proptype.bool.isRequired,
 	idOfPortalElement: Proptype.string,
 	header: Proptype.element.isRequired,
 	body: Proptype.element.isRequired,
