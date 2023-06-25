@@ -1,4 +1,4 @@
-import { ComponentMeta, ComponentStory, DecoratorFn } from "@storybook/react";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
 import Dialog from "./Dialog";
 import Button from "../Button/Button";
 import DialogHeader from "./DialogHeader";
@@ -10,23 +10,6 @@ import { useDialogUtils } from "./useDialogUtils";
 
 const BasicDialog = Dialog("basic");
 
-// DECORATOR
-const useDialogDecorator: DecoratorFn = (StoryFn, context) => {
-	const {
-		ref,
-		// dialogIsOpen, setDialogIsOpen,
-		openDialog,
-		closeDialog,
-	} = useDialogUtils();
-
-	return (
-		<div style={{ display: "grid", justifyContent: "center", alignItems: "center", height: "100vh" }}>
-			<Button onClick={openDialog}>Open Dialog</Button>
-			<StoryFn args={{ ref, closeDialog, ...context.args }} />
-		</div>
-	);
-};
-
 // META
 export default {
 	title: "Components/Dialog/BasicDialog",
@@ -34,7 +17,6 @@ export default {
 	parameters: {
 		layout: "fullscreen",
 	},
-	decorators: [useDialogDecorator],
 	argTypes: {
 		header: { table: { disable: true } },
 		body: { table: { disable: true } },
@@ -51,16 +33,22 @@ export default {
 				</DialogBody.SupportingText>
 			</DialogBody>
 		),
-		actions: (
-			<DialogActions
-				confirmingButton={<DialogActionsButton label="Apply" form="test-form" type="submit" />}
-				// dismissingButton={<DialogActionsButton label="Cancel" formMethod="dialog" form="test-form" />}
-			/>
-		),
+		actions: <DialogActions confirmingButton={<DialogActionsButton label="Apply" form="test-form" type="submit" />} />,
 	},
 } as ComponentMeta<typeof BasicDialog>;
 
-const Template: ComponentStory<typeof BasicDialog> = (args) => <BasicDialog {...args} />;
+const Template: ComponentStory<typeof BasicDialog> = (args) => {
+	const { ref, openDialog, closeDialog } = useDialogUtils();
+
+	return (
+		<>
+			<div style={{ height: "100vh" }}>
+				<Button onClick={openDialog} label="Open Dialog" />
+				<BasicDialog ref={ref} {...args} closeDialog={closeDialog} />
+			</div>
+		</>
+	);
+};
 
 // STORIES
 export const Default = Template.bind({});
@@ -78,23 +66,22 @@ WithHeaderIcon.args = {
 };
 
 // With both Confirming and Dismission Action buttons
-export const DialogWithForm = Template.bind({});
-DialogWithForm.args = {
-	header: <DialogHeader headline="Apply these settings?" />,
+export const DialogWithConfirmAndCancel = Template.bind({});
+DialogWithConfirmAndCancel.args = {
+	header: <DialogHeader headline="Select ringtone" />,
 	body: (
 		<DialogBody>
-			<DialogBody.SupportingText>Device will reboot with the changes. Enter system password.</DialogBody.SupportingText>
 			<form id="test-form">
-				<input type="password" name="" id="" />
+				<input type="radio" id="ringtone1" name="ringtone" />
+				<label htmlFor="ringtone1">Bell</label>
+				<input type="radio" id="ringtone2" name="ringtone" />
+				<label htmlFor="ringtone2">Chime</label>
 			</form>
-			<DialogBody.SupportingText>
-				Click 'Apply' to accept changes and reboot or click 'Cancel' to return to settings and continue editing.
-			</DialogBody.SupportingText>
 		</DialogBody>
 	),
 	actions: (
 		<DialogActions
-			confirmingButton={<DialogActionsButton label="Apply" form="test-form" type="submit" />}
+			confirmingButton={<DialogActionsButton label="Select" form="test-form" type="submit" />}
 			dismissingButton={<DialogActionsButton label="Cancel" formMethod="dialog" form="test-form" />}
 		/>
 	),

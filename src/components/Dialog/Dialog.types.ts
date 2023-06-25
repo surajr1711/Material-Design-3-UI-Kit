@@ -12,48 +12,25 @@ export interface DialogProps {
 	closeDialog: MouseEventHandler; // for close button
 	idOfPortalElement?: string; // dialog will be rendered in a react.portal of this id
 	// header: React.ReactElement<FullscreenDialogHeaderProps>;
-	body: React.ReactElement<DialogBodyProps>;
 	actions: React.ReactElement<DialogActionsProps>;
 }
-
-/* // FULLSCREEN DIALOG COMPONENT
-export interface FullscreenDialogProps extends React.ComponentPropsWithRef<"div"> {
-	dialogIsOpen: boolean;
-	closeModal: MouseEventHandler; // for close button
-	idOfPortalElement?: string; // dialog will be rendered in a react.portal of this id
-	header: React.ReactElement<FullscreenDialogHeaderProps>;
-	body: React.ReactElement<DialogBodyProps>;
-	actions: React.ReactElement<DialogActionsProps>;
-} */
 
 // FULLSCREEN DIALOG COMPONENT
 export interface FullscreenDialogProps extends DialogProps, React.ComponentPropsWithRef<"div"> {
 	dialogIsOpen: boolean;
 	header: React.ReactElement<FullscreenDialogHeaderProps>;
+	children?: React.ReactNode;
 }
 
 export interface FullscreenDialogHeaderProps extends ComponentPropsWithRef<"div"> {
-	// headline: string;
-	// confirmingButtonLabel: string;
+	headline?: string;
+	confirmingButtonLabel?: string;
 }
-
-/* // BASIC DIALOG COMPONENT
-export interface BasicDialogProps extends React.ComponentPropsWithRef<"dialog"> {
-	dialogIsOpen: boolean;
-	idOfPortalElement?: string; // dialog will be rendered in a react.portal of this id
-	closeModal: MouseEventHandler;
-	header: React.ReactElement<DialogHeaderProps>;
-	body: React.ReactElement<DialogBodyProps>;
-	actions: React.ReactElement<DialogActionsProps>;
-	// header?: typeof DialogHeader
-	// header?: JSX.Element;
-	// body?: JSX.Element;
-	// actions?: JSX.Element;
-} */
 
 // BASIC DIALOG COMPONENT
 export interface BasicDialogProps extends DialogProps, React.ComponentPropsWithRef<"dialog"> {
 	header: React.ReactElement<DialogHeaderProps>;
+	body: React.ReactElement<DialogBodyProps>;
 }
 
 // BASIC DIALOG HEADER

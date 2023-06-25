@@ -1,4 +1,4 @@
-import { ComponentMeta, ComponentStory, DecoratorFn } from "@storybook/react";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
 import Dialog from "./Dialog";
 import Button from "../Button/Button";
 import DialogHeader from "./DialogHeader";
@@ -6,6 +6,8 @@ import DialogBody from "./DialogBody";
 import DialogActions from "./DialogActions";
 import DialogActionsButton from "./DialogActionsButton";
 import { useDialogUtils } from "./useDialogUtils";
+import FullscreenDialogHeader from "./FullscreenDialogHeader";
+import Text from "../Text/Text";
 
 const FullscreenDialog = Dialog("fullscreen");
 
@@ -19,21 +21,21 @@ export default {
 	argTypes: {
 		closeModal: { table: { disable: true } },
 		header: { table: { disable: true } },
-		body: { table: { disable: true } },
+		// body: { table: { disable: true } },
 		actions: { table: { disable: true } },
 		idOfPortalElement: { table: { disable: true } },
 	},
 	args: {
-		// dialogIsOpen: true,
-		// header: <DialogHeader headline="Hello" />,
-		// body: (
-		// 	<DialogBody>
-		// 		<DialogBody.SupportingText>
-		// 			Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consectetur illum adipisci dicta nulla impedit
-		// 			debitis deleniti voluptatum beatae. Consequuntur, nisi?
-		// 		</DialogBody.SupportingText>
-		// 	</DialogBody>
-		// ),
+		header: <FullscreenDialogHeader headline="Hello" />,
+		children: (
+			<DialogBody>
+				<Text color="onSurface" typescale="bodyLarge" tag="span">
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga minima earum facere! Dolorem animi inventore
+					delectus, expedita pariatur quasi possimus quidem eos accusantium, doloremque dolorum totam magni, odio velit
+					consequuntur.
+				</Text>
+			</DialogBody>
+		),
 		// actions: (
 		// 	<DialogActions
 		// 		confirmingButton={<DialogActionsButton label="Apply" form="test-form" type="submit" />}
@@ -60,12 +62,12 @@ const Template: ComponentStory<typeof FullscreenDialog> = (args) => {
 export const Default = Template.bind({});
 Default.args = {};
 
-export const Mobile = Template.bind({});
-Mobile.parameters = {
-	viewport: {
-		defaultViewport: "Large Mobile",
-	},
-};
+// export const Mobile = Template.bind({});
+// Mobile.parameters = {
+// 	viewport: {
+// 		defaultViewport: "Large Mobile",
+// 	},
+// };
 
 // // center aligned with icon
 // export const WithHeaderIcon = Template.bind({});

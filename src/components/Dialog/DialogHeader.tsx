@@ -20,7 +20,6 @@ const DialogHeader = React.forwardRef<HTMLDivElement, DialogHeaderProps>(
 				{showIcon && (
 					<Icon color={basicDialogColors.icon} sizeInRems={basicDialogLayout.iconSize} children={iconName} />
 				)}
-				{/* {showHeadline && <Text color={basicDialogColors.headline} typescale={basicDialogLayout.headline} children={headline} />} */}
 				{
 					<Text
 						color={basicDialogColors.headline}

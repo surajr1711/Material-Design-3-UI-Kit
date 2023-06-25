@@ -4,7 +4,7 @@ import Proptype from "prop-types";
 import { BasicDialogProps, dialogType } from "./Dialog.types";
 import { StyledBasicDialog } from "./BasicDialog.styles";
 import DialogHeader from "./DialogHeader";
-import { DialogContext, DialogContextObj } from "./useDialogContext";
+import { DialogContext, BasicDialogContextProps } from "./useDialogContext";
 import DialogBody from "./DialogBody";
 import DialogActions from "./DialogActions";
 import DialogActionsButton from "./DialogActionsButton";
@@ -29,16 +29,17 @@ const BasicDialog = React.forwardRef<HTMLDialogElement, BasicDialogProps>(
 		const headlineID = useUniqueID();
 		// const ariaLabelledBy: string = header.props.headline.id;
 		// CONTEXT to pass closemodal function to confirmingButton and dismissingButton, and to center align if header and body if header iconName prop is defined
-		const contextValue: DialogContextObj = {
+		const contextValue: BasicDialogContextProps = {
 			closeDialog,
 			centerAlign,
 			headlineID,
+			type: "basic",
 		};
 
 		// if (!dialogIsOpen) return null;
 		return createPortal(
 			<DialogContext.Provider value={contextValue}>
-				<StyledBasicDialog ref={ref} aria-labelledby={headlineID} role="Alert Dialog" {...restProps}>
+				<StyledBasicDialog ref={ref} aria-labelledby={headlineID} role="alertdialog" {...restProps}>
 					{header}
 					{body}
 					{actions}

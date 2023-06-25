@@ -5,8 +5,10 @@ import { StyledDialogBody } from "./BasicDialog.styles";
 import { useDialogContext } from "./useDialogContext";
 
 const DialogBody = React.forwardRef<HTMLDivElement, DialogBodyProps>(({ children, ...restProps }, ref) => {
-	// const { centerAlign } = useDialogContext();
-	const centerAlign = true;
+	const context = useDialogContext();
+	// check if context has centerAlign property. Will only be present if dialog type is 'basic'
+	const hasCenterAlign = "centerAlign" in context;
+	const centerAlign = hasCenterAlign ? context.centerAlign : false;
 	return (
 		<StyledDialogBody ref={ref} centerAlign={centerAlign} {...restProps}>
 			{!!children

@@ -1,17 +1,25 @@
 import React from "react";
-import { DialogActionsProps } from "./Dialog.types";
-import { StyledDialogActions } from "./BasicDialog.styles";
+import { DialogActionsProps, DialogType } from "./Dialog.types";
+import { StyledBasicDialog, StyledBasicDialogActions } from "./BasicDialog.styles";
 import DialogActionsButton from "./DialogActionsButton";
+import { useDialogContext } from "./useDialogContext";
+import { StyledFSDialogActions } from "./FullscreenDialog.styles";
+
+const DialogComponentMap: { [T in DialogType]: React.ElementType } = {
+	basic: StyledBasicDialogActions,
+	fullscreen: StyledFSDialogActions,
+};
 
 const DialogActions = React.forwardRef<HTMLDivElement, DialogActionsProps>(
 	({ confirmingButton = <DialogActionsButton />, dismissingButton, ...restProps }, ref) => {
-		const twoButtons = !!confirmingButton && !!dismissingButton;
+		const { type } = useDialogContext();
+		const Component = DialogComponentMap[type];
 
 		return (
-			<StyledDialogActions ref={ref} twoButtons={twoButtons} {...restProps}>
+			<Component ref={ref} {...restProps}>
 				{dismissingButton}
 				{confirmingButton}
-			</StyledDialogActions>
+			</Component>
 		);
 	}
 );

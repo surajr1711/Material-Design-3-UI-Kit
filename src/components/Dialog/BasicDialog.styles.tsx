@@ -6,6 +6,7 @@ import { Color } from "../../styles/colors";
 import { Typescale } from "../../styles/typescale";
 import { ButtonVariant } from "../Button/Button.types";
 import { setAlphaOnHex } from "../../utils/setAlphaOnHex";
+import { ComponentPropsWithoutRef } from "react";
 
 type BasicDialogLayout = {
 	shapeFamily: ShapeFamily;
@@ -101,13 +102,11 @@ export const StyledDialogBody = styled.div<StyledDialogBodyProps>(({ theme, cent
 	`;
 });
 
-export type StyledDialogActionsProps = Omit<DialogActionsProps, "confirmingButton" | "dismissingButton"> & {
-	twoButtons: boolean;
-};
-export const StyledDialogActions = styled.div<StyledDialogActionsProps>(({ theme, twoButtons }) => {
-	return css`
-		display: flex;
-		justify-content: right;
-		gap: ${basicDialogLayout.buttonsGap}rem;
-	`;
-});
+// export type StyledDialogActionsProps = Omit<DialogActionsProps, "confirmingButton" | "dismissingButton"> & {
+// 	twoButtons: boolean;
+// };
+export const StyledBasicDialogActions = styled.div`
+	display: flex;
+	justify-content: right;
+	gap: ${basicDialogLayout.buttonsGap}rem;
+`;
