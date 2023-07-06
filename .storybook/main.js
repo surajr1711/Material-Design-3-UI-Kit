@@ -1,5 +1,5 @@
 module.exports = {
-	stories: ["../src/components/Dialog/*.stories.mdx", "../src/components/Dialog/*.stories.@(js|jsx|ts|tsx)"],
+	stories: ["../src/components/Divider/*.stories.mdx", "../src/components/Divider/*.stories.@(js|jsx|ts|tsx)"],
 	// stories: ["../src/**/*.stories.mdx", "../src/**/*.stories.@(js|jsx|ts|tsx)"],
 	staticDirs: ["../public"],
 	addons: [
