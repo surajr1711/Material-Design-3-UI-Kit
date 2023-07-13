@@ -1,83 +1,83 @@
 {
-	"name": "220927-0009-material-design-ui-kit",
-	"version": "0.1.0",
-	"private": true,
-	"dependencies": {
-		"@bedrock-layout/css": "^2.2.9",
-		"@bedrock-layout/primitives": "^3.0.16",
-		"@testing-library/jest-dom": "^5.16.5",
-		"@testing-library/react": "^13.4.0",
-		"@testing-library/user-event": "^13.5.0",
-		"@types/jest": "^27.5.2",
-		"@types/node": "^16.11.62",
-		"@types/react": "^18.0.21",
-		"@types/react-dom": "^18.0.6",
-		"@types/styled-components": "^5.1.26",
-		"colortranslator": "^1.9.3",
-		"framer-motion": "^10.12.16",
-		"lodash": "^4.17.21",
-		"material-icons": "^1.12.1",
-		"react": "^18.2.0",
-		"react-dom": "^18.2.0",
-		"react-scripts": "5.0.1",
-		"react-uuid": "^2.0.0",
-		"styled-components": "^5.3.5",
-		"typescript": "^4.8.3",
-		"web-vitals": "^2.1.4"
-	},
-	"scripts": {
-		"start": "react-scripts start",
-		"build": "react-scripts build",
-		"test": "react-scripts test",
-		"eject": "react-scripts eject",
-		"storybook": "start-storybook -p 6006",
-		"build-storybook": "build-storybook -s public"
-	},
-	"eslintConfig": {
-		"extends": [
-			"react-app",
-			"react-app/jest",
-			"plugin:storybook/recommended"
-		],
-		"overrides": [
-			{
-				"files": [
-					"**/*.stories.*"
-				],
-				"rules": {
-					"import/no-anonymous-default-export": "off"
-				}
-			}
-		]
-	},
-	"browserslist": {
-		"production": [
-			">0.2%",
-			"not dead",
-			"not op_mini all"
-		],
-		"development": [
-			"last 1 chrome version",
-			"last 1 firefox version",
-			"last 1 safari version"
-		]
-	},
-	"devDependencies": {
-		"@storybook/addon-a11y": "^6.5.12",
-		"@storybook/addon-actions": "^6.5.12",
-		"@storybook/addon-essentials": "^6.5.12",
-		"@storybook/addon-interactions": "^6.5.12",
-		"@storybook/addon-links": "^6.5.12",
-		"@storybook/builder-webpack5": "^6.5.12",
-		"@storybook/jest": "^0.1.0",
-		"@storybook/manager-webpack5": "^6.5.12",
-		"@storybook/node-logger": "^6.5.12",
-		"@storybook/preset-create-react-app": "^4.1.2",
-		"@storybook/react": "^6.5.12",
-		"@storybook/testing-library": "^0.0.13",
-		"babel-plugin-named-exports-order": "^0.0.2",
-		"eslint-plugin-storybook": "^0.6.12",
-		"prop-types": "^15.8.1",
-		"webpack": "^5.74.0"
-	}
+  "name": "220927-0009-material-design-ui-kit",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@bedrock-layout/css": "^2.2.9",
+    "@bedrock-layout/primitives": "^3.0.16",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.11.62",
+    "@types/react": "^18.0.21",
+    "@types/react-dom": "^18.0.6",
+    "@types/styled-components": "^5.1.26",
+    "colortranslator": "^1.9.3",
+    "framer-motion": "^10.12.16",
+    "lodash": "^4.17.21",
+    "material-icons": "^1.12.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "react-uuid": "^2.0.0",
+    "styled-components": "^5.3.5",
+    "typescript": "^4.8.3",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build -s public"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest",
+      "plugin:storybook/recommended"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "**/*.stories.*"
+        ],
+        "rules": {
+          "import/no-anonymous-default-export": "off"
+        }
+      }
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@storybook/addon-a11y": "^7.0.27",
+    "@storybook/addon-actions": "^7.0.27",
+    "@storybook/addon-essentials": "^7.0.27",
+    "@storybook/addon-interactions": "^7.0.27",
+    "@storybook/addon-links": "^7.0.27",
+    "@storybook/jest": "^0.1.0",
+    "@storybook/node-logger": "^7.0.27",
+    "@storybook/preset-create-react-app": "^7.0.27",
+    "@storybook/react": "^7.0.27",
+    "@storybook/react-webpack5": "^7.0.27",
+    "@storybook/testing-library": "^0.2.0",
+    "babel-plugin-named-exports-order": "^0.0.2",
+    "eslint-plugin-storybook": "^0.6.12",
+    "prop-types": "^15.8.1",
+    "storybook": "^7.0.27",
+    "webpack": "^5.74.0"
+  }
 }

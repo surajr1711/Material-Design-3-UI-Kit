@@ -1,9 +1,7 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 import Button from "./Button";
-// import Text from "../Text";
-// import Icon from "../Icon";
 
-export default {
+const meta: Meta<typeof Button> = {
 	title: "Components/Button",
 	component: Button,
 	parameters: {
@@ -13,41 +11,47 @@ export default {
 		},
 	},
 	argTypes: {
-		label: { control: "string" },
-		icon: { control: "string" },
+		label: { control: "text" },
+		icon: { control: "text" },
 		disabled: { control: "boolean" },
 	},
-} as ComponentMeta<typeof Button>;
+};
+export default meta;
 
-const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />;
+type Story = StoryObj<typeof Button>;
 
-export const Default = Template.bind({});
-Default.args = {
-	label: "Default",
+export const Primary: Story = {
+	args: {
+		label: "Primary",
+	},
 };
 
-export const Outlined = Template.bind({});
-Outlined.args = {
-	variant: "outlined",
-	label: "Outlined",
-	icon: "add",
+export const Outlined: Story = {
+	args: {
+		variant: "outlined",
+		label: "Outlined",
+		icon: "add",
+	},
 };
 
-export const TextButton = Template.bind({});
-TextButton.args = {
-	variant: "text",
-	label: "Text",
+export const TextButton: Story = {
+	args: {
+		variant: "text",
+		label: "Text",
+	},
 };
 
-export const Elevated = Template.bind({});
-Elevated.args = {
-	variant: "elevated",
-	label: "Elevated",
+export const Elevated: Story = {
+	args: {
+		variant: "elevated",
+		label: "Elevated",
+	},
 };
 
-export const Tonal = Template.bind({});
-Tonal.args = {
-	variant: "tonal",
-	icon: "phone",
-	label: "Call",
+export const Tonal: Story = {
+	args: {
+		variant: "tonal",
+		icon: "phone",
+		label: "Call",
+	},
 };
